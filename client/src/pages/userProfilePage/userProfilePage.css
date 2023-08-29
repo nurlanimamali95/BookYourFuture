@@ -1,0 +1,20 @@
+.profile-container {
+  padding: 20px;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.buttons-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.buttons-container button {
+  margin-right: 10px;
+}
