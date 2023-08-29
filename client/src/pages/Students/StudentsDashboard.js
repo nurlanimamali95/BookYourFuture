@@ -7,7 +7,7 @@ import { Typography } from "@mui/material";
 import EventTable from "../../components/Table";
 import Grid from "@mui/material/Grid";
 
-const StudentDashboard = () => {
+export default function StudentDashboard() {
   return (
     <Box sx={{ flexGrow: 1, display: "flex" }}>
       <Drawer />
@@ -38,8 +38,4 @@ const StudentDashboard = () => {
       </Box>
     </Box>
   );
-};
-
-export default StudentDashboard;
-
-
+}

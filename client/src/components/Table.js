@@ -26,7 +26,7 @@ const events = [
   },
 ];
 
-const EventTable = () => {
+export default function EventTable() {
   return (
     <Container>
       <Typography variant="h5" sx={{ marginTop: 2, marginBottom: 2 }}>
@@ -56,6 +56,4 @@ const EventTable = () => {
       </Table>
     </Container>
   );
-};
-
-export default EventTable;
+}
