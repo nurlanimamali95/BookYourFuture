@@ -1,118 +1,79 @@
-import React, { useState } from "react";
-import { TextField, Button, Avatar, Grid, Paper } from "@mui/material";
-import { Save, Cancel } from "@mui/icons-material";
-import "./userProfilePage.css";
+import React from "react";
+import {
+  Container,
+  Grid,
+  TextField,
+  Button,
+  Stack,
+  Avatar,
+} from "@mui/material";
+import { PhotoCamera } from "@mui/icons-material";
 
 const UserProfilePage = () => {
-  const [profileData, setProfileData] = useState({
-    firstName: "",
-    lastName: "",
-    city: "",
-    zipCode: "",
-    githubLink: "",
-    linkedInLink: "",
-    phoneNumber: "",
-    email: "",
-  });
-
-  const handleInputChange = (field, value) => {
-    setProfileData((prevData) => ({ ...prevData, [field]: value }));
-  };
-
-  const handleSave = () => {
-    // Handle saving data, sending to an API, profileData
-  };
-
   return (
-    <div className="profile-container">
+    <Container maxWidth="md">
+      <h1>User Profile</h1>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <Paper className={"profile-paper column"}>
+        <Grid item xs={4}>
+          <Stack spacing={3}>
+            <TextField label="First Name" variant="outlined" fullWidth />
+            <TextField label="City" variant="outlined" fullWidth />
+            <TextField label="GitHub" variant="outlined" fullWidth />
+            <TextField label="Phone" variant="outlined" fullWidth />
             <TextField
-              label="First Name"
+              label="New Password"
+              type="password"
+              variant="outlined"
               fullWidth
-              value={profileData.firstName}
-              onChange={(e) => handleInputChange("firstName", e.target.value)}
             />
-            <TextField
-              label="City"
-              fullWidth
-              value={profileData.city}
-              onChange={(e) => handleInputChange("city", e.target.value)}
-            />
-            <TextField
-              label="GitHub Link"
-              fullWidth
-              value={profileData.githubLink}
-              onChange={(e) => handleInputChange("githubLink", e.target.value)}
-            />
-            <TextField
-              label="Phone Number"
-              fullWidth
-              value={profileData.phoneNumber}
-              onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
-            />
-          </Paper>
+          </Stack>
         </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper className={"profile-paper column"}>
-            <TextField
-              label="Last Name"
-              fullWidth
-              value={profileData.lastName}
-              onChange={(e) => handleInputChange("lastName", e.target.value)}
-            />
-            <TextField
-              label="Zip Code"
-              fullWidth
-              value={profileData.zipCode}
-              onChange={(e) => handleInputChange("zipCode", e.target.value)}
-            />
-            <TextField
-              label="LinkedIn Link"
-              fullWidth
-              value={profileData.linkedInLink}
-              onChange={(e) =>
-                handleInputChange("linkedInLink", e.target.value)
-              }
-            />
+        <Grid item xs={4}>
+          <Stack spacing={3}>
+            <TextField label="Last Name" variant="outlined" fullWidth />
+            <TextField label="Zip Code" variant="outlined" fullWidth />
+            <TextField label="LinkedIn" variant="outlined" fullWidth />
             <TextField
               label="Email"
+              type="email"
+              variant="outlined"
               fullWidth
-              value={profileData.email}
-              onChange={(e) => handleInputChange("email", e.target.value)}
             />
-          </Paper>
+            <TextField
+              label="Confirm Password"
+              type="password"
+              variant="outlined"
+              fullWidth
+            />
+          </Stack>
         </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper className={"profile-paper column"}>
-            <Avatar
-              alt="Profile Picture"
-              src="/path-to-your-profile-picture.jpg"
-              className="avatar"
-            />
-          </Paper>
+        <Grid
+          item
+          xs={4}
+          style={{
+            backgroundColor: "lightgrey",
+            paddingLeft: "5px",
+            marginTop: "25px",
+            borderRadius: "10px",
+          }}
+        >
+          <Stack spacing={3} alignItems="center">
+            <Avatar sx={{ width: 150, height: 150 }} />
+            <Button variant="contained" component="label">
+              Upload Profile Picture
+              <input type="file" hidden />
+              <PhotoCamera />
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
-      <div className="buttons-container">
-        <Button
-          className="save--btn"
-          variant="contained"
-          startIcon={<Save />}
-          onClick={handleSave}
-        >
+      <Stack direction="row" justifyContent="center" spacing={2} mt={3}>
+        <Button variant="outlined">Cancel</Button>
+        <Button variant="contained" color="primary">
           Save
         </Button>
-        <Button
-          className="cancel--btn"
-          variant="contained"
-          startIcon={<Cancel />}
-          color="error"
-        >
-          Cancel
-        </Button>
-      </div>
-    </div>
+      </Stack>
+    </Container>
   );
 };
 
