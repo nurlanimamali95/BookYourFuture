@@ -1,99 +1,49 @@
-import React from "react";
+// TabPanels.js
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { Pagination } from "@mui/material";
 
-function CustomTabPanel({ children, value, index, ...other }) {
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-CustomTabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
-function EmptyGroupData() {
-  return (
-    <Typography variant="body1">No events scheduled for this group</Typography>
-  );
-}
-
-function GroupData({ data }) {
-  return (
-    <Box
-      elevation={1}
-      key={data.name}
-      sx={{
-        paddingY: ".75rem",
-        paddingX: "1.5rem",
-        borderBottom: "1px solid #e0e0e0",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: ".75rem",
-        textAlign: "left",
-        ":hover": { backgroundColor: "#f5f5f5" },
-      }}
-    >
-      <div>
-        <Typography variant="subtitle2">{data.date}</Typography>
-        <Typography variant="subtitle2">{data.time}</Typography>
-      </div>
-      <div>
-        <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
-          {data.name}
-        </Typography>
-        <Typography variant="subtitle2">{data.title}</Typography>
-      </div>
-      <div>
-        <Typography variant="subtitle1" align="right">
-          {data.status}
-        </Typography>
-      </div>
-    </Box>
-  );
-}
-
-GroupData.propTypes = {
-  data: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
-  }).isRequired,
-};
+import CustomTabPanel from "./CustomTabPanel";
+import EmptyGroupData from "./EmptyGroupData";
+import GroupData from "./GroupData";
 
 export default function TabPanels({ value, groupLabels, demoData }) {
-  const getGroupData = (groupNumber) => {
-    return demoData.filter((data) => data.groupNumber === groupNumber);
-  };
+  const itemsPerPage = 5;
+  const [page, setPage] = useState(1);
+
+  const handlePageChange = (event, newPage) => setPage(newPage);
+
+  const getGroupDataFor = (groupNumber) =>
+    demoData.filter((data) => data.groupNumber === groupNumber);
 
   return (
     <>
       {groupLabels.map((group, index) => {
-        const groupData = getGroupData(group);
+        const groupData = getGroupDataFor(group);
+        const startIdx = (page - 1) * itemsPerPage;
+        const paginatedData = groupData.slice(
+          startIdx,
+          startIdx + itemsPerPage
+        );
+
         return (
           <CustomTabPanel key={index} value={value} index={index}>
-            {groupData.length > 0 ? (
-              groupData.map((data) => <GroupData key={data.name} data={data} />)
+            {paginatedData.length > 0 ? (
+              paginatedData.map((data) => (
+                <GroupData key={data.name} data={data} />
+              ))
             ) : (
               <EmptyGroupData />
+            )}
+            {groupData.length > itemsPerPage && (
+              <Box mt={2} display="flex" justifyContent="center">
+                <Pagination
+                  count={Math.ceil(groupData.length / itemsPerPage)}
+                  page={page}
+                  onChange={handlePageChange}
+                />
+              </Box>
             )}
           </CustomTabPanel>
         );
