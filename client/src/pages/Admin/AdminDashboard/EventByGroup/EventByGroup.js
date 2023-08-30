@@ -2,6 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TabList from "./TabList";
 import TabPanels from "./TabPanels";
+import { useState } from "react";
 
 export default function EventByGroup() {
   const demoGroup = [42, 43, 44, 45];
@@ -32,7 +33,7 @@ export default function EventByGroup() {
     },
   ];
 
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
