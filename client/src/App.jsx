@@ -4,11 +4,13 @@ import Nav from "./components/Nav";
 import Home from "./pages/Home/Home";
 import CreateUser from "./pages/User/CreateUser";
 import UserList from "./pages/User/UserList";
+import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard";
 
 const App = () => {
   return (
     <>
       <Nav />
+      <AdminDashboard />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/user" element={<UserList />} />
