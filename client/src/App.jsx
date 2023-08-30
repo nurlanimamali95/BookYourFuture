@@ -1,20 +1,16 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Nav from "./components/Nav";
-import Home from "./pages/Home/Home";
-import CreateUser from "./pages/User/CreateUser";
+import StudentDashboard from "../src/pages/Students/StudentsDashboard";
 import UserList from "./pages/User/UserList";
 import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard";
 
 const App = () => {
   return (
     <>
-      <Nav />
-      <AdminDashboard />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<StudentDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/user" element={<UserList />} />
-        <Route path="/user/create" element={<CreateUser />} />
       </Routes>
     </>
   );
