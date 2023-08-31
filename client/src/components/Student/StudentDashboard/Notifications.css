@@ -1,0 +1,17 @@
+.animated-alert {
+  animation: moveAlert 1s ease infinite alternate; /* Customize the animation */
+  transition: background-color 0.3s ease;
+}
+
+@keyframes moveAlert {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(20px); /* Adjust the distance and direction */
+  }
+}
+
+.animated-alert:hover {
+  background-color: rgb(212, 243, 209);
+}
