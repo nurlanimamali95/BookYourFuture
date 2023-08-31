@@ -1,33 +1,108 @@
 import mongoose from "mongoose";
+import { body } from "express-validator";
 
-import validateAllowedFields from "../util/validateAllowedFields.js";
+const userSchema = new mongoose.Schema(
+  {
+    firstName: {
+      type: String,
+      required: true,
+    },
 
-const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-});
+    lastName: {
+      type: String,
+      required: true,
+    },
 
-const User = mongoose.model("users", userSchema);
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
 
-export const validateUser = (userObject) => {
-  const errorList = [];
-  const allowedKeys = ["name", "email"];
+    passwordHash: {
+      type: String,
+      required: true,
+    },
 
-  const validatedKeysMessage = validateAllowedFields(userObject, allowedKeys);
+    phone: String,
 
-  if (validatedKeysMessage.length > 0) {
-    errorList.push(validatedKeysMessage);
+    city: String,
+
+    street: String,
+
+    houseNumber: String,
+
+    zipCode: String,
+
+    group: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Group",
+      required: true,
+    },
+
+    gitHub: String,
+
+    linkedIn: String,
+
+    avatarUrl: String,
+
+    status: {
+      type: String,
+      enum: {
+        values: ["active", "inactive"],
+      },
+    },
+
+    admin: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
   }
+);
 
-  if (userObject.name == null) {
-    errorList.push("name is a required field");
-  }
+const User = mongoose.model("user", userSchema);
 
-  if (userObject.email == null) {
-    errorList.push("email is a required field");
-  }
+export const registerValidationUser = [
+  body("firstName", "First name must be at least 3 characters").isLength({
+    min: 3,
+  }),
+  body("lastName", "Last name must be at least 3 characters").isLength({
+    min: 3,
+  }),
+  body("email", "Email must be valid").isEmail().isString(),
+  body("password", "Password must be at least 6 characters").isLength({
+    min: 6,
+  }),
+  body("group", "Group field is required").exists(),
+  body("admin").optional().isBoolean(),
+];
 
-  return errorList;
-};
+export const editValidationUser = [
+  body("firstName", "First name must be at least 3 characters").isLength({
+    min: 3,
+  }),
+  body("lastName", "Last name must be at least 3 characters").isLength({
+    min: 3,
+  }),
+  body("group", "Group field is required").exists(),
+  body("admin").optional().isBoolean(),
+];
+
+export const loginValidationUser = [
+  body("email", "Email must be valid").isEmail(),
+  body("password", "Password must be at least 6 characters").isLength({
+    min: 6,
+  }),
+];
+
+export const changePasswordValidationUser = [
+  body("oldPassword", "Old password is required").notEmpty(),
+  body("newPassword", "New password must be at least 6 characters").isLength({
+    min: 6,
+  }),
+];
 
 export default User;
