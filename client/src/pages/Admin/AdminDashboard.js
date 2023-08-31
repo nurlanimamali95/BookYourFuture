@@ -6,6 +6,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import { Hidden } from "@mui/material";
 
 import EventByGroup from "../../components/Admin/AdminDashboard/EventByGroup/EventByGroup";
 import PieChartCard from "../../components/Admin/AdminDashboard/PieChart/PieChartCard";
@@ -27,22 +28,24 @@ export default function AdminDashboard() {
             Admin Dashboard
           </Typography>
           <Grid container spacing={2} rowSpacing={4}>
-            <Grid xs={8}>
+            <Grid xs={12} lg={8}>
               <Item>
                 <EventByGroup />
               </Item>
             </Grid>
-            <Grid xs={4}>
-              <Item>
-                <PieChartCard />
-              </Item>
-            </Grid>
-            <Grid xs={4}>
+            <Hidden lgDown>
+              <Grid xs={4}>
+                <Item>
+                  <PieChartCard />
+                </Item>
+              </Grid>
+            </Hidden>
+            <Grid xs={12} md={4}>
               <Item>
                 <AdminCalender />
               </Item>
             </Grid>
-            <Grid xs={8}>
+            <Grid xs={12} md={8}>
               <Item>
                 <AdminEventTable />
               </Item>
