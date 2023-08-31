@@ -24,7 +24,11 @@ export default function AdminDashboard() {
       <CssBaseline />
       <Container>
         <Box sx={{ flexGrow: 1 }}>
-          <Typography variant="h3" component="h2" sx={{ my: 4 }}>
+          <Typography
+            variant="h4"
+            component="h2"
+            sx={{ mb: 4, mt: 6, textAlign: "center" }}
+          >
             Admin Dashboard
           </Typography>
           <Grid container spacing={2} rowSpacing={4}>
