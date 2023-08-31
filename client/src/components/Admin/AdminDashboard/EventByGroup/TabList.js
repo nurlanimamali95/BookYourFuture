@@ -12,7 +12,12 @@ function a11yProps(index) {
 
 export default function TabList({ value, onChange, groupLabels }) {
   return (
-    <Tabs value={value} onChange={onChange} aria-label="basic tabs example">
+    <Tabs
+      value={value}
+      onChange={onChange}
+      aria-label="basic tabs example"
+      sx={{ my: 2, mx: 3 }}
+    >
       {groupLabels.map((group) => (
         <Tab key={group} label={`Group ${group}`} {...a11yProps(group)} />
       ))}

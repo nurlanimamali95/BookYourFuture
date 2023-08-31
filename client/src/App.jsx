@@ -5,7 +5,7 @@ import UserProfilePage from "./pages/userProfilePage/userProfilePage";
 import Layout from "./Layout/Layout";
 import StudentDashboard from "../src/pages/Students/StudentsDashboard";
 import UserList from "./pages/User/UserList";
-import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
 
 const App = () => {
   return (
