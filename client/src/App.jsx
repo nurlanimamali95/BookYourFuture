@@ -6,7 +6,6 @@ import Layout from "./Layout/Layout";
 import StudentDashboard from "../src/pages/Students/StudentsDashboard";
 import UserList from "./pages/User/UserList";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
-import EventManagement from "./pages/Admin/EventManagement";
 
 const App = () => {
   return (
