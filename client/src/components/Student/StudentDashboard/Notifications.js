@@ -4,6 +4,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import "./Notifications.css";
+import { Link } from "react-router-dom";
 
 export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
@@ -36,7 +37,7 @@ export default function Notifications() {
       {notifications.map((notification, index) => (
         <Alert
           key={index}
-          className="animated-alert" // Add this class for animation
+          className="animated-alert"
           onClose={() => {
             if (notification.type === "info") {
               handleAlertClose(index);
@@ -44,10 +45,16 @@ export default function Notifications() {
           }}
           action={
             notification.action ? (
-              <Button color="inherit" size="small">
-                {notification.action.label}
-                <ChevronRightIcon />
-              </Button>
+              <Link to="/layout/timeslots" sx={{ textDecoration: "none" }}>
+                <Button
+                  style={{ color: "black" }}
+                  size="small"
+                  className="book-a-slot-button"
+                >
+                  {notification.action.label}
+                  <ChevronRightIcon />
+                </Button>
+              </Link>
             ) : null
           }
           severity={notification.type || "info"}
