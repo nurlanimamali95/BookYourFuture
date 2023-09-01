@@ -15,9 +15,8 @@ const App = () => {
     <>
       <Layout />
       <Routes>
-        <Route path="timeslots" element={<TimeSlotPage />} />
+        <Route path="/timeslots" element={<TimeSlotPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/layout" element={<Layout />} />
         <Route path="/events" element={<EventManagement />} />
         <Route path="/edit/:id" element={<EditEventPage />} />
         <Route path="/add-event" element={<AddEventPage />} />
