@@ -3,9 +3,12 @@
  * This function creates a nice message for the user of our API saying what is wrong.
  */
 
-// errorList should be an array of strings
-const validationErrorMessage = (errorList) => {
-  return `BAD REQUEST: ${errorList.join(", ")}`;
-};
+import { validationResult } from "express-validator";
 
-export default validationErrorMessage;
+export default (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json(errors.array());
+  }
+  next();
+};

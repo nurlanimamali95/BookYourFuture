@@ -15,8 +15,11 @@ export default function TabList({ value, onChange, groupLabels }) {
     <Tabs
       value={value}
       onChange={onChange}
-      aria-label="basic tabs example"
-      sx={{ my: 2, mx: 3 }}
+      variant="scrollable"
+      scrollButtons
+      allowScrollButtonsMobile
+      aria-label="scrollable force tabs example"
+      sx={{ my: 2 }}
     >
       {groupLabels.map((group) => (
         <Tab key={group} label={`Group ${group}`} {...a11yProps(group)} />
