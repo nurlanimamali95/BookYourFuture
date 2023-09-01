@@ -46,7 +46,7 @@ export default function MainNavigation() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: "#56ae5a" }}>
       <Container maxWidth="lg">
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
@@ -94,7 +94,7 @@ export default function MainNavigation() {
               sx={{
                 p: 1,
                 height: 2,
-                backgroundColor: "secondary",
+                backgroundColor: "#56ae5a",
               }}
             >
               {/* 
