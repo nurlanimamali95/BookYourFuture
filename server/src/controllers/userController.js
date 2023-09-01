@@ -22,7 +22,7 @@ export const userMe = async (req, res) => {
 };
 export const all = async (req, res) => {
   try {
-    const users = await UserModel.find();
+    const users = await UserModel.find().populate("group").exec();
 
     if (!users) {
       return res.status(404).json({
@@ -52,7 +52,7 @@ export const getOne = async (req, res) => {
       });
     }
 
-    const user = await UserModel.findById(userId);
+    const user = await UserModel.findById(userId).populate("group").exec();
 
     if (!user) {
       return res.status(404).json({
