@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { Hidden } from "@mui/material";
 
 export default function GroupData({ data }) {
   return (
@@ -20,21 +21,23 @@ export default function GroupData({ data }) {
         ":hover": { backgroundColor: "#f5f5f5" },
       }}
     >
-      <div>
+      <box>
         <Typography variant="subtitle2">{data.date}</Typography>
         <Typography variant="subtitle2">{data.time}</Typography>
-      </div>
-      <div>
+      </box>
+      <box>
         <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
           {data.name}
         </Typography>
         <Typography variant="subtitle2">{data.title}</Typography>
-      </div>
-      <div>
-        <Typography variant="subtitle1" align="right">
-          {data.status}
-        </Typography>
-      </div>
+      </box>
+      <Hidden smDown>
+        <box>
+          <Typography variant="subtitle1" align="right">
+            {data.status}
+          </Typography>
+        </box>
+      </Hidden>
     </Box>
   );
 }
