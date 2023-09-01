@@ -15,10 +15,11 @@ import Divider from "@mui/material/Divider";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import FolderIcon from "@mui/icons-material/Folder";
 import HomeIcon from "@mui/icons-material/Home";
-import DescriptionIcon from "@mui/icons-material/Description";
+import GroupIcon from "@mui/icons-material/Group";
+import PersonIcon from "@mui/icons-material/Person";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import LogoutIcon from "@mui/icons-material/Logout";
 import logo from "../../assets/download.svg";
 import { Avatar } from "@mui/material";
 
@@ -46,7 +47,7 @@ export default function MainNavigation() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: "#56ae5a" }}>
       <Container maxWidth="lg">
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
@@ -94,7 +95,6 @@ export default function MainNavigation() {
               sx={{
                 p: 1,
                 height: 2,
-                backgroundColor: "secondary",
               }}
             >
               {/* 
@@ -110,30 +110,37 @@ export default function MainNavigation() {
               <Box sx={{ mb: 2 }}>
                 <ListItemButton>
                   <ListItemIcon>
-                    <HomeIcon sx={{ color: "primary.main" }} />
+                    <HomeIcon sx={{ color: "grey" }} />
                   </ListItemIcon>
                   <ListItemText primary="Home" />
                 </ListItemButton>
 
                 <ListItemButton>
                   <ListItemIcon>
-                    <CalendarMonthIcon sx={{ color: "primary.main" }} />
+                    <CalendarMonthIcon sx={{ color: "grey" }} />
                   </ListItemIcon>
                   <ListItemText primary="Events" />
                 </ListItemButton>
 
                 <ListItemButton>
                   <ListItemIcon>
-                    <DescriptionIcon sx={{ color: "secondary.main" }} />
+                    <GroupIcon sx={{ color: "grey" }} />
                   </ListItemIcon>
-                  <ListItemText primary="Documents" />
+                  <ListItemText primary="Group" />
                 </ListItemButton>
 
                 <ListItemButton>
                   <ListItemIcon>
-                    <FolderIcon sx={{ color: "secondary.main" }} />
+                    <PersonIcon sx={{ color: "grey" }} />
                   </ListItemIcon>
-                  <ListItemText primary="Other" />
+                  <ListItemText primary="Student" />
+                </ListItemButton>
+
+                <ListItemButton>
+                  <ListItemIcon>
+                    <LogoutIcon sx={{ color: "grey" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Log Out" />
                 </ListItemButton>
               </Box>
 
