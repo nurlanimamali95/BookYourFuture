@@ -13,7 +13,7 @@ export const register = async (req, res) => {
       lastName: req.body.lastName,
       email: req.body.email,
       passwordHash: hash,
-      group: req.body.group,
+      group: req.body.group || [],
     };
 
     const user = await UserModel.create(newUser);
@@ -30,9 +30,13 @@ export const register = async (req, res) => {
 
     res.json({ ...userData, token });
   } catch (err) {
-    res.status(500).json({
-      message: "No Auth, sorry error....",
-    });
+    if (err.code === 11000) {
+      // Duplicate key error
+      res.status(400).json({ message: "Duplicate email" });
+    } else {
+      console.error(err);
+      res.status(500).json({ message: "No Auth, sorry error...." });
+    }
   }
 };
 

@@ -34,11 +34,13 @@ const userSchema = new mongoose.Schema(
 
     zipCode: String,
 
-    group: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Group",
-      required: true,
-    },
+    group: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Group",
+        required: true,
+      },
+    ],
 
     gitHub: String,
 
