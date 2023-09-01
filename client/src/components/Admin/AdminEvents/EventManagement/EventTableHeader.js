@@ -5,12 +5,20 @@ export default function TableHeader() {
   return (
     <TableHead>
       <TableRow>
-        <TableCell>Event</TableCell>
-        <TableCell align="right">Date</TableCell>
-        <TableCell align="right">Location</TableCell>
-        <TableCell align="right">Group</TableCell>
-        <TableCell align="right">Student</TableCell>
-        <TableCell align="right"></TableCell>
+        <TableCell sx={{ fontWeight: "bold" }}>Event</TableCell>
+        <TableCell sx={{ fontWeight: "bold" }} align="right">
+          Date
+        </TableCell>
+        <TableCell sx={{ fontWeight: "bold" }} align="right">
+          Location
+        </TableCell>
+        <TableCell sx={{ fontWeight: "bold" }} align="right">
+          Group
+        </TableCell>
+        <TableCell sx={{ fontWeight: "bold" }} align="right">
+          Student
+        </TableCell>
+        <TableCell sx={{ fontWeight: "bold" }} align="right"></TableCell>
       </TableRow>
     </TableHead>
   );

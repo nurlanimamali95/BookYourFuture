@@ -14,7 +14,7 @@ export default function SearchEvent({ onSearchChange }) {
   return (
     <TextField
       size="small"
-      label="Search Event"
+      label="Event"
       variant="outlined"
       value={searchTerm}
       onChange={handleSearchChange}
