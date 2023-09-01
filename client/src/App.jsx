@@ -13,6 +13,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 const App = () => {
   return (
     <>
+      <Layout />
       <Routes>
         <Route path="timeslots" element={<TimeSlotPage />} />
         <Route path="/login" element={<LoginPage />} />
