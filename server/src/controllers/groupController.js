@@ -20,7 +20,6 @@ export const add = async (req, res) => {
       // Duplicate key error
       res.status(400).json({ message: "Duplicate numberOfGroupName" });
     } else {
-      console.error(err);
       res.status(500).json({ message: "Something went wrong." });
     }
   }

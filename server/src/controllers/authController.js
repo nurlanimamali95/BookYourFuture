@@ -34,7 +34,6 @@ export const register = async (req, res) => {
       // Duplicate key error
       res.status(400).json({ message: "Duplicate email" });
     } else {
-      console.error(err);
       res.status(500).json({ message: "No Auth, sorry error...." });
     }
   }
