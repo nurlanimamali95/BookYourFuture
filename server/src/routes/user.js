@@ -11,12 +11,12 @@ import validationErrorMessage from "../util/validationErrorMessage.js";
 const userRouter = express.Router();
 
 userRouter.get("/all", userController.all);
-userRouter.get("/", checkAuth, userController.userMe);
-
 userRouter.get("/:id", userController.getOne);
+
+userRouter.get("/", checkAuth, userController.userMe);
 userRouter.delete("/:id", checkAuth, userController.remove);
 userRouter.put(
-  "/:id",
+  "/edit/:id",
   checkAuth,
   editValidationUser,
   validationErrorMessage,
