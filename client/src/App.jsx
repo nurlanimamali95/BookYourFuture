@@ -10,13 +10,12 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 const App = () => {
   return (
     <>
+      <Layout />
       <Routes>
-        <Route path="/layout" element={<Layout />}>
-          <Route path="student" element={<StudentDashboard />} />
-          <Route path="admin" element={<AdminDashboard />} />
-          <Route path="userList" element={<UserList />} />{" "}
-          <Route path="userProfile" element={<UserProfilePage />} />
-        </Route>
+        <Route path="/student" element={<StudentDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/userList" element={<UserList />} />{" "}
+        <Route path="/userProfile" element={<UserProfilePage />} />
       </Routes>
     </>
   );

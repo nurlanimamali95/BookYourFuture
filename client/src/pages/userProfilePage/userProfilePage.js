@@ -10,11 +10,33 @@ import {
 import { PhotoCamera } from "@mui/icons-material";
 
 const UserProfilePage = () => {
+  const buttonStyle = {
+    backgroundColor: "#56ae5a",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "white",
+      color: "#56ae5a",
+      border: "1px solid #56ae5a",
+    },
+  };
+
+  const cancelButtonStyle = {
+    backgroundColor: "red",
+    color: "white",
+    border: "1px solid red", // Add border style
+    "&:hover": {
+      backgroundColor: "white",
+      color: "red",
+      border: "1px solid red", // Border style on hover
+    },
+  };
+
   return (
     <Container maxWidth="md">
       <h1>User Profile</h1>
       <Grid container spacing={3}>
-        <Grid item xs={4}>
+        {/* First Column */}
+        <Grid item xs={12} sm={4}>
           <Stack spacing={3}>
             <TextField label="First Name" variant="outlined" fullWidth />
             <TextField label="City" variant="outlined" fullWidth />
@@ -28,7 +50,9 @@ const UserProfilePage = () => {
             />
           </Stack>
         </Grid>
-        <Grid item xs={4}>
+
+        {/* Second Column */}
+        <Grid item xs={12} sm={4}>
           <Stack spacing={3}>
             <TextField label="Last Name" variant="outlined" fullWidth />
             <TextField label="Zip Code" variant="outlined" fullWidth />
@@ -47,19 +71,23 @@ const UserProfilePage = () => {
             />
           </Stack>
         </Grid>
-        <Grid
-          item
-          xs={4}
-          style={{
-            backgroundColor: "lightgrey",
-            paddingLeft: "5px",
-            marginTop: "25px",
-            borderRadius: "10px",
-          }}
-        >
+
+        {/* Third Column */}
+        <Grid item xs={12} sm={4}>
           <Stack spacing={3} alignItems="center">
             <Avatar sx={{ width: 150, height: 150 }} />
-            <Button variant="contained" component="label">
+            <Button
+              variant="contained"
+              component="label"
+              sx={{
+                ...buttonStyle,
+                "&:hover": {
+                  backgroundColor: "white",
+                  color: "#56ae5a",
+                  border: "1px solid #56ae5a",
+                },
+              }}
+            >
               Upload Profile Picture
               <input type="file" hidden />
               <PhotoCamera />
@@ -67,9 +95,19 @@ const UserProfilePage = () => {
           </Stack>
         </Grid>
       </Grid>
-      <Stack direction="row" justifyContent="center" spacing={2} mt={3}>
-        <Button variant="outlined">Cancel</Button>
-        <Button variant="contained" color="primary">
+
+      {/* Buttons */}
+      <Stack
+        direction="row"
+        justifyContent="center"
+        spacing={2}
+        mt={3}
+        sx={{ display: "flex", justifyContent: "center" }}
+      >
+        <Button variant="outlined" sx={cancelButtonStyle}>
+          Cancel
+        </Button>
+        <Button variant="contained" color="primary" sx={buttonStyle}>
           Save
         </Button>
       </Stack>
