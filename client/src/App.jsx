@@ -15,7 +15,6 @@ const App = () => {
     <>
       <Layout />
       <Routes>
-
         <Route path="/login" element={<LoginPage />} />
         <Route path="/layout" element={<Layout />} />
         <Route path="/events" element={<EventManagement />} />

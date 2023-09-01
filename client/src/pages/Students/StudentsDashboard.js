@@ -1,11 +1,6 @@
 import React from "react";
 import Calendar from "../../components/DatePicker/Calendar";
-
-import Notifications from "../../components/Notifications";
-
-
 import Notifications from "../../components/Student/StudentDashboard/Notifications";
-
 import Box from "@mui/material/Box";
 import { CssBaseline, Typography, Container } from "@mui/material";
 import EventTable from "../../components/Student/StudentDashboard/Table";
