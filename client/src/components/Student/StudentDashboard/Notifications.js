@@ -3,6 +3,7 @@ import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import "./Notifications.css";
 
 export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
@@ -10,7 +11,7 @@ export default function Notifications() {
   useEffect(() => {
     const fetchedNotifications = [
       {
-        message: "Class call with Josephine",
+        message: "Class call with Josephine at 12:00",
         type: "info",
       },
       {
@@ -35,6 +36,7 @@ export default function Notifications() {
       {notifications.map((notification, index) => (
         <Alert
           key={index}
+          className="animated-alert" // Add this class for animation
           onClose={() => {
             if (notification.type === "info") {
               handleAlertClose(index);
