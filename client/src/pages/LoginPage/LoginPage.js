@@ -10,7 +10,6 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import background from "../../assets/loginbackground.jpg";
 import logo from "../../assets/logo.svg";
@@ -40,7 +39,7 @@ const LoginPage = () => {
         <Grid
           item
           xs={false}
-          sm={4}
+          sm={6}
           md={7}
           sx={{
             backgroundImage: `url(${background})`,
@@ -53,32 +52,49 @@ const LoginPage = () => {
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
           <Box
             sx={{
               my: 8,
-              mx: 4,
+              mx: 10,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
             }}
           >
-            <Avatar src={logo} sx={{ width: 300, height: 100 }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
+            <Box sx={{ mb: 10 }}>
+              <Avatar src={logo} sx={{ width: 300, height: 100 }}>
+                <LockOutlinedIcon />
+              </Avatar>
+            </Box>
             <Box
               component="form"
               noValidate
               onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
+              sx={{
+                mt: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
             >
               <TextField
                 margin="normal"
+                size="small"
                 required
-                fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
@@ -87,8 +103,8 @@ const LoginPage = () => {
               />
               <TextField
                 margin="normal"
+                size="small"
                 required
-                fullWidth
                 name="password"
                 label="Password"
                 type="password"
@@ -111,18 +127,18 @@ const LoginPage = () => {
               />
               <Button
                 type="submit"
-                fullWidth
                 variant="contained"
                 sx={{
-                  mt: 3,
+                  mt: 7,
                   mb: 2,
                   backgroundColor: theme.palette.primary.main,
                   "&:hover": {
                     backgroundColor: theme.palette.secondary.main,
                   },
+                  size: "medium",
                 }}
               >
-                Sign In
+                Login
               </Button>
               <Grid container align="center">
                 <Grid item xs>

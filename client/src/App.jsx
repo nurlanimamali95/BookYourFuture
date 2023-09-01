@@ -4,13 +4,11 @@ import { Routes, Route } from "react-router-dom";
 import UserProfilePage from "./pages/userProfilePage/userProfilePage";
 import Layout from "./Layout/Layout";
 import StudentDashboard from "../src/pages/Students/StudentsDashboard";
-import UserList from "./pages/User/UserList";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import EventManagement from "./pages/Admin/EventManagementPage";
 import EditEventPage from "./pages/Admin/EditEventPage";
 import AddEventPage from "./pages/Admin/AddEventPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
-
 
 const App = () => {
   return (
