@@ -17,11 +17,9 @@ export const add = async (req, res) => {
 
     res.status(200).json({ success: true, event });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: "Something went wrong." });
   }
 };
-
 export const all = async (req, res) => {
   try {
     const events = await EventModel.find()
@@ -33,13 +31,11 @@ export const all = async (req, res) => {
 
     res.status(200).json(events);
   } catch (err) {
-    console.error(err);
     res.status(500).json({
       message: "something is wrong",
     });
   }
 };
-
 export const getOne = async (req, res) => {
   try {
     const eventId = req.params.id;
@@ -99,7 +95,6 @@ export const remove = async (req, res) => {
 
     res.status(200).json({ success: true });
   } catch (err) {
-    console.error(err);
     res.status(500).json({
       message: "something is wrong",
     });
