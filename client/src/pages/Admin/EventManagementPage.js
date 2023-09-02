@@ -15,7 +15,7 @@ export default function EventManagement() {
   const navigate = useNavigate();
 
   const handleAddEvent = () => {
-    navigate("/add-event");
+    navigate("/events/add");
   };
 
   return (
@@ -42,7 +42,6 @@ export default function EventManagement() {
             onClick={handleAddEvent}
             sx={{ mt: 2, mr: 3, mb: 1 }}
           >
-            {" "}
             Add Event
           </Button>
         </Grid>
