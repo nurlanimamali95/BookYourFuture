@@ -34,43 +34,52 @@ const UserProfilePage = () => {
   return (
     <Container maxWidth="md">
       <h1>User Profile</h1>
-      <Grid container spacing={3}>
+      <Grid container spacing={5}>
         {/* First Column */}
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={8}>
           <Stack spacing={3}>
-            <TextField label="First Name" variant="outlined" fullWidth />
-            <TextField label="City" variant="outlined" fullWidth />
-            <TextField label="GitHub" variant="outlined" fullWidth />
-            <TextField label="Phone" variant="outlined" fullWidth />
-            <TextField
-              label="New Password"
-              type="password"
-              variant="outlined"
-              fullWidth
-            />
+            <Stack direction="row" spacing={2}>
+              <TextField label="First Name" variant="outlined" fullWidth />
+              <TextField label="Last Name" variant="outlined" fullWidth />
+            </Stack>
+            <Stack direction="row" spacing={2}>
+              <TextField label="City" variant="outlined" fullWidth />
+              <TextField label="Zip Code" variant="outlined" fullWidth />
+            </Stack>
+            <Stack direction="row" spacing={2}>
+              <TextField label="GitHub" variant="outlined" fullWidth />
+              <TextField label="LinkedIn" variant="outlined" fullWidth />
+            </Stack>
+            <Stack direction="row" spacing={2}>
+              <TextField label="Phone" variant="outlined" fullWidth />
+              <TextField
+                label="Email"
+                type="email"
+                variant="outlined"
+                fullWidth
+              />
+            </Stack>
+            <Stack direction="row" spacing={2}>
+              <TextField
+                label="New Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+              />
+              <TextField
+                label="Confirm Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+              />
+            </Stack>
           </Stack>
         </Grid>
 
         {/* Second Column */}
-        <Grid item xs={12} sm={4}>
-          <Stack spacing={3}>
-            <TextField label="Last Name" variant="outlined" fullWidth />
-            <TextField label="Zip Code" variant="outlined" fullWidth />
-            <TextField label="LinkedIn" variant="outlined" fullWidth />
-            <TextField
-              label="Email"
-              type="email"
-              variant="outlined"
-              fullWidth
-            />
-            <TextField
-              label="Confirm Password"
-              type="password"
-              variant="outlined"
-              fullWidth
-            />
-          </Stack>
-        </Grid>
+        {/* <Grid item xs={12} sm={2}>
+          <Stack spacing={3}></Stack>
+        </Grid> */}
 
         {/* Third Column */}
         <Grid item xs={12} sm={4}>
@@ -88,7 +97,7 @@ const UserProfilePage = () => {
                 },
               }}
             >
-              Upload Profile Picture
+              Upload Avatar
               <input type="file" hidden />
               <PhotoCamera />
             </Button>
