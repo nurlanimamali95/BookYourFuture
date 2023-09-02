@@ -12,7 +12,7 @@ const groupSchema = new mongoose.Schema(
     students: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: "user",
       },
     ],
 
@@ -27,7 +27,7 @@ const groupSchema = new mongoose.Schema(
 
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "user",
     },
   },
   {
@@ -49,6 +49,14 @@ export const validateGroup = [
     .isIn(["active", "inactive"])
     .withMessage("Status must be 'active' or 'inactive'"),
   body("color").optional().isString(),
+];
+
+export const editValidateGroup = [
+  body("students").optional().isArray(),
+  body("status")
+    .isString()
+    .isIn(["active", "inactive"])
+    .withMessage("Status must be 'active' or 'inactive'"),
 ];
 
 export default Group;
