@@ -1,7 +1,7 @@
 import React from "react";
 import { TextField, Stack } from "@mui/material";
-import { useState } from "react";
-import PropTypes from "prop-types";
+import EventContext from "./EventContext";
+import { useContext } from "react";
 
 import {
   DurationDropdown,
@@ -11,16 +11,17 @@ import {
   StudentDropdown,
 } from "./AddEventElements";
 
-function handleDropdown(setter) {
-  return (e) => {
-    setter(e.target.value);
-  };
-}
-
 export default function MainEventInfo() {
-  const [duration, setDuration] = useState("");
-  const [group, setGroup] = useState("");
-  const [student, setStudent] = useState("");
+  const { eventData, setEventData } = useContext(EventContext);
+
+  function handleDropdownChange(name) {
+    return (event) => {
+      setEventData((prev) => ({
+        ...prev,
+        [name]: event.target.value,
+      }));
+    };
+  }
 
   return (
     <>
@@ -30,6 +31,8 @@ export default function MainEventInfo() {
           label="Title"
           variant="standard"
           fullWidth
+          value={eventData.title}
+          onChange={handleDropdownChange("title")}
         />
 
         <TextField
@@ -39,27 +42,34 @@ export default function MainEventInfo() {
           maxRows={4}
           variant="standard"
           fullWidth
+          value={eventData.description}
+          onChange={handleDropdownChange("description")}
         />
       </Stack>
       <Stack direction="row" justifyContent="space-between" sx={{ mt: 6 }}>
         <DurationDropdown
-          value={duration}
-          onChange={handleDropdown(setDuration)}
+          value={eventData.duration}
+          onChange={handleDropdownChange("duration")}
         />
-        <LocationToggle />
+        <LocationToggle
+          value={eventData.location}
+          onChange={handleDropdownChange("location")}
+        />
       </Stack>
-      <ReceiverToggle />
+      <ReceiverToggle
+        value={eventData.receiverType}
+        onChange={handleDropdownChange("receiverType")}
+      />
       <Stack direction="row" justifyContent="space-between" sx={{ mt: 2 }}>
-        <GroupDropdown value={group} onChange={handleDropdown(setGroup)} />
+        <GroupDropdown
+          value={eventData.group}
+          onChange={handleDropdownChange("group")}
+        />
         <StudentDropdown
-          value={student}
-          onChange={handleDropdown(setStudent)}
+          value={eventData.student}
+          onChange={handleDropdownChange("student")}
         />
       </Stack>
     </>
   );
 }
-
-handleDropdown.propTypes = {
-  setter: PropTypes.func.isRequired,
-};
