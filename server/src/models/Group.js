@@ -6,22 +6,29 @@ const groupSchema = new mongoose.Schema(
     numberOfGroupName: {
       type: Number,
       required: true,
+      unique: true,
     },
 
-    students: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      default: [],
-    },
+    students: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
 
     status: {
       type: String,
-      enum: {
-        values: ["active", "inactive"],
-      },
     },
 
-    color: String,
+    color: {
+      type: String,
+      required: true,
+    },
+
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   {
     timestamps: true,
@@ -35,9 +42,12 @@ export const validateGroup = [
     .isLength({ min: 1 })
     .withMessage("Group must have at least 1 digits")
     .matches(/^\d+$/)
-    .withMessage("Group must consist of digits only"),
-  body("students").optional().isString(),
-  body("status").isIn(["active", "inactive"]).isArray(),
+    .withMessage("Group must consist of numbers only"),
+  body("students").optional().isArray(),
+  body("status")
+    .isString()
+    .isIn(["active", "inactive"])
+    .withMessage("Status must be 'active' or 'inactive'"),
   body("color").optional().isString(),
 ];
 

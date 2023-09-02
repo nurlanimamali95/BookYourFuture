@@ -25,7 +25,7 @@ export default function FilterByGroup({ onFilterChange }) {
         label="Group"
       >
         <MenuItem value="">
-          <em>None</em>
+          <em>All</em>
         </MenuItem>
         {uniqueGroups.map((group) => (
           <MenuItem key={group} value={group.toString()}>
