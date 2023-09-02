@@ -6,6 +6,7 @@ import {
   Button,
   Stack,
   Avatar,
+  Typography,
 } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
 
@@ -33,7 +34,9 @@ const UserProfilePage = () => {
 
   return (
     <Container maxWidth="md">
-      <h1>User Profile</h1>
+      <Typography variant="h4" style={{ margin: "20px" }}>
+        User Profile
+      </Typography>
       <Grid container spacing={5}>
         {/* First Column */}
         <Grid item xs={12} sm={8}>
