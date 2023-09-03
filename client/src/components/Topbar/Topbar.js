@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Topbar.css";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -52,20 +53,20 @@ export default function MainNavigation() {
             }}
           >
             {/* Horizontal navigation menu */}
-            <List sx={{ display: "flex", linkStyle: "none" }}>
-              <ListItemButton sx={{ color: "white" }}>
+            <List sx={{ display: "flex" }}>
+              <ListItemButton>
                 <ListItemText
                   primary={
-                    <Link to="/admin" sx={{ textDecoration: "none" }}>
+                    <Link to="/admin" className="link">
                       Home/admin
                     </Link>
                   }
                 />
               </ListItemButton>
-              <ListItemButton sx={{ color: "white" }}>
+              <ListItemButton>
                 <ListItemText
                   primary={
-                    <Link to="/student" sx={{ textDecoration: "none" }}>
+                    <Link to="/student" className="link">
                       Home/student
                     </Link>
                   }
@@ -74,22 +75,22 @@ export default function MainNavigation() {
               <ListItemButton sx={{ color: "white" }}>
                 <ListItemText
                   primary={
-                    <Link to="/events" sx={{ textDecoration: "none" }}>
+                    <Link to="/events" className="link">
                       Events
                     </Link>
                   }
                 />
               </ListItemButton>
-              <ListItemButton sx={{ color: "white" }}>
+              <ListItemButton>
                 <ListItemText
                   primary={
-                    <Link to="/userProfile" sx={{ textDecoration: "none" }}>
+                    <Link to="/userProfile" className="link">
                       Profile
                     </Link>
                   }
                 />
               </ListItemButton>
-              <ListItemButton sx={{ color: "white" }}>
+              <ListItemButton>
                 <ListItemIcon>
                   <LogoutIcon
                     sx={{ color: "grey" }}
