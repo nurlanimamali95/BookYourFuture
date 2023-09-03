@@ -11,7 +11,7 @@ function Layout() {
     </Box>
   ) : (
     <>
-      <Topbar />{" "}
+      <Topbar />
       <Box component="main" sx={{ flexGrow: 2 }}>
         <Outlet />
       </Box>

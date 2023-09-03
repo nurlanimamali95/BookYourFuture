@@ -15,12 +15,12 @@ const App = () => {
     <>
       <Layout />
       <Routes>
-        <Route path="/timeslots" element={<TimeSlotPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/events" element={<EventManagement />} />
-        <Route path="/edit/:id" element={<EditEventPage />} />
-        <Route path="/add-event" element={<AddEventPage />} />
+        <Route path="/events/" element={<EventManagement />} />
+        <Route path="events/edit/:id" element={<EditEventPage />} />
+        <Route path="/events/add" element={<AddEventPage />} />
         <Route path="/student" element={<StudentDashboard />} />
+        <Route path="/student/event/timeslots" element={<TimeSlotPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/userProfile" element={<UserProfilePage />} />
       </Routes>

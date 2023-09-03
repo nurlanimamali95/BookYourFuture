@@ -45,7 +45,10 @@ export default function Notifications() {
           }}
           action={
             notification.action ? (
-              <Link to="/layout/timeslots" sx={{ textDecoration: "none" }}>
+              <Link
+                to="/student/event/timeslots"
+                sx={{ textDecoration: "none" }}
+              >
                 <Button
                   style={{ color: "black" }}
                   size="small"

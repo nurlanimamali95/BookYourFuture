@@ -16,6 +16,7 @@ import GroupIcon from "@mui/icons-material/Group";
 import PersonIcon from "@mui/icons-material/Person";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { Link } from "react-router-dom";
 
 import logo from "../../assets/download.svg";
 import { Avatar, ListItemIcon } from "@mui/material";
@@ -51,18 +52,42 @@ export default function MainNavigation() {
             }}
           >
             {/* Horizontal navigation menu */}
-            <List sx={{ display: "flex" }}>
+            <List sx={{ display: "flex", linkStyle: "none" }}>
               <ListItemButton sx={{ color: "white" }}>
-                <ListItemText primary="Home" />
+                <ListItemText
+                  primary={
+                    <Link to="/admin" sx={{ textDecoration: "none" }}>
+                      Home/admin
+                    </Link>
+                  }
+                />
               </ListItemButton>
               <ListItemButton sx={{ color: "white" }}>
-                <ListItemText primary="Events" />
+                <ListItemText
+                  primary={
+                    <Link to="/student" sx={{ textDecoration: "none" }}>
+                      Home/student
+                    </Link>
+                  }
+                />
               </ListItemButton>
               <ListItemButton sx={{ color: "white" }}>
-                <ListItemText primary="Groups" />
+                <ListItemText
+                  primary={
+                    <Link to="/events" sx={{ textDecoration: "none" }}>
+                      Events
+                    </Link>
+                  }
+                />
               </ListItemButton>
               <ListItemButton sx={{ color: "white" }}>
-                <ListItemText primary="Students" />
+                <ListItemText
+                  primary={
+                    <Link to="/userProfile" sx={{ textDecoration: "none" }}>
+                      Profile
+                    </Link>
+                  }
+                />
               </ListItemButton>
               <ListItemButton sx={{ color: "white" }}>
                 <ListItemIcon>
