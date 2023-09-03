@@ -4,6 +4,8 @@ import cors from "cors";
 import authRouter from "./routes/auth.js";
 import userRouter from "./routes/user.js";
 import groupRouter from "./routes/group.js";
+import eventRouter from "./routes/event.js";
+import sessionRouter from "./routes/session.js";
 
 // Create an express server
 const app = express();
@@ -21,5 +23,7 @@ app.use(cors());
 app.use("/api/auth", authRouter); // Routes related to authentication
 app.use("/api/user", userRouter); // Routes related to users
 app.use("/api/group", groupRouter); // Routes related to groups
+app.use("/api/event", eventRouter); // Routes related to groups
+app.use("/api/session", sessionRouter); // Routes related to sessions
 
 export default app;
