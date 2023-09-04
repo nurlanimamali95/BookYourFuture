@@ -1,23 +1,34 @@
 import React, { useState } from "react";
 import {
-  TextField,
-  Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Typography,
-  Grid,
-  Container,
-  Stack,
   Box,
+  Button,
+  Container,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 
-const AddStudentPage = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [groupNumber, setGroupNumber] = useState("");
+// const mainColors = [
+//   "#FF0000", // Red
+//   "#00FF00", // Green
+//   "#0000FF", // Blue
+//   "#FFFF00", // Yellow
+//   "#00FFFF", // Cyan
+//   "#FF00FF", // Magenta
+//   "#000000", // Black
+//   "#FFFFFF", // White
+//   "#808080", // Gray
+//   "#FFA500", // Orange
+// ];
+
+function AddGroupPage() {
+  const [groupName, setGroupName] = useState("");
+  const [groupColor, setGroupColor] = useState("");
 
   // const handleSave = () => {
   //   // Handle saving the student data here
@@ -48,9 +59,8 @@ const AddStudentPage = () => {
       border: "1px solid red", // Border style on hover
     },
   };
-
   return (
-    <Container maxWidth="md" sx={{ marginTop: "25px" }}>
+    <Container maxWidth="sm" sx={{ marginTop: "25px" }}>
       <Grid container spacing={3}>
         <Box sx={{ flexGrow: 1 }}>
           <Typography
@@ -58,48 +68,31 @@ const AddStudentPage = () => {
             component="h2"
             sx={{ mb: 4, mt: 6, textAlign: "center" }}
           >
-            Add Student
+            Add Group
           </Typography>
         </Box>
         <Grid item xs={12}>
           <TextField
-            label="First Name"
+            label="Group Name"
             fullWidth
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            value={groupName}
+            onChange={(e) => setGroupName(e.target.value)}
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField
-            label="Last Name"
-            fullWidth
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
+          <FormControl fullWidth>
+            <InputLabel>Group Color</InputLabel>
+            <Select
+              value={groupColor}
+              onChange={(e) => setGroupColor(e.target.value)}
+            >
+              <MenuItem value={43}>blue</MenuItem>
+              <MenuItem value={44}>white</MenuItem>
+              <MenuItem value={45}>green</MenuItem>
+              <MenuItem value={46}>orange</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
-        <Grid item xs={12}>
-          <Stack direction="row" spacing={2}>
-            <TextField
-              label="Email"
-              fullWidth
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <FormControl fullWidth>
-              <InputLabel>Group Number</InputLabel>
-              <Select
-                value={groupNumber}
-                onChange={(e) => setGroupNumber(e.target.value)}
-              >
-                <MenuItem value={43}>43</MenuItem>
-                <MenuItem value={44}>44</MenuItem>
-                <MenuItem value={45}>45</MenuItem>
-                <MenuItem value={46}>46</MenuItem>
-              </Select>
-            </FormControl>
-          </Stack>
-        </Grid>
-
         <Grid container justifyContent="center">
           <Stack
             direction="row"
@@ -119,6 +112,6 @@ const AddStudentPage = () => {
       </Grid>
     </Container>
   );
-};
+}
 
-export default AddStudentPage;
+export default AddGroupPage;
