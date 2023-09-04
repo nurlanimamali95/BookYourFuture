@@ -21,109 +21,75 @@ export const add = async (req, res) => {
     }
   }
 };
+export const all = async (req, res) => {
+  try {
+    const groups = await SessionModel.find()
+      .populate("student")
+      .populate("user")
+      .exec();
 
-// export const all = async (req, res) => {
-//   try {
-//     const groups = await GroupModel.find()
-//       .populate("students")
-//       .populate("user")
-//       .exec();
+    res.status(200).json(groups);
+  } catch (err) {
+    res.status(500).json({
+      message: "something is wrong",
+    });
+  }
+};
+export const bookSession = async (req, res) => {
+  try {
+    const sessionId = req.params.sessionId;
+    const studentId = req.body.studentId; // Assuming you receive the student's ID in the request body
 
-//     res.status(200).json(groups);
-//   } catch (err) {
-//     res.status(500).json({
-//       message: "something is wrong",
-//     });
-//   }
-// };
+    // Find the session by its ID
+    const session = await SessionModel.findById(sessionId);
 
-// export const getOne = async (req, res) => {
-//   try {
-//     const groupId = req.params.id;
+    if (!session) {
+      return res.status(404).json({ message: "Session not found." });
+    }
 
-//     if (!groupId) {
-//       return res.status(404).json({
-//         message: "Group not found",
-//       });
-//     }
+    // Update the session to include the student
+    session.student = studentId;
 
-//     const group = await GroupModel.findById(groupId)
-//       .populate("user")
-//       .populate("students")
-//       .exec();
+    // Save the updated session
+    await session.save();
 
-//     if (!group) {
-//       return res.status(404).json({
-//         message: "Group not found",
-//       });
-//     }
-//     res.status(200).json({ success: true, group });
-//   } catch (err) {
-//     res.status(500).json({
-//       message: "Something is wrong",
-//     });
-//   }
-// };
-// export const remove = async (req, res) => {
-//   try {
-//     const groupId = req.params.id;
+    res.status(200).json({ success: true, session });
+  } catch (err) {
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};
+export const remove = async (req, res) => {
+  try {
+    const sessionId = req.params.id;
 
-//     GroupModel.findByIdAndDelete(
-//       {
-//         _id: groupId,
-//       },
-//       (err, group) => {
-//         if (err) {
-//           return res.status(500).json({
-//             message: "can`t delete group",
-//           });
-//         }
-//         if (!group) {
-//           return res.status(404).json({
-//             message: "group not found",
-//           });
-//         }
-//       }
-//     );
+    SessionModel.findByIdAndDelete(
+      {
+        _id: sessionId,
+      },
+      (err, session) => {
+        if (err) {
+          return res.status(500).json({
+            message: "can`t delete session",
+          });
+        }
+        if (!session) {
+          return res.status(404).json({
+            message: "session not found",
+          });
+        }
+      }
+    );
 
-//     if (!groupId) {
-//       return res.status(404).json({
-//         message: "group not found",
-//       });
-//     }
+    if (!sessionId) {
+      return res.status(404).json({
+        message: "session not found",
+      });
+    }
 
-//     res.status(200).json({ success: true });
-//   } catch (err) {
-//     res.status(500).json({
-//       message: "something is wrong",
-//     });
-//   }
-// };
-// export const edit = async (req, res) => {
-//   try {
-//     const groupId = req.params.id;
-
-//     if (!groupId) {
-//       return res.status(404).json({
-//         message: "group not found",
-//       });
-//     }
-
-//     const updatedGroup = await GroupModel.findByIdAndUpdate(
-//       {
-//         _id: groupId,
-//       },
-//       {
-//         status: req.body.status,
-//         students: req.body.students || [],
-//       },
-//       { new: true } // This option returns the updated document
-//     );
-
-//     res.status(200).json({ success: true, group: updatedGroup }); // Send the updatedGroup in the response
-//   } catch (err) {
-//     res.status(500).json({
-//       message: "something is wrong",
-//     });
-//   }
-// };
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(500).json({
+      message: "something is wrong",
+    });
+  }
+};

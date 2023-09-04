@@ -25,5 +25,6 @@ app.use("/api/user", userRouter); // Routes related to users
 app.use("/api/group", groupRouter); // Routes related to groups
 app.use("/api/event", eventRouter); // Routes related to groups
 app.use("/api/session", sessionRouter); // Routes related to sessions
+app.use("/api/event/session", sessionRouter); // Routes related to sessions
 
 export default app;
