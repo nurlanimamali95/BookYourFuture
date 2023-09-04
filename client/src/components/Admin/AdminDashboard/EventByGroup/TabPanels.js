@@ -37,7 +37,7 @@ export default function TabPanels({ value, groupLabels, demoData }) {
               <EmptyGroupData />
             )}
             {groupData.length > itemsPerPage && (
-              <Box mt={2} display="flex" justifyContent="center">
+              <Box mt={1} display="flex" justifyContent="center">
                 <Pagination
                   count={Math.ceil(groupData.length / itemsPerPage)}
                   page={page}
