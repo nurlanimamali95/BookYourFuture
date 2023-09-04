@@ -5,7 +5,8 @@ import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import TimeSlots from "./TimeSlots";
+import TimeSlotButtons from "./TimeSlotButtons";
+import PropTypes from "prop-types";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -43,7 +44,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
-export default function CustomizedAccordions() {
+export default function BookTime(props) {
   const [expanded, setExpanded] = React.useState("panel1");
 
   const handleChange = (panel) => (event, newExpanded) => {
@@ -53,16 +54,28 @@ export default function CustomizedAccordions() {
   return (
     <div>
       <Accordion
+        sx={{ width: "450px" }}
         expanded={expanded === "panel1"}
         onChange={handleChange("panel1")}
       >
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography>11/09/2023</Typography>
+          <Typography>{props.date}</Typography>
         </AccordionSummary>
-        <AccordionDetails>
-          <TimeSlots />
+        <AccordionDetails
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
+        >
+          <TimeSlotButtons />
         </AccordionDetails>
       </Accordion>
     </div>
   );
 }
+
+BookTime.propTypes = {
+  date: PropTypes.string.isRequired,
+};
