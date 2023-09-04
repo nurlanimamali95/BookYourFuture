@@ -6,8 +6,7 @@ import validationErrorMessage from "../util/validationErrorMessage.js";
 
 const sessionRouter = express.Router();
 
-// groupRouter.get("/", groupController.all);
-// groupRouter.get("/:id", groupController.getOne);
+sessionRouter.get("/all", checkAuth, sessionController.all);
 
 sessionRouter.post(
   "/add",
@@ -17,13 +16,13 @@ sessionRouter.post(
   sessionController.add
 );
 
-// groupRouter.delete("/:id", checkAuth, groupController.remove);
-// groupRouter.patch(
-//   "/edit/:id",
-//   checkAuth,
-//   editValidateGroup,
-//   validationErrorMessage,
-//   groupController.edit
-// );
+sessionRouter.delete("/:id", checkAuth, sessionController.remove);
+
+sessionRouter.post(
+  "/:sessionId/bookStudent",
+  checkAuth,
+  validationErrorMessage,
+  sessionController.bookSession
+);
 
 export default sessionRouter;
