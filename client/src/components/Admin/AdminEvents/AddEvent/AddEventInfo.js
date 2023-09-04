@@ -2,7 +2,6 @@ import React from "react";
 import { TextField, Stack } from "@mui/material";
 import EventContext from "./EventContext";
 import { useContext } from "react";
-
 import {
   DurationDropdown,
   LocationToggle,
@@ -25,7 +24,7 @@ export default function MainEventInfo() {
 
   return (
     <>
-      <Stack spacing={4}>
+      <Stack spacing={2}>
         <TextField
           id="standard-basic"
           label="Title"
@@ -36,10 +35,10 @@ export default function MainEventInfo() {
         />
 
         <TextField
-          id="standard-multiline-flexible"
+          id="standard-multiline-static"
           label="Description"
           multiline
-          maxRows={4}
+          rows={3}
           variant="standard"
           fullWidth
           value={eventData.description}
@@ -60,7 +59,7 @@ export default function MainEventInfo() {
         value={eventData.receiverType}
         onChange={handleDropdownChange("receiverType")}
       />
-      <Stack direction="row" justifyContent="space-between" sx={{ mt: 2 }}>
+      <Stack direction="row" justifyContent="space-between" sx={{ mt: 3 }}>
         <GroupDropdown
           value={eventData.group}
           onChange={handleDropdownChange("group")}
@@ -68,6 +67,8 @@ export default function MainEventInfo() {
         <StudentDropdown
           value={eventData.student}
           onChange={handleDropdownChange("student")}
+          isGroup={eventData.receiverType === "Group"}
+          disabled={eventData.receiverType !== "Student"}
         />
       </Stack>
     </>
