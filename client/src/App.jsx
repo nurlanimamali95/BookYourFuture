@@ -9,6 +9,7 @@ import EventManagement from "./pages/Admin/EventManagementPage";
 import EditEventPage from "./pages/Admin/EditEventPage";
 import AddEventPage from "./pages/Admin/AddEventPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import AddStudentPage from "./pages/Admin/AddStudentPage";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/student/event/timeslots" element={<TimeSlotPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/userProfile" element={<UserProfilePage />} />
+        <Route path="/addStudent" element={<AddStudentPage />} />
       </Routes>
     </>
   );
