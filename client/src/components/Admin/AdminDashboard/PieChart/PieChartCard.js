@@ -9,12 +9,12 @@ export default function PieChartCard() {
     <>
       <Typography
         variant="h5"
-        component="h2"
-        sx={{ mt: 2, mb: 1, mx: 1, textAlign: "left" }}
+        component="h3"
+        sx={{ mt: 2, mb: 1, mx: 1, textAlign: "center" }}
       >
-        Number of students
+        Number of students by group
       </Typography>
-      <Typography
+      {/* <Typography
         variant="h3"
         component="h2"
         sx={{
@@ -27,7 +27,7 @@ export default function PieChartCard() {
         }}
       >
         40
-      </Typography>
+      </Typography> */}
       <Divider sx={{ my: 3 }} />
 
       <PieChart />
