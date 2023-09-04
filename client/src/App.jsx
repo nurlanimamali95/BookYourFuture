@@ -11,6 +11,7 @@ import AddEventPage from "./pages/Admin/AddEventPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import AddStudentPage from "./pages/Admin/AddStudentPage";
 import AddGroupPage from "./pages/Admin/AddGroupPage";
+import GroupManagement from "./pages/Admin/GroupManagement";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/userProfile" element={<UserProfilePage />} />
         <Route path="/addStudent" element={<AddStudentPage />} />
         <Route path="/addGroup" element={<AddGroupPage />} />
+        <Route path="/groups" element={<GroupManagement />} />
       </Routes>
     </>
   );

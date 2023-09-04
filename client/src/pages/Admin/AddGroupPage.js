@@ -104,7 +104,7 @@ function AddGroupPage() {
             <Button variant="outlined" sx={cancelButtonStyle}>
               Cancel
             </Button>
-            <Button variant="contained" color="primary" sx={buttonStyle}>
+            <Button variant="contained" sx={buttonStyle}>
               Save
             </Button>
           </Stack>
