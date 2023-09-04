@@ -9,9 +9,9 @@ import Button from "@mui/material/Button";
 export default function TimeSlotsPage() {
   return (
     <Container>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box>
         <Grid container spacing={2}>
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <Typography variant="h4" mt={"1em"}>
               Social interview with Adyen
             </Typography>
@@ -19,24 +19,16 @@ export default function TimeSlotsPage() {
               Book a time slot:
             </Typography>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <BookTime date={"September 10"} />
-          </Grid>
-          <Grid item xs={8}>
             <BookTime date={"September 12"} />
-          </Grid>
-          <Grid item xs={8}>
             <BookTime date={"September 14"} />
           </Grid>
           <Grid item xs={8}>
-            {" "}
             <Button variant="contained" sx={{ ml: "11em" }}>
               Confirm
             </Button>
           </Grid>
-          <Grid item xs={4}></Grid>
-          <Grid item xs={4}></Grid>
-          <Grid item xs={8}></Grid>
         </Grid>
       </Box>
     </Container>

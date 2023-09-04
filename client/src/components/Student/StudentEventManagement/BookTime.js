@@ -5,7 +5,7 @@ import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import TimeSlotButtons from "./TimeSlotButtons";
+import TimeSlotButtons from "./TimeSlotButton";
 import PropTypes from "prop-types";
 
 const Accordion = styled((props) => (
@@ -18,6 +18,8 @@ const Accordion = styled((props) => (
   "&:before": {
     display: "none",
   },
+  display: "flex", // Add this to make it a flex container
+  flexDirection: "column",
 }));
 
 const AccordionSummary = styled((props) => (

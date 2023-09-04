@@ -25,6 +25,8 @@ export default function TimeSlotButtons() {
     { value: "1", label: "10:00-11:00" },
     { value: "2", label: "11:00-12:00" },
     { value: "3", label: "12:00-13:00" },
+    { value: "4", label: "12:00-13:00" },
+    { value: "5", label: "12:00-13:00" },
   ];
 
   return (
