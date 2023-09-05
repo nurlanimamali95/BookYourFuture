@@ -74,6 +74,12 @@ export const remove = async (req, res) => {
   try {
     const userId = req.params.id;
 
+    if (!userId) {
+      return res.status(404).json({
+        message: "user not found",
+      });
+    }
+
     UserModel.findByIdAndDelete(
       {
         _id: userId,

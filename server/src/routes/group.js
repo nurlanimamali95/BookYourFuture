@@ -6,7 +6,7 @@ import validationErrorMessage from "../util/validationErrorMessage.js";
 
 const groupRouter = express.Router();
 
-groupRouter.get("/", groupController.all);
+groupRouter.get("/all", groupController.all);
 groupRouter.get("/:id", groupController.getOne);
 
 groupRouter.post(

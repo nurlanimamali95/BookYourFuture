@@ -15,12 +15,10 @@ const eventSchema = new mongoose.Schema(
       required: true,
     },
 
-    receiverType: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+    receiverType: {
+      type: String,
+      required: true,
+    },
 
     eventType: {
       type: String,
@@ -64,11 +62,19 @@ export const validateEvent = [
 
   body("location")
     .isIn(["online", "offline"])
-    .isString()
-    .withMessage("Location must be 'online' or 'offline'"),
+    .withMessage("Location must be 'online' or 'offline'")
+    .isString(),
 
-  body("receiverType").isIn(["all", "group", "student"]).isArray(),
-  body("eventType").isIn("oneDay", "multiplyDay").isString(),
+  body("receiverType")
+    .isIn(["group", "student"])
+    .withMessage("receiverType must be 'group' or 'student'")
+    .isString(),
+
+  body("eventType")
+    .isIn(["oneDay", "multiplyDay"])
+    .withMessage("eventType must be 'oneDay' or 'multiplyDay'")
+    .isString(),
+
   body("sessionSlot").optional().isArray(),
   body("group").optional().isArray(),
   body("student").optional(),
