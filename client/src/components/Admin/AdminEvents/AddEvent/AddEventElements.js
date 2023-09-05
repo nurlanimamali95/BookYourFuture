@@ -95,27 +95,47 @@ GroupDropdown.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-export function StudentDropdown({ value, onChange }) {
-  return (
-    <FormControl sx={{ minWidth: 220 }}>
-      <InputLabel id="student-select-label">Student</InputLabel>
-      <Select
-        labelId="student-select-label"
-        id="student-select"
-        value={value}
-        label="Student"
-        onChange={onChange}
-      >
-        <MenuItem value={"Nurlan"}>Nurlan</MenuItem>
-        <MenuItem value={"Anastasia"}>Anastasia</MenuItem>
-        <MenuItem value={"Alevtina"}>Alevtina</MenuItem>
-        <MenuItem value={"Evghen"}>Evghen</MenuItem>
-      </Select>
-    </FormControl>
-  );
+export function StudentDropdown({ value, onChange, disabled, isGroup }) {
+  if (isGroup) {
+    return (
+      <FormControl sx={{ minWidth: 220 }}>
+        <InputLabel id="student-select-label">Student</InputLabel>
+        <Select
+          labelId="student-select-label"
+          id="student-select"
+          value="All"
+          label="Student"
+          onChange={onChange}
+          disabled
+        >
+          <MenuItem value="All">All</MenuItem>
+        </Select>
+      </FormControl>
+    );
+  } else {
+    return (
+      <FormControl sx={{ minWidth: 220 }} disabled={disabled}>
+        <InputLabel id="student-select-label">Student</InputLabel>
+        <Select
+          labelId="student-select-label"
+          id="student-select"
+          value={value}
+          label="Student"
+          onChange={onChange}
+        >
+          <MenuItem value={"Nurlan"}>Nurlan</MenuItem>
+          <MenuItem value={"Anastasia"}>Anastasia</MenuItem>
+          <MenuItem value={"Alevtina"}>Alevtina</MenuItem>
+          <MenuItem value={"Evghen"}>Evghen</MenuItem>
+        </Select>
+      </FormControl>
+    );
+  }
 }
 
 StudentDropdown.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  isGroup: PropTypes.bool,
 };
