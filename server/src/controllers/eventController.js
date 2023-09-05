@@ -15,7 +15,7 @@ export const add = async (req, res) => {
 
     const event = await EventModel.create(newEvent);
 
-    res.status(200).json({ success: true, event });
+    res.status(200).json({ success: true, eventData: event });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong." });
   }
@@ -29,7 +29,7 @@ export const all = async (req, res) => {
       .populate("group")
       .exec();
 
-    res.status(200).json(events);
+    res.status(200).json({ success: true, eventsData: events });
   } catch (err) {
     res.status(500).json({
       message: "something is wrong",
@@ -58,7 +58,7 @@ export const getOne = async (req, res) => {
         message: "Event not found",
       });
     }
-    res.status(200).json({ success: true, event });
+    res.status(200).json({ success: true, eventData: event });
   } catch (err) {
     res.status(500).json({
       message: "Something is wrong",
@@ -127,7 +127,7 @@ export const edit = async (req, res) => {
       { new: true } // This option returns the updated document
     );
 
-    res.status(200).json({ success: true, group: updatedEvent }); // Send the updatedGroup in the response
+    res.status(200).json({ success: true, eventData: updatedEvent }); // Send the updatedGroup in the response
   } catch (err) {
     res.status(500).json({
       message: "something is wrong",

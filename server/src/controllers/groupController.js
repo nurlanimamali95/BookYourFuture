@@ -14,7 +14,7 @@ export const add = async (req, res) => {
 
     const group = await GroupModel.create(newGroup);
 
-    res.status(200).json({ success: true, group });
+    res.status(200).json({ success: true, groupData: group });
   } catch (err) {
     if (err.code === 11000) {
       // Duplicate key error
@@ -32,7 +32,7 @@ export const all = async (req, res) => {
       .populate("user")
       .exec();
 
-    res.status(200).json(groups);
+    res.status(200).json({ success: true, groupsData: groups });
   } catch (err) {
     res.status(500).json({
       message: "something is wrong",
@@ -60,7 +60,7 @@ export const getOne = async (req, res) => {
         message: "Group not found",
       });
     }
-    res.status(200).json({ success: true, group });
+    res.status(200).json({ success: true, groupData: group });
   } catch (err) {
     res.status(500).json({
       message: "Something is wrong",
@@ -123,7 +123,7 @@ export const edit = async (req, res) => {
       { new: true } // This option returns the updated document
     );
 
-    res.status(200).json({ success: true, group: updatedGroup }); // Send the updatedGroup in the response
+    res.status(200).json({ success: true, groupData: updatedGroup }); // Send the updatedGroup in the response
   } catch (err) {
     res.status(500).json({
       message: "something is wrong",
