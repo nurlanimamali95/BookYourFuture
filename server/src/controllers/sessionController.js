@@ -11,7 +11,7 @@ export const add = async (req, res) => {
 
     const session = await SessionModel.create(newSession);
 
-    res.status(200).json({ success: true, session });
+    res.status(200).json({ success: true, sessionData: session });
   } catch (err) {
     if (err.code === 11000) {
       // Duplicate key error
@@ -23,12 +23,12 @@ export const add = async (req, res) => {
 };
 export const all = async (req, res) => {
   try {
-    const groups = await SessionModel.find()
+    const sessions = await SessionModel.find()
       .populate("student")
       .populate("user")
       .exec();
 
-    res.status(200).json(groups);
+    res.status(200).json({ success: true, sessionsData: sessions });
   } catch (err) {
     res.status(500).json({
       message: "something is wrong",
@@ -53,7 +53,7 @@ export const bookSession = async (req, res) => {
     // Save the updated session
     await session.save();
 
-    res.status(200).json({ success: true, session });
+    res.status(200).json({ success: true, sessionData: session });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong." });
   }

@@ -28,7 +28,7 @@ export const register = async (req, res) => {
 
     const { passwordHash, ...userData } = user._doc;
 
-    res.json({ ...userData, token });
+    res.status(200).json({ ...userData, token, success: true });
   } catch (err) {
     if (err.code === 11000) {
       // Duplicate key error
@@ -67,7 +67,7 @@ export const login = async (req, res) => {
 
     const { passwordHash, ...userData } = user._doc;
 
-    res.json({ ...userData, token });
+    res.status(200).json({ ...userData, token, success: true });
   } catch (err) {
     res.status(500).json({
       message: "No Auth, sorry error....",

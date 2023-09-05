@@ -13,7 +13,7 @@ export const userMe = async (req, res) => {
     }
     const { passwordHash, ...userData } = user._doc;
 
-    res.json(userData);
+    res.status(200).json({ success: true, userData });
   } catch (err) {
     res.status(500).json({
       message: "Something is wrong",
@@ -35,7 +35,7 @@ export const all = async (req, res) => {
       return allUsersData;
     });
 
-    res.json(usersWithoutPassword);
+    res.status(200).json({ success: true, usersData: usersWithoutPassword });
   } catch (err) {
     res.status(500).json({
       message: "what`s wrong",
@@ -63,7 +63,7 @@ export const getOne = async (req, res) => {
     // Exclude passwordHash from the response
     const { passwordHash, ...userData } = user._doc;
 
-    res.json(userData);
+    res.status(200).json({ success: true, userData });
   } catch (err) {
     res.status(500).json({
       message: "Something is wrong",
@@ -97,7 +97,14 @@ export const remove = async (req, res) => {
         }
       }
     );
-    res.json({ success: true });
+
+    if (!userId) {
+      return res.status(404).json({
+        message: "user not found",
+      });
+    }
+
+    res.status(200).json({ success: true });
   } catch (err) {
     res.status(500).json({
       message: "something is wrong",
@@ -147,7 +154,7 @@ export const edit = async (req, res) => {
 
     await user.save();
 
-    res.json({ success: true });
+    res.status(200).json({ success: true });
   } catch (err) {
     res.status(500).json({
       message: "something is wrong",
@@ -178,7 +185,7 @@ export const changePassword = async (req, res) => {
       { expiresIn: "30d" } // time life token 30 days
     );
 
-    res.json({ success: true, token });
+    res.status(200).json({ success: true, token });
   } catch (err) {
     res.status(500).json({
       message: "something is wrong",
