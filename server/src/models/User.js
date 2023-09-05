@@ -34,26 +34,17 @@ const userSchema = new mongoose.Schema(
 
     zipCode: String,
 
-    group: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "group",
-        required: true,
-      },
-    ],
+    group: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "group",
+      required: true,
+    },
 
     gitHub: String,
 
     linkedIn: String,
 
     avatarUrl: String,
-
-    status: {
-      type: String,
-      enum: {
-        values: ["active", "inactive"],
-      },
-    },
 
     admin: {
       type: Boolean,
