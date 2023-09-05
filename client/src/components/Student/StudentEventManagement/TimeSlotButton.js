@@ -4,6 +4,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
+import PropTypes from "prop-types";
 
 function generateRadioButtons(buttonsData) {
   return buttonsData.map((button) => (
@@ -14,13 +15,14 @@ function generateRadioButtons(buttonsData) {
         <Radio
           icon={<Button variant="outlined">{button.label}</Button>}
           checkedIcon={<Button variant="contained">{button.label}</Button>}
+          name="timeSlot"
         />
       }
     />
   ));
 }
 
-export default function TimeSlotButtons() {
+export default function TimeSlotButtons(props) {
   const buttonsData = [
     { value: "1", label: "10:00-11:00" },
     { value: "2", label: "11:00-12:00" },
@@ -33,11 +35,18 @@ export default function TimeSlotButtons() {
     <FormControl>
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
-        name="radio-buttons-group"
         sx={{ display: "flex", flexDirection: "row" }}
+        value={props.value}
+        onChange={props.change}
       >
         {generateRadioButtons(buttonsData)}
       </RadioGroup>
     </FormControl>
   );
 }
+
+TimeSlotButtons.propTypes = {
+  date: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  change: PropTypes.func.isRequired,
+};

@@ -7,6 +7,12 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 export default function TimeSlotsPage() {
+  const [selectedValue, setSelectedValue] = React.useState("");
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
   return (
     <Container>
       <Box>
@@ -20,9 +26,21 @@ export default function TimeSlotsPage() {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <BookTime date={"September 10"} />
-            <BookTime date={"September 12"} />
-            <BookTime date={"September 14"} />
+            <BookTime
+              date={"September 10"}
+              selectedValue={selectedValue}
+              handleChange={handleChange}
+            />
+            <BookTime
+              date={"September 12"}
+              selectedValue={selectedValue}
+              handleChange={handleChange}
+            />
+            <BookTime
+              date={"September 14"}
+              selectedValue={selectedValue}
+              handleChange={handleChange}
+            />
           </Grid>
           <Grid item xs={8}>
             <Button variant="contained" sx={{ ml: "11em" }}>

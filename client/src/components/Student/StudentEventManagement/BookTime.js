@@ -71,7 +71,11 @@ export default function BookTime(props) {
             textAlign: "center",
           }}
         >
-          <TimeSlotButtons />
+          <TimeSlotButtons
+            value={props.selectedValue}
+            change={props.handleChange}
+            name={props.date}
+          />
         </AccordionDetails>
       </Accordion>
     </div>
@@ -80,4 +84,6 @@ export default function BookTime(props) {
 
 BookTime.propTypes = {
   date: PropTypes.string.isRequired,
+  selectedValue: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
 };
