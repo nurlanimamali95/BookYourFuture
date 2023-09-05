@@ -6,7 +6,7 @@ import { validateEvent } from "../models/Event.js";
 
 const eventRouter = express.Router();
 
-eventRouter.get("/", eventController.all);
+eventRouter.get("/all", eventController.all);
 eventRouter.get("/:id", eventController.getOne);
 
 eventRouter.post(
