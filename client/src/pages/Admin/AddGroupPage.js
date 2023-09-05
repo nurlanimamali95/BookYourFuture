@@ -31,24 +31,22 @@ import { Button } from "../../components/Buttons/Button";
 function AddGroupPage() {
   const [groupName, setGroupName] = useState("");
   const [groupColor, setGroupColor] = useState("");
-  const { isLoading, performFetch } = useFetch("/group/add", (result) => {
+  const { performFetch } = useFetch("/group/add", (result) => {
     // eslint-disable-next-line no-console
     console.log(result);
   });
-  // const { performFetch} = useFetch("/auth/login", (result) => {
-  //   // eslint-disable-next-line no-console
-  //   console.log(result);
-  // });
+
   // eslint-disable-next-line no-console
-  console.log(isLoading);
 
   const handleSave = (event) => {
     event.preventDefault();
+
     performFetch(
       {
         color: groupColor,
         numberOfGroupName: Number(groupName),
         status: "active",
+        students: ["64ef5d073b654eb236073a61"],
       },
       "POST"
     );
