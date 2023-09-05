@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Topbar.css";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -16,6 +17,7 @@ import GroupIcon from "@mui/icons-material/Group";
 import PersonIcon from "@mui/icons-material/Person";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { Link } from "react-router-dom";
 
 import logo from "../../assets/download.svg";
 import { Avatar, ListItemIcon } from "@mui/material";
@@ -52,19 +54,43 @@ export default function MainNavigation() {
           >
             {/* Horizontal navigation menu */}
             <List sx={{ display: "flex" }}>
-              <ListItemButton sx={{ color: "white" }}>
-                <ListItemText primary="Home" />
+              <ListItemButton>
+                <ListItemText
+                  primary={
+                    <Link to="/admin" className="link">
+                      Home/admin
+                    </Link>
+                  }
+                />
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemText
+                  primary={
+                    <Link to="/student" className="link">
+                      Home/student
+                    </Link>
+                  }
+                />
               </ListItemButton>
               <ListItemButton sx={{ color: "white" }}>
-                <ListItemText primary="Events" />
+                <ListItemText
+                  primary={
+                    <Link to="/events" className="link">
+                      Events
+                    </Link>
+                  }
+                />
               </ListItemButton>
-              <ListItemButton sx={{ color: "white" }}>
-                <ListItemText primary="Groups" />
+              <ListItemButton>
+                <ListItemText
+                  primary={
+                    <Link to="/userProfile" className="link">
+                      Profile
+                    </Link>
+                  }
+                />
               </ListItemButton>
-              <ListItemButton sx={{ color: "white" }}>
-                <ListItemText primary="Students" />
-              </ListItemButton>
-              <ListItemButton sx={{ color: "white" }}>
+              <ListItemButton>
                 <ListItemIcon>
                   <LogoutIcon
                     sx={{ color: "grey" }}

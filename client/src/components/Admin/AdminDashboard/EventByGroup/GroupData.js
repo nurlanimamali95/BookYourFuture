@@ -10,15 +10,14 @@ export default function GroupData({ data }) {
       elevation={1}
       key={data.name}
       sx={{
-        paddingY: ".75rem",
-        paddingX: "1.5rem",
+        paddingY: "1.25rem",
+        paddingX: ".75rem",
         borderBottom: "1px solid #e0e0e0",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        marginBottom: ".75rem",
         textAlign: "left",
-        ":hover": { backgroundColor: "#f5f5f5" },
+        ":hover": { backgroundColor: "#fafafa" },
       }}
     >
       <box>

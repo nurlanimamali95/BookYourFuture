@@ -38,12 +38,13 @@ const useFetch = (route, onReceived) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Add any args given to the function to the fetch function
-  const performFetch = (options) => {
+  const performFetch = (options, method = "GET") => {
     setError(null);
     setIsLoading(true);
+    const extraOptions = options ? { body: JSON.stringify(options) } : [];
 
     const baseOptions = {
-      method: "GET",
+      method,
       headers: {
         "content-type": "application/json",
       },
@@ -53,7 +54,7 @@ const useFetch = (route, onReceived) => {
       // We add the /api subsection here to make it a single point of change if our configuration changes
       const url = `${process.env.BASE_SERVER_URL}/api${route}`;
 
-      const res = await fetch(url, { ...baseOptions, ...options, signal });
+      const res = await fetch(url, { ...baseOptions, ...extraOptions, signal });
 
       if (!res.ok) {
         setError(

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   TextField,
-  Button,
   Select,
   MenuItem,
   FormControl,
@@ -12,6 +11,8 @@ import {
   Stack,
   Box,
 } from "@mui/material";
+import { CancelButton } from "../../components/Buttons/CancelButton";
+import { Button } from "../../components/Buttons/Button";
 
 const AddStudentPage = () => {
   const [firstName, setFirstName] = useState("");
@@ -28,26 +29,6 @@ const AddStudentPage = () => {
   // const handleCancel = () => {
   //   // Handle cancel action (e.g., navigate back to the student list)
   // };
-  const buttonStyle = {
-    backgroundColor: "#56ae5a",
-    color: "white",
-    "&:hover": {
-      backgroundColor: "white",
-      color: "#56ae5a",
-      border: "1px solid #56ae5a",
-    },
-  };
-
-  const cancelButtonStyle = {
-    backgroundColor: "red",
-    color: "white",
-    border: "1px solid red", // Add border style
-    "&:hover": {
-      backgroundColor: "white",
-      color: "red",
-      border: "1px solid red", // Border style on hover
-    },
-  };
 
   return (
     <Container maxWidth="md" sx={{ marginTop: "25px" }}>
@@ -108,12 +89,8 @@ const AddStudentPage = () => {
             mt={3}
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            <Button variant="outlined" sx={cancelButtonStyle}>
-              Cancel
-            </Button>
-            <Button variant="contained" color="primary" sx={buttonStyle}>
-              Save
-            </Button>
+            <Button variant="outlined">Cancel</Button>
+            <CancelButton variant="contained">Save</CancelButton>
           </Stack>
         </Grid>
       </Grid>

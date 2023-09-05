@@ -7,13 +7,15 @@ import BasicTable from "../../components/Admin/AdminEvents/EventManagement/Event
 import FilterByGroup from "../../components/Admin/AdminEvents/EventManagement/FilterByGroup";
 import SearchEvent from "../../components/Admin/AdminEvents/EventManagement/SearchEvent";
 import Grid from "@mui/material/Grid";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+
 export default function EventManagement() {
   const [selectedGroup, setSelectedGroup] = useState("");
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   const handleAddEvent = () => {
-    navigate("/add-event");
+    navigate("/events/add");
   };
 
   return (
@@ -35,6 +37,7 @@ export default function EventManagement() {
 
         <Grid item xs={2} container justifyContent="flex-end">
           <Button
+            startIcon={<AddCircleOutlineIcon />}
             variant="contained"
             onClick={handleAddEvent}
             sx={{ mt: 2, mr: 3, mb: 1 }}
