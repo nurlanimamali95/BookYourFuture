@@ -45,7 +45,15 @@ export default function MainEventInfo() {
           onChange={handleDropdownChange("description")}
         />
       </Stack>
-      <Stack direction="row" justifyContent="space-between" sx={{ mt: 6 }}>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent={{ xs: "flex-start", md: "space-between" }}
+        gap={2}
+        sx={{
+          mt: { xs: 4, sm: 4 },
+          mb: { xs: 2, sm: 2 },
+        }}
+      >
         <DurationDropdown
           value={eventData.duration}
           onChange={handleDropdownChange("duration")}
@@ -59,7 +67,14 @@ export default function MainEventInfo() {
         value={eventData.receiverType}
         onChange={handleDropdownChange("receiverType")}
       />
-      <Stack direction="row" justifyContent="space-between" sx={{ mt: 3 }}>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent={{ xs: "flex-start", md: "space-between" }}
+        sx={{
+          mt: { xs: 2, sm: 4 },
+        }}
+        gap={2}
+      >
         <GroupDropdown
           value={eventData.group}
           onChange={handleDropdownChange("group")}
