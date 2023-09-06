@@ -1,7 +1,7 @@
 import express from "express";
 import * as groupController from "../controllers/groupController.js";
 import { editValidateGroup, validateGroup } from "../models/Group.js";
-import checkAuth from "../util/checkAuth.js";
+// import checkAuth from "../util/checkAuth.js";
 import validationErrorMessage from "../util/validationErrorMessage.js";
 
 const groupRouter = express.Router();
@@ -11,16 +11,21 @@ groupRouter.get("/:id", groupController.getOne);
 
 groupRouter.post(
   "/add",
-  checkAuth,
+  // checkAuth,
   validateGroup,
   validationErrorMessage,
   groupController.add
 );
 
-groupRouter.delete("/:id", checkAuth, groupController.remove);
+groupRouter.delete(
+  "/:id",
+  // checkAuth,
+  groupController.remove
+);
+
 groupRouter.patch(
   "/edit/:id",
-  checkAuth,
+  // checkAuth,
   editValidateGroup,
   validationErrorMessage,
   groupController.edit
