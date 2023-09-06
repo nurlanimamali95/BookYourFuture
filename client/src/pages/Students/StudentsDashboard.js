@@ -1,12 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Calendar from "../../components/DatePicker/Calendar";
 import Notifications from "../../components/Student/StudentDashboard/Notifications";
 import Box from "@mui/material/Box";
 import { CssBaseline, Typography, Container } from "@mui/material";
 import EventTable from "../../components/Student/StudentDashboard/Table";
 import Grid from "@mui/material/Grid";
+import useFetch from "../../hooks/useFetch";
 
 export default function StudentDashboard() {
+  function processData(responseData) {
+    if (responseData.success === true) {
+      const eventsData = responseData.eventsData;
+
+      return eventsData;
+    } else {
+      // eslint-disable-next-line
+      console.error("API response indicates an error:", responseData);
+      return [];
+    }
+  }
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [events, setEvents] = useState([]);
+  const { isLoading, error, performFetch, cancelFetch } = useFetch(
+    "/event/all",
+    handleEventsUpdate
+  );
+
+  function handleDateSelected(date) {
+    setSelectedDate(date);
+  }
+
+  function handleEventsUpdate(responseData) {
+    const processedEvents = processData(responseData);
+    setEvents(processedEvents);
+  }
+
+  useEffect(() => {
+    performFetch();
+    return () => {
+      cancelFetch();
+    };
+  }, []);
+
   return (
     <Container>
       <Box sx={{ flexGrow: 1, display: "flex" }}>
@@ -37,10 +72,16 @@ export default function StudentDashboard() {
               <Notifications />
             </Grid>
             <Grid item mt="2em" xs={12} sm={12} md={4} lg={5}>
-              <Calendar />
+              <Calendar onDateSelected={handleDateSelected} />
             </Grid>
             <Grid item xs={12} sm={12} md={8} lg={7}>
-              <EventTable />
+              {isLoading ? (
+                <p>Loading...</p>
+              ) : error ? (
+                <p>Error: {error.message}</p>
+              ) : (
+                <EventTable events={events} selectedDate={selectedDate} /> // Pass events and selectedDate as props
+              )}
             </Grid>
           </Grid>
         </Box>
