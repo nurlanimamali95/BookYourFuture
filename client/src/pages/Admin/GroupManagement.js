@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
 
 const initialData = [
   {
@@ -57,7 +58,7 @@ export default function GroupManagement() {
       border: "1px solid #56ae5a",
     },
   };
-
+  const navigate = useNavigate();
   return (
     <Container maxWidth="md">
       <Box sx={{ flexGrow: 1 }}>
@@ -76,7 +77,7 @@ export default function GroupManagement() {
           variant="contained"
           sx={buttonStyle}
           onClick={() => {
-            // Handle add group action here
+            navigate("/addGroup");
             // eslint-disable-next-line no-console
             console.log("Add Group clicked");
           }}
