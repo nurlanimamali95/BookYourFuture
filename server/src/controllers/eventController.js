@@ -7,7 +7,6 @@ export const add = async (req, res) => {
       description: req.body.description,
       location: req.body.location,
       receiverType: req.body.receiverType,
-      eventType: req.body.eventType,
       sessionSlot: req.body.sessionSlot || [],
       group: req.body.group || [],
       student: req.body.student || [],
@@ -17,12 +16,24 @@ export const add = async (req, res) => {
 
     res.status(200).json({ success: true, eventData: event });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Something went wrong." });
   }
 };
 export const all = async (req, res) => {
   try {
-    const events = await EventModel.find()
+    const { title, groupId } = req.query;
+    const query = {};
+
+    if (title) {
+      query.title = title;
+    }
+
+    if (groupId) {
+      query.group = groupId; // Assuming `group` is the field storing the group's _id
+    }
+
+    const events = await EventModel.find(query)
       .populate("student")
       .populate("sessionSlot")
       .populate("user")
@@ -119,7 +130,6 @@ export const edit = async (req, res) => {
         description: req.body.description,
         location: req.body.location,
         receiverType: req.body.receiverType,
-        eventType: req.body.eventType,
         sessionSlot: req.body.sessionSlot || [],
         group: req.body.group || [],
         student: req.body.student || [],
