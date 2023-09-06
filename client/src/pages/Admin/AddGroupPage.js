@@ -14,6 +14,7 @@ import {
 import useFetch from "../../hooks/useFetch";
 import { CancelButton } from "../../components/Buttons/CancelButton";
 import { Button } from "../../components/Buttons/Button";
+import { toast } from "react-hot-toast";
 
 // const mainColors = [
 //   "#FF0000", // Red
@@ -31,25 +32,27 @@ import { Button } from "../../components/Buttons/Button";
 function AddGroupPage() {
   const [groupName, setGroupName] = useState("");
   const [groupColor, setGroupColor] = useState("");
-  const { performFetch } = useFetch("/group/add", (result) => {
+  const { performFetch, error } = useFetch("/group/add", () => {
     // eslint-disable-next-line no-console
-    console.log(result);
+    toast.success("Group added successfully");
+    setGroupName("");
+    setGroupColor("");
   });
 
   // eslint-disable-next-line no-console
-
+  console.log(error);
   const handleSave = (event) => {
     event.preventDefault();
 
-    performFetch(
-      {
-        color: groupColor,
-        numberOfGroupName: Number(groupName),
-        status: "active",
-        students: ["64ef5d073b654eb236073a61"],
-      },
-      "POST"
-    );
+    const groupData = {
+      color: groupColor,
+      numberOfGroupName: Number(groupName),
+      status: "active",
+      students: ["64ef5d073b654eb236073a61"],
+    };
+    // eslint-disable-next-line no-console
+    console.log(groupData);
+    performFetch(groupData, "POST");
     // Handle saving the student data here
     // eslint-disable-next-line no-console
     // console.log("Student data:", { firstName, lastName, email, groupNumber });
@@ -79,6 +82,7 @@ function AddGroupPage() {
               fullWidth
               value={groupName}
               onChange={(e) => setGroupName(e.target.value)}
+              autoComplete="off"
             />
           </Grid>
           <Grid item xs={12}>
