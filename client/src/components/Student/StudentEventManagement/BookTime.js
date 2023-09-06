@@ -1,12 +1,12 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import TimeSlotButtons from "./TimeSlotButton";
 import PropTypes from "prop-types";
+import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -18,13 +18,18 @@ const Accordion = styled((props) => (
   "&:before": {
     display: "none",
   },
-  display: "flex", // Add this to make it a flex container
+  display: "flex",
   flexDirection: "column",
+
+  width: "480px",
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+  },
 }));
 
 const AccordionSummary = styled((props) => (
   <MuiAccordionSummary
-    expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
+    expandIcon={<AccessTimeFilledIcon sx={{ fontSize: "0.9rem" }} />}
     {...props}
   />
 ))(({ theme }) => ({
@@ -34,7 +39,7 @@ const AccordionSummary = styled((props) => (
       : "rgba(0, 0, 0, .03)",
   flexDirection: "row",
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-    transform: "rotate(90deg)",
+    transform: "rotate(360deg)",
   },
   "& .MuiAccordionSummary-content": {
     marginLeft: theme.spacing(1),
@@ -43,42 +48,38 @@ const AccordionSummary = styled((props) => (
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   padding: theme.spacing(2),
-  borderTop: "1px solid rgba(0, 0, 0, .125)",
+  borderTop: "none",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  margin: "0 auto",
+  textAlign: "center",
 }));
 
 export default function BookTime(props) {
-  const [expanded, setExpanded] = React.useState("panel1");
-
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
-  };
-
   return (
-    <div>
-      <Accordion
-        sx={{ width: "450px" }}
-        expanded={expanded === "panel1"}
-        onChange={handleChange("panel1")}
+    <Accordion
+      sx={{
+        display: "flex",
+        width: "500px",
+        marin: "0 auto",
+      }}
+      expanded={props.expanded}
+      onChange={props.onChange}
+    >
+      <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+        <Typography>{props.date}</Typography>
+      </AccordionSummary>
+      <AccordionDetails
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
       >
-        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography>{props.date}</Typography>
-        </AccordionSummary>
-        <AccordionDetails
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            textAlign: "center",
-          }}
-        >
-          <TimeSlotButtons
-            value={props.selectedValue}
-            change={props.handleChange}
-            name={props.date}
-          />
-        </AccordionDetails>
-      </Accordion>
-    </div>
+        <TimeSlotButtons />
+      </AccordionDetails>
+    </Accordion>
   );
 }
 
@@ -86,4 +87,6 @@ BookTime.propTypes = {
   date: PropTypes.string.isRequired,
   selectedValue: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
+  expanded: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
 };

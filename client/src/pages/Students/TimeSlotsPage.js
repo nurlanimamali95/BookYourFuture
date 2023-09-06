@@ -5,50 +5,80 @@ import Container from "@mui/material/Container";
 import BookTime from "../../components/Student/StudentEventManagement/BookTime";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { RadioProvider } from "../../components/Student/StudentEventManagement/TimeSlotContext";
+import { useState } from "react";
 
 export default function TimeSlotsPage() {
-  const [selectedValue, setSelectedValue] = React.useState("");
+  const [expanded, setExpanded] = useState(null);
 
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
+  const handleAccordionChange = (panel) => {
+    setExpanded(panel === expanded ? null : panel);
   };
 
   return (
-    <Container>
-      <Box>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h4" mt={"1em"}>
-              Social interview with Adyen
-            </Typography>
-            <Typography variant="subtitle1" mt={"2em"}>
-              Book a time slot:
-            </Typography>
+    <RadioProvider>
+      <Container>
+        <Box>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography
+                variant="h4"
+                mt={"1em"}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                Social interview with Adyen
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                mt={"2em"}
+                sx={{ textAlign: "center" }}
+              >
+                Book a time slot and check the github repository for preparation
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <BookTime
+                date={"September 10"}
+                expanded={expanded === "panel1"}
+                onChange={() => handleAccordionChange("panel1")}
+              />
+              <BookTime
+                date={"September 12"}
+                expanded={expanded === "panel2"}
+                onChange={() => handleAccordionChange("panel2")}
+              />
+              <BookTime
+                date={"September 14"}
+                expanded={expanded === "panel3"}
+                onChange={() => handleAccordionChange("panel3")}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                sx={{
+                  display: "flex",
+                  margin: "0 auto",
+                }}
+              >
+                Confirm
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <BookTime
-              date={"September 10"}
-              selectedValue={selectedValue}
-              handleChange={handleChange}
-            />
-            <BookTime
-              date={"September 12"}
-              selectedValue={selectedValue}
-              handleChange={handleChange}
-            />
-            <BookTime
-              date={"September 14"}
-              selectedValue={selectedValue}
-              handleChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={8}>
-            <Button variant="contained" sx={{ ml: "11em" }}>
-              Confirm
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
+        </Box>
+      </Container>
+    </RadioProvider>
   );
 }
