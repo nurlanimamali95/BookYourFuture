@@ -38,7 +38,7 @@ DurationDropdown.propTypes = {
 
 export function LocationToggle({ value, onChange }) {
   return (
-    <FormControl component="fieldset" sx={{ pl: 2 }}>
+    <FormControl component="fieldset">
       <FormLabel component="legend">Location</FormLabel>
       <RadioGroup row name="location" value={value} onChange={onChange}>
         <FormControlLabel value="Online" control={<Radio />} label="Online" />
@@ -55,7 +55,7 @@ LocationToggle.propTypes = {
 
 export function ReceiverToggle({ value, onChange }) {
   return (
-    <FormControl component="fieldset" sx={{ mt: 4 }}>
+    <FormControl component="fieldset">
       <FormLabel component="legend">Receiver Type</FormLabel>
       <RadioGroup row name="receiverType" value={value} onChange={onChange}>
         <FormControlLabel value="Group" control={<Radio />} label="Group" />

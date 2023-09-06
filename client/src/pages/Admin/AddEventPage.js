@@ -25,12 +25,12 @@ export default function AddEventPage() {
           Add Event
         </Typography>
         <Grid container>
-          <Grid item xs={5} sm={5}>
+          <Grid item xs={12} md={5}>
             <MainEventInfo />
           </Grid>
-          <Grid item xs={2} sm={2}></Grid>
-          <Grid item xs={5} sm={5} sx={{ pl: 5 }}>
-            <Box sx={{ minHeight: "500px" }}>
+          <Grid item xs={false} s md={2}></Grid>
+          <Grid item xs={12} md={5}>
+            <Box sx={{ minHeight: { sx: "30px", md: "500px" } }}>
               <AddEventDatePicker />
             </Box>
           </Grid>
