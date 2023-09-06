@@ -27,6 +27,7 @@ export default function StudentDashboard() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  mt: "0.5em",
                 }}
               >
                 Your events for today
