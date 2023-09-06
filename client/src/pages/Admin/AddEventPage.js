@@ -1,22 +1,44 @@
 import React from "react";
 import MainEventInfo from "../../components/Admin/AdminEvents/AddEvent/AddEventInfo";
 import { Grid, Container, Typography, Button, Stack, Box } from "@mui/material";
-// import EventPreview from "../../components/Admin/AdminEvents/AddEvent/EventPreview";
 import EventContext from "../../components/Admin/AdminEvents/AddEvent/EventContext";
 import { useState } from "react";
 import AddEventDatePicker from "../../components/Admin/AdminEvents/AddEvent/AddEventDatePicker";
+import useFetch from "../../hooks/useFetch";
+import { useNavigate } from "react-router-dom";
 
 export default function AddEventPage() {
   const [eventData, setEventData] = useState({
-    duration: "",
-    group: "",
-    student: "",
-    receiverType: "",
-    location: "",
     title: "",
     description: "",
+    location: "",
+    duration: "",
+    receiverType: "",
+    group: "",
+    student: "",
     dates: [],
   });
+
+  const navigate = useNavigate();
+
+  const handleCancelClick = () => {
+    navigate("/events");
+  };
+
+  const { isLoading, error, performFetch } = useFetch("/event/add ", (data) => {
+    //eslint-disable-next-line
+    console.log("Event added successfully!", data);
+    //eslint-disable-next-line
+    console.error(error);
+    // Add successes page here
+  });
+
+  const handleOnSubmit = () => {
+    performFetch(eventData, "POST");
+  };
+
+  //eslint-disable-next-line
+  console.log(eventData);
 
   return (
     <EventContext.Provider value={{ eventData, setEventData }}>
@@ -42,8 +64,16 @@ export default function AddEventPage() {
           spacing={4}
           sx={{ mt: 6 }}
         >
-          <Button variant="contained">Add Event</Button>
-          <Button variant="outlined">Cancel</Button>
+          <Button
+            variant="contained"
+            onClick={handleOnSubmit}
+            disabled={isLoading}
+          >
+            Add Event
+          </Button>
+          <Button variant="outlined" onClick={handleCancelClick}>
+            Cancel
+          </Button>
         </Stack>
       </Container>
     </EventContext.Provider>

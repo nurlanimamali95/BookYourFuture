@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Container,
   Table,
@@ -11,28 +11,31 @@ import {
 import PropTypes from "prop-types";
 import TableHeader from "./EventTableHeader";
 import EventTableRow from "./EventTableRow";
-import { rows } from "./EventData";
+import useFetch from "../../../../hooks/useFetch";
 
-const rowsPerPage = 15;
+const rowsPerPage = 10;
 
 export default function BasicTable({ filterGroup, search }) {
   const [page, setPage] = useState(1);
+  const [events, setEvents] = useState([]);
+  const { performFetch } = useFetch(
+    `/event/all/?group=${filterGroup}&search=${search}`,
+    handleReceivedData
+  );
+
+  useEffect(() => {
+    performFetch();
+  }, [filterGroup, search]);
+
+  function handleReceivedData(data) {
+    setEvents(data.eventsData);
+  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  const filteredRows = rows.filter((row) => {
-    const groupFilterIsValid =
-      !filterGroup || row.group === parseInt(filterGroup, 10);
-    const searchTermMatches = row.event
-      .toLowerCase()
-      .includes(search.toLowerCase());
-
-    return groupFilterIsValid && searchTermMatches;
-  });
-
-  const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+  const pageCount = Math.ceil(events.length / rowsPerPage);
 
   return (
     <Container>
@@ -41,10 +44,7 @@ export default function BasicTable({ filterGroup, search }) {
           <TableHeader />
           <TableBody>
             <EventTableRow
-              rows={filteredRows.slice(
-                (page - 1) * rowsPerPage,
-                page * rowsPerPage
-              )}
+              rows={events.slice((page - 1) * rowsPerPage, page * rowsPerPage)}
             />
           </TableBody>
         </Table>

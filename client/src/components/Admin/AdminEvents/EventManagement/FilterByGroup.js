@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import PropTypes from "prop-types";
+import useFetch from "../../../../hooks/useFetch";
 
 export default function FilterByGroup({ onFilterChange }) {
   const [group, setGroup] = useState("");
+  const [groupList, setGroupList] = useState([]);
+
+  const { performFetch, error } = useFetch("/group/all", handleReceivedData);
+
+  useEffect(() => {
+    performFetch();
+  }, []);
+
+  function handleReceivedData(data) {
+    setGroupList(data.groupsData);
+  }
 
   const handleChange = (e) => {
     const selectGroup = e.target.value;
@@ -11,7 +23,11 @@ export default function FilterByGroup({ onFilterChange }) {
     onFilterChange(selectGroup);
   };
 
-  const uniqueGroups = [42, 43, 44, 45];
+  if (error) return <div>Error: {error.message}</div>;
+
+  const activeGroups = groupList
+    .filter((group) => group.status === "active")
+    .map((group) => group.numberOfGroupName);
 
   return (
     <FormControl size="small" sx={{ m: 1, minWidth: 120 }}>
@@ -27,7 +43,7 @@ export default function FilterByGroup({ onFilterChange }) {
         <MenuItem value="">
           <em>All</em>
         </MenuItem>
-        {uniqueGroups.map((group) => (
+        {activeGroups.map((group) => (
           <MenuItem key={group} value={group.toString()}>
             {`Group ${group}`}
           </MenuItem>
