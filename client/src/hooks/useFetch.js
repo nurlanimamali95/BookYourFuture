@@ -41,22 +41,20 @@ const useFetch = (route, onReceived) => {
   const performFetch = (options, method = "GET") => {
     setError(null);
     setIsLoading(true);
-    const extraOptions = options ? JSON.stringify(options) : [];
+    const extraOptions = options ? { body: JSON.stringify(options) } : [];
+
+    const baseOptions = {
+      method,
+      headers: {
+        "content-type": "application/json",
+      },
+    };
 
     const fetchData = async () => {
       // We add the /api subsection here to make it a single point of change if our configuration changes
       const url = `${process.env.BASE_SERVER_URL}/api${route}`;
 
-      const res = await fetch(url, {
-        method,
-        body: extraOptions,
-        signal,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGY2ZjJjODg3YmQ2YTgwOWQ5YTE2M2YiLCJpYXQiOjE2OTM5MzU3MDAsImV4cCI6MTY5NjUyNzcwMH0.pSoRbhqvR1_BDh2d9OK3ttRYFlbg-94AZBBF_yh3hWg",
-        },
-      });
+      const res = await fetch(url, { ...baseOptions, ...extraOptions, signal });
 
       if (!res.ok) {
         setError(

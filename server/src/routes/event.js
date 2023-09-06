@@ -1,6 +1,6 @@
 import express from "express";
 import * as eventController from "../controllers/eventController.js";
-import checkAuth from "../util/checkAuth.js";
+// import checkAuth from "../util/checkAuth.js";
 import validationErrorMessage from "../util/validationErrorMessage.js";
 import { validateEvent } from "../models/Event.js";
 
@@ -11,17 +11,21 @@ eventRouter.get("/:id", eventController.getOne);
 
 eventRouter.post(
   "/add",
-  checkAuth,
+  // checkAuth,
   validateEvent,
   validationErrorMessage,
   eventController.add
 );
 
-eventRouter.delete("/:id", checkAuth, eventController.remove);
+eventRouter.delete(
+  "/:id",
+  // checkAuth,
+  eventController.remove
+);
 
 eventRouter.patch(
   "/edit/:id",
-  checkAuth,
+  // checkAuth,
   validateEvent,
   validationErrorMessage,
   eventController.edit

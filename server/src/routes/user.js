@@ -5,7 +5,7 @@ import {
   editValidationUser,
   changePasswordValidationUser,
 } from "../models/User.js";
-import checkAuth from "../util/checkAuth.js";
+// import checkAuth from "../util/checkAuth.js";
 import validationErrorMessage from "../util/validationErrorMessage.js";
 
 const userRouter = express.Router();
@@ -13,11 +13,21 @@ const userRouter = express.Router();
 userRouter.get("/all", userController.all);
 userRouter.get("/:id", userController.getOne);
 
-userRouter.get("/", checkAuth, userController.userMe);
-userRouter.delete("/:id", checkAuth, userController.remove);
+userRouter.get(
+  "/",
+  // checkAuth,
+  userController.userMe
+);
+
+userRouter.delete(
+  "/:id",
+  // checkAuth,
+  userController.remove
+);
+
 userRouter.put(
   "/edit/:id",
-  checkAuth,
+  // checkAuth,
   editValidationUser,
   validationErrorMessage,
   userController.edit
@@ -25,7 +35,7 @@ userRouter.put(
 
 userRouter.post(
   "/change_password",
-  checkAuth,
+  // checkAuth,
   changePasswordValidationUser,
   verifyOldPassword,
   validationErrorMessage,
