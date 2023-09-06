@@ -16,7 +16,6 @@ export const add = async (req, res) => {
 
     res.status(200).json({ success: true, eventData: event });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Something went wrong." });
   }
 };
@@ -26,12 +25,14 @@ export const all = async (req, res) => {
     const query = {};
 
     if (title) {
-      query.title = title;
+      // Use a regular expression for case-insensitive partial match
+      query.title = { $regex: new RegExp(title, "i") };
     }
 
     if (groupId) {
       query.group = groupId; // Assuming `group` is the field storing the group's _id
     }
+    console.log("Query:", query);
 
     const events = await EventModel.find(query)
       .populate("student")
@@ -39,6 +40,8 @@ export const all = async (req, res) => {
       .populate("user")
       .populate("group")
       .exec();
+
+    console.log("Events:", events); // Log the retrieved events
 
     res.status(200).json({ success: true, eventsData: events });
   } catch (err) {
