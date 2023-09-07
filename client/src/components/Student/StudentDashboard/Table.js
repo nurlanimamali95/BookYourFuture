@@ -9,39 +9,18 @@ import {
   Container,
   Box,
 } from "@mui/material";
+import PropTypes from "prop-types";
+import dayjs from "dayjs";
 
-const events = [
-  {
-    name: "Node.js Week3",
-    date: "05/09/23",
-    description: "Check the github repository",
-    location: "Online",
-    time: "12:00",
-    colorCode: "#909090",
-  },
-  {
-    name: "Interview with Adyen",
-    date: "02/09/23",
-    description: "Preparation for the tech interview - check Github repo",
-    location: "Online",
-    time: "14:30",
-    colorCode: "#3D860B",
-  },
-  {
-    name: "Tech Interview with Rob at 09:30",
-    date: "10/09/23",
-    description: "Check the github repository",
-    location: "Online",
-    time: "12:00",
-    colorCode: "#3D860B",
-  },
-];
+export default function EventTable(props) {
+  const { events, selectedDate } = props;
+  const filteredEvents = events.filter((event) => event.date === selectedDate);
 
-export default function EventTable() {
+  const formattedDate = dayjs(selectedDate).format("MMMM DD, YYYY");
   return (
     <Container>
       <Typography variant="h5" sx={{ mt: 2, mb: 4, textAlign: "left" }}>
-        Today Events
+        Events for {formattedDate}
       </Typography>
       <Table>
         <TableHead>
@@ -55,7 +34,7 @@ export default function EventTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {events.map((event, index) => (
+          {filteredEvents.map((event, index) => (
             <TableRow key={index}>
               <TableCell>
                 <Box
@@ -78,3 +57,17 @@ export default function EventTable() {
     </Container>
   );
 }
+
+EventTable.propTypes = {
+  events: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      date: PropTypes.string,
+      description: PropTypes.string,
+      location: PropTypes.string,
+      time: PropTypes.string,
+      colorCode: PropTypes.string,
+    })
+  ).isRequired,
+  selectedDate: PropTypes.string,
+};
