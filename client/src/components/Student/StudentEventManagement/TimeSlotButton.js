@@ -46,7 +46,7 @@ export default function TimeSlotButtons() {
 }
 
 TimeSlotButtons.propTypes = {
-  date: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  change: PropTypes.func.isRequired,
+  date: PropTypes.string,
+  value: PropTypes.string,
+  change: PropTypes.func,
 };

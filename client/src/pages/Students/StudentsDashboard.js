@@ -6,6 +6,7 @@ import { CssBaseline, Typography, Container } from "@mui/material";
 import EventTable from "../../components/Student/StudentDashboard/Table";
 import Grid from "@mui/material/Grid";
 import useFetch from "../../hooks/useFetch";
+import todayDate from "../../components/Student/StudentEventManagement/FormatDate";
 
 export default function StudentDashboard() {
   function processData(responseData) {
@@ -21,9 +22,13 @@ export default function StudentDashboard() {
       return [];
     }
   }
-  const todayDate = new Date().toISOString().split("T")[0];
+
   const [selectedDate, setSelectedDate] = useState(todayDate);
   const [events, setEvents] = useState([]);
+
+  // Create state to hold event data
+  const [eventInfo, setEventInfo] = useState("");
+
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/event/all",
     handleEventsUpdate
@@ -48,6 +53,13 @@ export default function StudentDashboard() {
   function handleEventsUpdate(responseData) {
     const processedEvents = processData(responseData);
     setEvents(processedEvents);
+
+    if (processedEvents.length > 0) {
+      const firstEvent = processedEvents[22];
+      //eslint-disable-next-line
+      console.log(firstEvent.title);
+      setEventInfo(firstEvent.title);
+    }
   }
 
   useEffect(() => {
@@ -56,6 +68,8 @@ export default function StudentDashboard() {
       cancelFetch();
     };
   }, []);
+  //eslint-disable-next-line
+  console.log(eventInfo);
 
   return (
     <Container>
@@ -84,7 +98,7 @@ export default function StudentDashboard() {
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Notifications />
+              <Notifications message={eventInfo} />
             </Grid>
             <Grid item mt="2em" xs={12} sm={12} md={4} lg={5}>
               <Calendar

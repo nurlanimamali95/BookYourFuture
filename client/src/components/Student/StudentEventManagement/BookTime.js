@@ -84,9 +84,9 @@ export default function BookTime(props) {
 }
 
 BookTime.propTypes = {
-  date: PropTypes.string.isRequired,
-  selectedValue: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  expanded: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired,
+  date: PropTypes.string,
+  selectedValue: PropTypes.string,
+  handleChange: PropTypes.func,
+  expanded: PropTypes.bool,
+  onChange: PropTypes.func,
 };
