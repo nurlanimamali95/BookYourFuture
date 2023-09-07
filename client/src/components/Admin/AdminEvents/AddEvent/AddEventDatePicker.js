@@ -13,15 +13,20 @@ import "dayjs/locale/de";
 
 export default function BasicDateTimePicker() {
   const [datePickers, setDatePickers] = React.useState([{ date: null }]);
-  const { setEventData } = useContext(EventContext);
+  const { eventData, setEventData } = useContext(EventContext);
 
   const handleDateChange = (date, index) => {
-    const updatedDatePickers = [...datePickers];
-    updatedDatePickers[index].date = date;
-    setDatePickers(updatedDatePickers);
+    const updatedSessionSlot = [...eventData.sessionSlot];
+    if (!updatedSessionSlot[index]) {
+      updatedSessionSlot[index] = {};
+    }
+    updatedSessionSlot[index].startTime = date ? date.toDate() : null;
 
-    const dates = updatedDatePickers.map((picker) => picker.date);
-    setEventData((prev) => ({ ...prev, dates }));
+    // Convert duration to seconds and store it in the sessionSlot
+    const durationInSeconds = Number(eventData.duration) * 3600;
+    updatedSessionSlot[index].durationInSeconds = durationInSeconds;
+
+    setEventData((prev) => ({ ...prev, sessionSlot: updatedSessionSlot }));
   };
 
   const handleRemove = (indexToRemove) => {

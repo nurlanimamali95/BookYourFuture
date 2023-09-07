@@ -41,8 +41,8 @@ export function LocationToggle({ value, onChange }) {
     <FormControl component="fieldset">
       <FormLabel component="legend">Location</FormLabel>
       <RadioGroup row name="location" value={value} onChange={onChange}>
-        <FormControlLabel value="Online" control={<Radio />} label="Online" />
-        <FormControlLabel value="Offline" control={<Radio />} label="Offline" />
+        <FormControlLabel value="online" control={<Radio />} label="Online" />
+        <FormControlLabel value="offline" control={<Radio />} label="Offline" />
       </RadioGroup>
     </FormControl>
   );
@@ -58,8 +58,8 @@ export function ReceiverToggle({ value, onChange }) {
     <FormControl component="fieldset">
       <FormLabel component="legend">Receiver Type</FormLabel>
       <RadioGroup row name="receiverType" value={value} onChange={onChange}>
-        <FormControlLabel value="Group" control={<Radio />} label="Group" />
-        <FormControlLabel value="Student" control={<Radio />} label="Student" />
+        <FormControlLabel value="group" control={<Radio />} label="Group" />
+        <FormControlLabel value="student" control={<Radio />} label="Student" />
       </RadioGroup>
     </FormControl>
   );

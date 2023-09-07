@@ -1,11 +1,20 @@
 import React from "react";
 import MainEventInfo from "../../components/Admin/AdminEvents/AddEvent/AddEventInfo";
-import { Grid, Container, Typography, Button, Stack, Box } from "@mui/material";
+import {
+  Grid,
+  Container,
+  Typography,
+  Button,
+  Stack,
+  Box,
+  Snackbar,
+} from "@mui/material";
 import EventContext from "../../components/Admin/AdminEvents/AddEvent/EventContext";
 import { useState } from "react";
 import AddEventDatePicker from "../../components/Admin/AdminEvents/AddEvent/AddEventDatePicker";
 import useFetch from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function AddEventPage() {
   const [eventData, setEventData] = useState({
@@ -16,22 +25,29 @@ export default function AddEventPage() {
     receiverType: "",
     group: "",
     student: "",
-    dates: [],
+    sessionSlot: [],
   });
 
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");
 
   const handleCancelClick = () => {
     navigate("/events");
   };
 
-  const { isLoading, error, performFetch } = useFetch("/event/add ", (data) => {
-    //eslint-disable-next-line
-    console.log("Event added successfully!", data);
-    //eslint-disable-next-line
-    console.error(error);
-    // Add successes page here
+  const { isLoading, error, performFetch } = useFetch("/event/add ", () => {
+    setMessage("Event added successfully! Redirecting...");
+
+    setTimeout(() => {
+      navigate("/events");
+    }, 2000);
   });
+
+  useEffect(() => {
+    if (error) {
+      setMessage("There was an error adding the event. Please try again.");
+    }
+  }, [error]);
 
   const handleOnSubmit = () => {
     performFetch(eventData, "POST");
@@ -76,6 +92,12 @@ export default function AddEventPage() {
           </Button>
         </Stack>
       </Container>
+      <Snackbar
+        open={Boolean(message)}
+        autoHideDuration={6000} // Adjust this duration as needed
+        onClose={() => setMessage("")}
+        message={message}
+      />
     </EventContext.Provider>
   );
 }
