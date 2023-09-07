@@ -10,14 +10,17 @@ import {
   Box,
 } from "@mui/material";
 import PropTypes from "prop-types";
+import dayjs from "dayjs";
 
 export default function EventTable(props) {
   const { events, selectedDate } = props;
   const filteredEvents = events.filter((event) => event.date === selectedDate);
+
+  const formattedDate = dayjs(selectedDate).format("MMMM DD, YYYY");
   return (
     <Container>
       <Typography variant="h5" sx={{ mt: 2, mb: 4, textAlign: "left" }}>
-        Events for {selectedDate}
+        Events for {formattedDate}
       </Typography>
       <Table>
         <TableHead>

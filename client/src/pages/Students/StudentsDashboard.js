@@ -21,7 +21,8 @@ export default function StudentDashboard() {
       return [];
     }
   }
-  const [selectedDate, setSelectedDate] = useState(null);
+  const todayDate = new Date().toISOString().split("T")[0];
+  const [selectedDate, setSelectedDate] = useState(todayDate);
   const [events, setEvents] = useState([]);
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     "/event/all",
