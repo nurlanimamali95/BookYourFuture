@@ -4,13 +4,13 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import PropTypes from "prop-types";
 
-export default function CustomMonthLayout({ onDateSelected }) {
+export default function CustomMonthLayout(props) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
         showDaysOutsideCurrentMonth
         fixedWeekNumber={6}
-        onDateChange={onDateSelected}
+        onChange={props.onDateSelected}
       />
     </LocalizationProvider>
   );

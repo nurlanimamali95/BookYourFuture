@@ -11,6 +11,8 @@ export default function StudentDashboard() {
   function processData(responseData) {
     if (responseData.success === true) {
       const eventsData = responseData.eventsData;
+      // eslint-disable-next-line
+      console.error("works", eventsData);
 
       return eventsData;
     } else {
@@ -26,9 +28,21 @@ export default function StudentDashboard() {
     handleEventsUpdate
   );
 
-  function handleDateSelected(date) {
+  const renderContent = () => {
+    if (isLoading) {
+      return <p>Loading...</p>;
+    } else if (error) {
+      return <p>Error: {error.message}</p>;
+    } else {
+      return <EventTable events={events} selectedDate={selectedDate} />;
+    }
+  };
+
+  const handleDateChange = (date) => {
     setSelectedDate(date);
-  }
+    // eslint-disable-next-line
+    console.log("Selected Date:", date);
+  };
 
   function handleEventsUpdate(responseData) {
     const processedEvents = processData(responseData);
@@ -72,16 +86,13 @@ export default function StudentDashboard() {
               <Notifications />
             </Grid>
             <Grid item mt="2em" xs={12} sm={12} md={4} lg={5}>
-              <Calendar onDateSelected={handleDateSelected} />
+              <Calendar
+                value={selectedDate}
+                onDateSelected={handleDateChange}
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={8} lg={7}>
-              {isLoading ? (
-                <p>Loading...</p>
-              ) : error ? (
-                <p>Error: {error.message}</p>
-              ) : (
-                <EventTable events={events} selectedDate={selectedDate} /> // Pass events and selectedDate as props
-              )}
+              {renderContent()}
             </Grid>
           </Grid>
         </Box>

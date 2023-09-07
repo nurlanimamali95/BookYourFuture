@@ -56,6 +56,15 @@ export default function EventTable(props) {
 }
 
 EventTable.propTypes = {
-  events: PropTypes.arrayOf(PropTypes.object).isRequired,
+  events: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      location: PropTypes.string.isRequired,
+      time: PropTypes.string.isRequired,
+      colorCode: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   selectedDate: PropTypes.string.isRequired,
 };
