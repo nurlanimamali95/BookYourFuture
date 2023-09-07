@@ -19,11 +19,6 @@ export default function GroupDropdown({ value, onChange }) {
 
   if (error) return <div>Error: {error.message}</div>;
 
-  //eslint-disable-next-line
-  // const activeGroups = groupList
-  //   .filter((group) => group.status === "active")
-  //   .map((group) => group.numberOfGroupName);
-
   const activeGroups = groupList.filter((group) => group.status === "active");
 
   return (
@@ -36,11 +31,6 @@ export default function GroupDropdown({ value, onChange }) {
         onChange={onChange}
         label="Group"
       >
-        {/* {activeGroups.map((groupNumber) => (
-          <MenuItem key={groupNumber} value={groupNumber}>
-            {groupNumber}
-          </MenuItem>
-        ))} */}
         {activeGroups.map((group) => (
           <MenuItem key={group._id} value={group._id}>
             {group.numberOfGroupName}
