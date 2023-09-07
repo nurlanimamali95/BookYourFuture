@@ -16,13 +16,12 @@ export default function TimeSlotsPage() {
     eventName: "",
     description: "",
   });
-  const [timeSlotDate, setTimeSlotDate] = useState("");
+  const [sessionSlots, setSessionSlots] = useState([]);
   const { isLoading, error, performFetch } = useFetch("/event/all", (data) => {
     if (data.success && data.eventsData.length > 0) {
-      const firstEvent = data.eventsData[22];
+      const firstEvent = data.eventsData[36];
       if (firstEvent.sessionSlot && firstEvent.sessionSlot.length > 0) {
-        const firstSessionSlot = firstEvent.sessionSlot[0];
-        setTimeSlotDate(formatDate(firstSessionSlot.startTime));
+        setSessionSlots(firstEvent.sessionSlot);
       }
       setEventData({
         eventName: firstEvent.title,
@@ -34,6 +33,14 @@ export default function TimeSlotsPage() {
   useEffect(() => {
     performFetch();
   }, []);
+
+  const uniqueDates = [];
+  sessionSlots.forEach((slot) => {
+    const date = formatDate(slot.startTime);
+    if (!uniqueDates.includes(date)) {
+      uniqueDates.push(date);
+    }
+  });
 
   const handleAccordionChange = (panel) => {
     setExpanded(panel === expanded ? null : panel);
@@ -73,21 +80,14 @@ export default function TimeSlotsPage() {
                 flexDirection: "column",
               }}
             >
-              <BookTime
-                date={timeSlotDate}
-                expanded={expanded === "panel1"}
-                onChange={() => handleAccordionChange("panel1")}
-              />
-              <BookTime
-                date={timeSlotDate}
-                expanded={expanded === "panel2"}
-                onChange={() => handleAccordionChange("panel2")}
-              />
-              <BookTime
-                date={timeSlotDate}
-                expanded={expanded === "panel3"}
-                onChange={() => handleAccordionChange("panel3")}
-              />
+              {uniqueDates.map((date, index) => (
+                <BookTime
+                  key={index}
+                  date={date}
+                  expanded={expanded === `panel${index}`}
+                  onChange={() => handleAccordionChange(`panel${index}`)}
+                />
+              ))}
             </Grid>
             <Grid item xs={12}>
               {isLoading ? (

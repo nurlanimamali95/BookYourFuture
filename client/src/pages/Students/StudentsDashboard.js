@@ -55,7 +55,7 @@ export default function StudentDashboard() {
     setEvents(processedEvents);
 
     if (processedEvents.length > 0) {
-      const firstEvent = processedEvents[22];
+      const firstEvent = processedEvents[36];
       //eslint-disable-next-line
       console.log(firstEvent.title);
       setEventInfo(firstEvent.title);
