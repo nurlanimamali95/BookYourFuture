@@ -6,9 +6,9 @@ import {
   DurationDropdown,
   LocationToggle,
   ReceiverToggle,
-  GroupDropdown,
   StudentDropdown,
 } from "./AddEventElements";
+import GroupDropdown from "../EventElements/GroupDropdown";
 
 export default function MainEventInfo() {
   const { eventData, setEventData } = useContext(EventContext);

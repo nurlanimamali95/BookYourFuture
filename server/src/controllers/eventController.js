@@ -16,6 +16,8 @@ export const add = async (req, res) => {
 
     res.status(200).json({ success: true, eventData: event });
   } catch (err) {
+    //eslint-disable-next-line
+    console.error(err);
     res.status(500).json({ message: "Something went wrong." });
   }
 };

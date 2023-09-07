@@ -19,7 +19,7 @@ export default function BasicTable({ filterGroup, search }) {
   const [page, setPage] = useState(1);
   const [events, setEvents] = useState([]);
   const { performFetch } = useFetch(
-    `/event/all/?group=${filterGroup}&search=${search}`,
+    `/event/all?numGroups=${filterGroup}&title=${search}`,
     handleReceivedData
   );
 
