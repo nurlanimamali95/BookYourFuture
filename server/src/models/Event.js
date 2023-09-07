@@ -1,6 +1,21 @@
 import mongoose from "mongoose";
 import { body } from "express-validator";
 
+const timeSlotSchema = new mongoose.Schema({
+  startTime: {
+    type: Date,
+    required: true,
+    unique: true,
+  },
+  durationInSeconds: {
+    type: Number,
+    required: true,
+  },
+});
+
+// eslint-disable-next-line
+mongoose.model("timeSlot", timeSlotSchema);
+
 const eventSchema = new mongoose.Schema(
   {
     title: {
@@ -20,10 +35,7 @@ const eventSchema = new mongoose.Schema(
       required: true,
     },
 
-    sessionSlot: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "session", // Reference the Session schema
-    },
+    sessionSlot: [timeSlotSchema],
 
     group: {
       type: [mongoose.Schema.Types.ObjectId],
