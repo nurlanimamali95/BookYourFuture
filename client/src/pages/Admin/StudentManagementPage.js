@@ -12,6 +12,11 @@ import {
   Container,
   Box,
   Typography,
+  TextField, // Import TextField for search
+  FormControl, // Import FormControl for group filter
+  InputLabel, // Import InputLabel for group filter
+  Select, // Import Select for group filter
+  MenuItem, // Import MenuItem for group filter
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -21,28 +26,39 @@ import DeleteButton from "../../components/Buttons/DeleteButton";
 
 export default function StudentManagementPage() {
   const [data, setData] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(""); // State for search query
+  const [selectedGroup, setSelectedGroup] = useState("All"); // State for selected group filter
   const navigate = useNavigate();
 
-  // eslint-disable-next-line no-console
-  console.log(data);
   useEffect(() => {
     performFetch();
-    // eslint-disable-next-line no-console
-    console.log(error);
   }, []);
 
   const { performFetch, error, isLoading } = useFetch("/user/all", (result) => {
-    // eslint-disable-next-line no-console
-    console.log(result);
-
     setData(result.usersData);
+    // eslint-disable-next-line no-console
+    console.error(error);
   });
 
   const handleEditClick = (id) => {
-    // Handle edit action here
     // eslint-disable-next-line no-console
     console.log(`Edit clicked for ID ${id}`);
   };
+
+  const filteredData = data
+    ? data.filter((student) => {
+        // Check if the student matches the search query
+        const fullName =
+          `${student.firstName} ${student.lastName}`.toLowerCase();
+        const email = student.email.toLowerCase();
+        const query = searchQuery.toLowerCase();
+        const isGroupMatch =
+          selectedGroup === "All" || student.group === selectedGroup;
+        return (
+          (fullName.includes(query) || email.includes(query)) && isGroupMatch
+        );
+      })
+    : [];
 
   return (
     <>
@@ -61,10 +77,34 @@ export default function StudentManagementPage() {
           <Box
             sx={{
               display: "flex",
-              justifyContent: "end",
+              justifyContent: "space-between", // Change to space-between
+              alignItems: "center", // Center vertically
               marginBottom: "20px",
             }}
           >
+            <div>
+              <TextField
+                label="Search"
+                variant="outlined"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <div>
+              <FormControl variant="outlined">
+                <InputLabel>Group Filter</InputLabel>
+                <Select
+                  value={selectedGroup}
+                  onChange={(e) => setSelectedGroup(e.target.value)}
+                  label="Group Filter"
+                >
+                  <MenuItem value="All">All</MenuItem>
+                  <MenuItem value="Group A">Group A</MenuItem>
+                  <MenuItem value="Group B">Group B</MenuItem>
+                  {/* Add more options for different groups */}
+                </Select>
+              </FormControl>
+            </div>
             <Button
               variant="contained"
               onClick={() => {
@@ -90,7 +130,7 @@ export default function StudentManagementPage() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.map((student) => (
+                {filteredData.map((student) => (
                   <TableRow key={student._id}>
                     <TableCell>
                       {student.firstName} {student.lastName}
