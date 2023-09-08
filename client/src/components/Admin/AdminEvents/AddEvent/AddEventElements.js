@@ -21,6 +21,7 @@ export function DurationDropdown({ value, onChange }) {
         label="Duration"
         value={value}
         onChange={onChange}
+        defaultValue={30}
       >
         <MenuItem value={15}>15 min</MenuItem>
         <MenuItem value={30}>30 min</MenuItem>
@@ -34,6 +35,7 @@ export function DurationDropdown({ value, onChange }) {
 DurationDropdown.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func.isRequired,
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export function LocationToggle({ value, onChange }) {
