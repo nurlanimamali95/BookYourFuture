@@ -21,7 +21,6 @@ export function DurationDropdown({ value, onChange }) {
         label="Duration"
         value={value}
         onChange={onChange}
-        defaultValue={30}
       >
         <MenuItem value={15}>15 min</MenuItem>
         <MenuItem value={30}>30 min</MenuItem>

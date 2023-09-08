@@ -66,7 +66,7 @@ export default function AddEventPage() {
           <Grid item xs={12} md={5}>
             <MainEventInfo />
           </Grid>
-          <Grid item xs={false} md={2}></Grid>
+          <Grid item xs={false} s md={2}></Grid>
           <Grid item xs={12} md={5}>
             <Box sx={{ minHeight: { sx: "30px", md: "500px" } }}>
               <AddEventDatePicker />
@@ -94,7 +94,7 @@ export default function AddEventPage() {
       </Container>
       <Snackbar
         open={Boolean(message)}
-        autoHideDuration={6000} // Adjust this duration as needed
+        autoHideDuration={3000}
         onClose={() => setMessage("")}
         message={message}
       />

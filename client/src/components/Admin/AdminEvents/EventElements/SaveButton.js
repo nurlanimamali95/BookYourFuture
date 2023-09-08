@@ -9,7 +9,7 @@ export default function SaveButton({ id, eventData, onSaved }) {
 
   // Define the save handler
   const handleSave = () => {
-    performFetch(eventData, "PUT");
+    performFetch(eventData, "PATCH");
   };
 
   // Render the button
