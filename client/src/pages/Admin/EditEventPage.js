@@ -31,10 +31,18 @@ export default function EditEventPage() {
     sessionSlot: [],
   });
 
-  const { performFetch } = useFetch(`/event/${id}`, handleReceivedData);
+  const { performFetch, cancelFetch } = useFetch(
+    `/event/${id}`,
+    handleReceivedData
+  );
 
   useEffect(() => {
     performFetch();
+
+    // This is the cleanup function that React will run when the component is unmounted
+    return () => {
+      cancelFetch(); // Cancel the fetch request if the component is unmounted
+    };
   }, []);
 
   function handleReceivedData(data) {

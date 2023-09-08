@@ -77,7 +77,7 @@ export default function BasicDateTimePicker() {
             <IconButton
               color="secondary"
               onClick={() => handleRemove(index)}
-              disabled={!picker.date}
+              disabled={datePickers.length === 1}
               sx={{ ml: 1 }}
             >
               <RemoveCircleOutlineIcon fontSize="large" />
