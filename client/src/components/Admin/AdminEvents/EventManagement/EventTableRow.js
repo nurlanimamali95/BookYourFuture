@@ -9,7 +9,7 @@ function EventTableRow({ rows }) {
   const navigate = useNavigate();
 
   const handleEditClick = (_id) => {
-    navigate(`/edit/${_id}`);
+    navigate(`/events/edit/${_id}`);
   };
 
   return rows.map((event) => (

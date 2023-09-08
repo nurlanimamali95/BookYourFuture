@@ -6,9 +6,9 @@ import {
   DurationDropdown,
   LocationToggle,
   ReceiverToggle,
-  StudentDropdown,
 } from "./AddEventElements";
 import GroupDropdown from "../EventElements/GroupDropdown";
+import StudentDropdown from "../EventElements/StudentDropdown";
 
 export default function MainEventInfo() {
   const { eventData, setEventData } = useContext(EventContext);
@@ -79,7 +79,14 @@ export default function MainEventInfo() {
           value={eventData.group}
           onChange={handleDropdownChange("group")}
         />
+        {/* <StudentDropdown
+          value={eventData.student}
+          onChange={handleDropdownChange("student")}
+          isGroup={eventData.receiverType === "Group"}
+          disabled={eventData.receiverType !== "Student"}
+        /> */}
         <StudentDropdown
+          groupId={eventData.group}
           value={eventData.student}
           onChange={handleDropdownChange("student")}
           isGroup={eventData.receiverType === "Group"}
