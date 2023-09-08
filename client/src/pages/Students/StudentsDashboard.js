@@ -26,8 +26,10 @@ export default function StudentDashboard() {
   const [selectedDate, setSelectedDate] = useState(todayDate);
   const [events, setEvents] = useState([]);
   const [eventInfo, setEventInfo] = useState("");
+  //eslint-disable-next-line
+  console.log(events);
 
-  const { isLoading, error, performFetch, cancelFetch } = useFetch(
+  const { isLoading, error, performFetch } = useFetch(
     "/event/all",
     handleEventsUpdate
   );
@@ -44,16 +46,15 @@ export default function StudentDashboard() {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    // eslint-disable-next-line
-    console.log("Selected Date:", date);
+    performFetch();
   };
 
   function handleEventsUpdate(responseData) {
-    const processedEvents = processData(responseData);
-    setEvents(processedEvents);
+    const data = processData(responseData);
+    setEvents(data);
 
-    if (processedEvents.length > 0) {
-      const firstEvent = processedEvents[35];
+    if (data.length > 0) {
+      const firstEvent = data[35];
 
       setEventInfo(firstEvent.title);
     }
@@ -61,9 +62,6 @@ export default function StudentDashboard() {
 
   useEffect(() => {
     performFetch();
-    return () => {
-      cancelFetch();
-    };
   }, []);
 
   return (
@@ -95,13 +93,13 @@ export default function StudentDashboard() {
             <Grid item xs={12} sm={12} md={12} lg={12}>
               <Notifications message={eventInfo} />
             </Grid>
-            <Grid item mt="2em" xs={12} sm={12} md={4} lg={5}>
+            <Grid item mt="2em" xs={12} sm={12} md={3} lg={4}>
               <Calendar
                 value={selectedDate}
                 onDateSelected={handleDateChange}
               />
             </Grid>
-            <Grid item xs={12} sm={12} md={8} lg={7}>
+            <Grid item xs={12} sm={12} md={9} lg={8}>
               {renderContent()}
             </Grid>
           </Grid>
