@@ -13,14 +13,29 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import background from "../../assets/loginbackground.jpg";
 import logo from "../../assets/logo.svg";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { fetchUserData } from "../../components/redux/authSlice";
 
 const LoginPage = () => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    data.get("email");
-    data.get("password");
+  const dispatch = useDispatch();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    defaultValues: {
+      email: "auth@test.com",
+      password: "123456",
+    },
+    mode: "onChange",
+  });
+
+  const onSubmit = (values) => {
+    dispatch(fetchUserData(values));
   };
+
   const theme = createTheme({
     palette: {
       primary: {
@@ -80,74 +95,84 @@ const LoginPage = () => {
                 <LockOutlinedIcon />
               </Avatar>
             </Box>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{
-                mt: 1,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <TextField
-                margin="normal"
-                size="small"
-                required
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                size="small"
-                required
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    sx={{
-                      color: theme.palette.primary.main,
-                      "&.Mui-checked": {
-                        color: theme.palette.secondary.main,
-                      },
-                    }}
-                    value="remember"
-                  />
-                }
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                variant="contained"
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Box
+                noValidate
                 sx={{
-                  mt: 7,
-                  mb: 2,
-                  backgroundColor: theme.palette.primary.main,
-                  "&:hover": {
-                    backgroundColor: theme.palette.secondary.main,
-                  },
-                  size: "medium",
+                  mt: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
               >
-                Login
-              </Button>
-              <Grid container align="center">
-                <Grid item xs>
-                  <RouterLink to="/dashboard" variant="body2">
-                    Forgot password?
-                  </RouterLink>
+                <TextField
+                  margin="normal"
+                  size="small"
+                  required
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  type="email"
+                  autoFocus
+                  error={Boolean(errors.email)}
+                  helperText={errors.email?.message}
+                  {...register("email", { required: "Email is required" })}
+                />
+                <TextField
+                  margin="normal"
+                  size="small"
+                  required
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  error={Boolean(errors.password)}
+                  helperText={errors.password?.message}
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      sx={{
+                        color: theme.palette.primary.main,
+                        "&.Mui-checked": {
+                          color: theme.palette.secondary.main,
+                        },
+                      }}
+                      value="remember"
+                    />
+                  }
+                  label="Remember me"
+                />
+                <Button
+                  disabled={!isValid}
+                  type="submit"
+                  variant="contained"
+                  sx={{
+                    mt: 7,
+                    mb: 2,
+                    backgroundColor: theme.palette.primary.main,
+                    "&:hover": {
+                      backgroundColor: theme.palette.secondary.main,
+                    },
+                    size: "medium",
+                  }}
+                >
+                  Login
+                </Button>
+                <Grid container align="center">
+                  <Grid item xs>
+                    <RouterLink to="/dashboard" variant="body2">
+                      Forgot password?
+                    </RouterLink>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Box>
+              </Box>
+            </form>
           </Box>
         </Grid>
       </Grid>

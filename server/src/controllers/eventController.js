@@ -16,8 +16,6 @@ export const add = async (req, res) => {
 
     res.status(200).json({ success: true, eventData: event });
   } catch (err) {
-    //eslint-disable-next-line
-    console.error(err);
     res.status(500).json({ message: "Something went wrong." });
   }
 };
@@ -34,7 +32,6 @@ export const all = async (req, res) => {
     if (groupId) {
       query.group = groupId; // Assuming `group` is the field storing the group's _id
     }
-    console.log("Query:", query);
 
     const events = await EventModel.find(query)
       .populate("student")
@@ -42,8 +39,6 @@ export const all = async (req, res) => {
       .populate("user")
       .populate("group")
       .exec();
-
-    console.log("Events:", events); // Log the retrieved events
 
     res.status(200).json({ success: true, eventsData: events });
   } catch (err) {
