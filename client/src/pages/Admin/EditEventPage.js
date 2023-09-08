@@ -47,28 +47,21 @@ export default function EditEventPage() {
 
   function handleReceivedData(data) {
     const processedSessionSlots = data?.eventData?.sessionSlot?.map((slot) => ({
-      startTime: dayjs(slot.startTime),
       durationInSeconds: slot.durationInSeconds,
+      startTime: dayjs(slot.startTime),
     }));
 
     setEventData({
       ...data.eventData,
       group: data.eventData.group[0]._id,
-      duration: data.eventData.sessionSlot[0].durationInSeconds / 3600,
+
       sessionSlot: processedSessionSlots,
     });
   }
 
-  const handleSaved = () => {
-    setMessage("Event saved successfully!");
+  const handleMessage = (msg) => {
+    setMessage(msg);
   };
-
-  const handleDeleted = () => {
-    setMessage("Event deleted successfully!");
-  };
-
-  // console.log(eventData);
-  // console.log(eventData.duration);
 
   return (
     <EventContext.Provider value={{ eventData, setEventData }}>
@@ -89,14 +82,22 @@ export default function EditEventPage() {
               <Grid item xs={false} md={2}></Grid>
               <Grid item xs={12} md={5}>
                 <Box sx={{ minHeight: { xs: "30px", md: "500px" } }}>
-                  {/* Pass the sessionSlot to the EditEventDatePicker */}
                   <EditEventDatePicker sessionSlot={eventData.sessionSlot} />
                 </Box>
               </Grid>
             </Grid>
             <Stack direction="row" spacing={2} sx={{ mt: 4 }}>
-              <SaveButton id={id} eventData={eventData} onSaved={handleSaved} />
-              <DeleteButton id={id} onDeleted={handleDeleted} />
+              <SaveButton
+                eventData={eventData}
+                onSaved={handleMessage}
+                onError={handleMessage}
+                endpoint={`/event/edit/${id}`}
+              />
+              <DeleteButton
+                endpoint={`/event/${id}`}
+                onDeleted={handleMessage}
+                redirectPath="/events"
+              />
             </Stack>
           </>
         )}

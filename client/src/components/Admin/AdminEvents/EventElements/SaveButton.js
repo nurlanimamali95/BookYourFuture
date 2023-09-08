@@ -3,16 +3,26 @@ import { Button } from "@mui/material";
 import useFetch from "../../../../hooks/useFetch";
 import PropTypes from "prop-types";
 
-export default function SaveButton({ id, eventData, onSaved }) {
-  // Use the custom hook to get necessary functions and states
-  const { isLoading, performFetch } = useFetch(`/event/edit/${id}`, onSaved);
+export default function SaveButton({
+  eventData,
+  onSaved,
+  onError,
+  endpoint,
+  successMessage = "Saved successfully!",
+  errorMessage = "An error occurred while saving.",
+}) {
+  const { isLoading, error, performFetch } = useFetch(endpoint, () => {
+    if (error) {
+      onError(errorMessage);
+    } else {
+      onSaved(successMessage);
+    }
+  });
 
-  // Define the save handler
   const handleSave = () => {
     performFetch(eventData, "PATCH");
   };
 
-  // Render the button
   return (
     <Button variant="contained" onClick={handleSave} disabled={isLoading}>
       Save Changes
@@ -21,7 +31,10 @@ export default function SaveButton({ id, eventData, onSaved }) {
 }
 
 SaveButton.propTypes = {
-  id: PropTypes.string.isRequired,
   eventData: PropTypes.object.isRequired,
   onSaved: PropTypes.func.isRequired,
+  onError: PropTypes.func,
+  endpoint: PropTypes.string.isRequired,
+  successMessage: PropTypes.string,
+  errorMessage: PropTypes.string,
 };

@@ -1,13 +1,18 @@
 import React from "react";
 import { Button } from "@mui/material";
 import useFetch from "../../../../hooks/useFetch";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
-export default function DeleteButton({ id, onDeleted }) {
-  // Use the custom hook to get necessary functions and states
-  const { isLoading, performFetch } = useFetch(`/event/${id}`, onDeleted);
+export default function DeleteButton({ endpoint, onDeleted, redirectPath }) {
+  const navigate = useNavigate();
+  const { isLoading, performFetch } = useFetch(endpoint, () => {
+    onDeleted("Deleted successfully! Redirecting...");
+    setTimeout(() => {
+      navigate(redirectPath);
+    }, 500);
+  });
 
-  // Define the delete handler
   const handleDelete = () => {
     performFetch(null, "DELETE");
   };
@@ -20,6 +25,7 @@ export default function DeleteButton({ id, onDeleted }) {
 }
 
 DeleteButton.propTypes = {
-  id: PropTypes.string.isRequired,
+  endpoint: PropTypes.string.isRequired,
+  redirectPath: PropTypes.string,
   onDeleted: PropTypes.func.isRequired,
 };

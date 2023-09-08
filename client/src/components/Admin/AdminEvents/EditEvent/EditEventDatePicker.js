@@ -46,11 +46,7 @@ export default function EditEventDatePicker() {
   };
 
   const handleAdd = () => {
-    const lastDate = datePickers[datePickers.length - 1].date;
-    setDatePickers((prevDatePickers) => [
-      ...prevDatePickers,
-      { date: lastDate },
-    ]);
+    setDatePickers((prevDatePickers) => [...prevDatePickers, { date: null }]);
   };
 
   // function handleDropdownChange(name) {
