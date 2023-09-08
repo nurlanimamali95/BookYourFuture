@@ -32,13 +32,6 @@ const LoginPage = () => {
     mode: "onChange",
   });
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   data.get("email");
-  //   data.get("password");
-  // };
-
   const onSubmit = (values) => {
     dispatch(fetchUserData(values));
   };
