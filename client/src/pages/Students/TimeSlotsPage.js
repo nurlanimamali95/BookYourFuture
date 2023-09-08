@@ -34,12 +34,14 @@ export default function TimeSlotsPage() {
     performFetch();
   }, []);
 
-  const uniqueDates = [];
+  const groupedTimeSlots = {};
+
   sessionSlots.forEach((slot) => {
     const date = formatDate(slot.startTime);
-    if (!uniqueDates.includes(date)) {
-      uniqueDates.push(date);
+    if (!groupedTimeSlots[date]) {
+      groupedTimeSlots[date] = [];
     }
+    groupedTimeSlots[date].push(slot);
   });
 
   const handleAccordionChange = (panel) => {
@@ -71,24 +73,27 @@ export default function TimeSlotsPage() {
                 {eventData.description}
               </Typography>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              {uniqueDates.map((date, index) => (
-                <BookTime
+            {Object.entries(groupedTimeSlots).map(
+              ([date, timeSlots], index) => (
+                <Grid
+                  item
+                  xs={12}
                   key={index}
-                  date={date}
-                  expanded={expanded === `panel${index}`}
-                  onChange={() => handleAccordionChange(`panel${index}`)}
-                />
-              ))}
-            </Grid>
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <BookTime
+                    date={date}
+                    expanded={expanded === `panel${index}`}
+                    onChange={() => handleAccordionChange(`panel${index}`)}
+                    timeSlots={timeSlots}
+                  />
+                </Grid>
+              )
+            )}
             <Grid item xs={12}>
               {isLoading ? (
                 <Typography variant="body1">Loading...</Typography>

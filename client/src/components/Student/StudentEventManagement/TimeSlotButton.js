@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -6,9 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
 import PropTypes from "prop-types";
 import { useRadioContext } from "./TimeSlotContext";
-import useFetch from "../../../hooks/useFetch";
 import dayjs from "dayjs";
-import "dayjs/locale/en"; // You can choose the desired locale if needed
 
 function generateRadioButtons(buttonsData) {
   return buttonsData.map((button) => (
@@ -25,24 +23,11 @@ function generateRadioButtons(buttonsData) {
   ));
 }
 
-export default function TimeSlotButtons() {
+export default function TimeSlotButtons(props) {
   const { selectedValue, handleChange } = useRadioContext();
-  const [sessionSlots, setSessionSlots] = useState([]);
+  const { timeSlots } = props;
 
-  const { performFetch } = useFetch("/event/all", (data) => {
-    if (data.success && data.eventsData.length > 0) {
-      const firstEvent = data.eventsData[35];
-      if (firstEvent.sessionSlot && firstEvent.sessionSlot.length > 0) {
-        setSessionSlots(firstEvent.sessionSlot);
-      }
-    }
-  });
-
-  useEffect(() => {
-    performFetch();
-  }, []);
-
-  const buttonsData = sessionSlots.map((slot) => {
+  const buttonsData = timeSlots.map((slot) => {
     const durationInMinutes = slot.durationInSeconds
       ? slot.durationInSeconds / 3600
       : 0;
@@ -73,7 +58,5 @@ export default function TimeSlotButtons() {
 }
 
 TimeSlotButtons.propTypes = {
-  date: PropTypes.string,
-  value: PropTypes.string,
-  change: PropTypes.func,
+  timeSlots: PropTypes.array.isRequired,
 };
