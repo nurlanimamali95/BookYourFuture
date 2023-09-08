@@ -14,16 +14,22 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import HomeIcon from "@mui/icons-material/Home";
 import GroupIcon from "@mui/icons-material/Group";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonIcon from "@mui/icons-material/Person";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout, selectorIsAuth } from "../../components/redux/authSlice";
+import { Navigate } from "react-router-dom";
 
 import logo from "../../assets/download.svg";
 import { Avatar, ListItemIcon } from "@mui/material";
 
 export default function MainNavigation() {
   const [open, setOpen] = useState(false);
+  const isAuth = useSelector(selectorIsAuth);
+  const dispatch = useDispatch();
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -33,6 +39,14 @@ export default function MainNavigation() {
       return;
     }
     setOpen(open);
+  };
+
+  const onClickLogout = () => {
+    if (window.confirm("Are you sure you want to logout?")) {
+      dispatch(logout());
+      window.localStorage.removeItem("token");
+    }
+    return <Navigate to="/login" />;
   };
 
   return (
@@ -89,15 +103,11 @@ export default function MainNavigation() {
                     </Link>
                   }
                 />
+                {isAuth && <AccountCircleIcon sx={{ color: "white" }} />}
               </ListItemButton>
               <ListItemButton>
                 <ListItemIcon>
-                  <LogoutIcon
-                    sx={{ color: "grey" }}
-                    onClick={() => {
-                      // logout logic here
-                    }}
-                  />
+                  <LogoutIcon sx={{ color: "white" }} onClick={onClickLogout} />
                 </ListItemIcon>
               </ListItemButton>
             </List>
@@ -165,10 +175,15 @@ export default function MainNavigation() {
 
                 <ListItemButton>
                   <ListItemIcon>
-                    <LogoutIcon sx={{ color: "grey" }} />
+                    <LogoutIcon sx={{ color: "white" }} />
                   </ListItemIcon>
                   <ListItemText primary="Log Out" />
                 </ListItemButton>
+
+                <ListItemIcon>
+                  <AccountCircleIcon sx={{ color: "white" }} />
+                  <ListItemText primary="UserName" />
+                </ListItemIcon>
               </Box>
               <Box
                 sx={{

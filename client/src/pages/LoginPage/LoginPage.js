@@ -14,11 +14,17 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import background from "../../assets/loginbackground.jpg";
 import logo from "../../assets/logo.svg";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { fetchUserData } from "../../components/redux/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import {
+  fetchUserData,
+  selectorIsAuth,
+} from "../../components/redux/authSlice";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
+  const isAuth = useSelector(selectorIsAuth);
+  const { userData } = useSelector((state) => state.auth);
 
   const {
     register,
@@ -32,8 +38,17 @@ const LoginPage = () => {
     mode: "onChange",
   });
 
-  const onSubmit = (values) => {
-    dispatch(fetchUserData(values));
+  const onSubmit = async (values) => {
+    const data = await dispatch(fetchUserData(values));
+
+    if (!data.payload) {
+      //eslint-disable-next-line
+      console.log("Failed to login");
+    }
+
+    if ("token" in data.payload) {
+      window.localStorage.setItem("token", data.payload.token);
+    }
   };
 
   const theme = createTheme({
@@ -47,6 +62,17 @@ const LoginPage = () => {
       },
     },
   });
+
+  {
+    isAuth ? (
+      userData.admin === "admin" ? (
+        <Navigate to="/admin" />
+      ) : (
+        <Navigate to="/student" />
+      )
+    ) : null;
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
