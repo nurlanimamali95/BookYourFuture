@@ -2,11 +2,7 @@ import React from "react";
 import { TextField, Stack } from "@mui/material";
 import EventContext from "./EventContext";
 import { useContext } from "react";
-import {
-  DurationDropdown,
-  LocationToggle,
-  ReceiverToggle,
-} from "./AddEventElements";
+import { LocationToggle, ReceiverToggle } from "./AddEventElements";
 import GroupDropdown from "../EventElements/GroupDropdown";
 import StudentDropdown from "../EventElements/StudentDropdown";
 
@@ -50,23 +46,20 @@ export default function MainEventInfo() {
         justifyContent={{ xs: "flex-start", md: "space-between" }}
         gap={2}
         sx={{
-          mt: { xs: 4, sm: 4 },
-          mb: { xs: 2, sm: 2 },
+          mt: { xs: 4, sm: 6 },
+          mb: { xs: 2, sm: 6 },
         }}
       >
-        <DurationDropdown
-          value={eventData.duration}
-          onChange={handleDropdownChange("duration")}
-        />
         <LocationToggle
           value={eventData.location}
           onChange={handleDropdownChange("location")}
         />
+        <ReceiverToggle
+          value={eventData.receiverType}
+          onChange={handleDropdownChange("receiverType")}
+        />
       </Stack>
-      <ReceiverToggle
-        value={eventData.receiverType}
-        onChange={handleDropdownChange("receiverType")}
-      />
+
       <Stack
         direction={{ xs: "column", sm: "row" }}
         justifyContent={{ xs: "flex-start", md: "space-between" }}

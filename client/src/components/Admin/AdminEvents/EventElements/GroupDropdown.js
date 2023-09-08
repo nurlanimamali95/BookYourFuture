@@ -4,7 +4,7 @@ import useFetch from "../../../../hooks/useFetch";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import PropTypes from "prop-types";
 
-export default function GroupDropdown({ value, onChange }) {
+export default function GroupDropdown({ value, onChange, defaultValue }) {
   const [groupList, setGroupList] = useState([]);
 
   const { performFetch, error } = useFetch("/group/all", handleReceivedData);
@@ -25,9 +25,9 @@ export default function GroupDropdown({ value, onChange }) {
     <FormControl sx={{ minWidth: 220 }}>
       <InputLabel id="group-select-label">Group</InputLabel>
       <Select
+        labelId="group-select-label"
         id="group-select"
-        variant="outlined"
-        value={value}
+        value={value || defaultValue || ""}
         onChange={onChange}
         label="Group"
       >
@@ -44,4 +44,5 @@ export default function GroupDropdown({ value, onChange }) {
 GroupDropdown.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

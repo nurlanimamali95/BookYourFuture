@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import EventContext from "./EventContext";
 import { useContext } from "react";
 import "dayjs/locale/de";
+import { DurationDropdown } from "../AddEvent/AddEventElements";
 
 export default function BasicDateTimePicker() {
   const [datePickers, setDatePickers] = React.useState([{ date: null }]);
@@ -43,8 +44,21 @@ export default function BasicDateTimePicker() {
     ]);
   };
 
+  function handleDropdownChange(name) {
+    return (event) => {
+      setEventData((prev) => ({
+        ...prev,
+        [name]: event.target.value,
+      }));
+    };
+  }
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+      <DurationDropdown
+        value={eventData.duration}
+        onChange={handleDropdownChange("duration")}
+      />
       <DemoContainer components={["DateTimePicker"]} sx={{ mt: 3 }}>
         {datePickers.map((picker, index) => (
           <Box

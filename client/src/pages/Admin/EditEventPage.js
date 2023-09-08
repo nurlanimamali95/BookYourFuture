@@ -31,7 +31,6 @@ export default function EditEventPage() {
     sessionSlot: [],
   });
 
-  // Fetch the existing event data
   const { performFetch } = useFetch(`/event/${id}`, handleReceivedData);
 
   useEffect(() => {
@@ -39,7 +38,16 @@ export default function EditEventPage() {
   }, []);
 
   function handleReceivedData(data) {
-    setEventData(data.eventData);
+    const processedSessionSlots = data.eventData.sessionSlot.map((slot) => ({
+      startTime: slot.startTime,
+    }));
+
+    setEventData({
+      ...data.eventData,
+      group: data.eventData.group[0]._id,
+      duration: data.eventData.sessionSlot[0].durationInSeconds / 3600,
+      sessionSlot: processedSessionSlots,
+    });
   }
 
   const handleSaved = () => {
@@ -48,8 +56,11 @@ export default function EditEventPage() {
 
   const handleDeleted = () => {
     setMessage("Event deleted successfully!");
-    // Add redirection or other logic after deletion if needed
   };
+
+  //eslint-disable-next-line
+  console.log(eventData);
+  // console.log(eventData.sessionSlot);
 
   return (
     <EventContext.Provider value={{ eventData, setEventData }}>
