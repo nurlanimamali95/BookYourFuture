@@ -9,15 +9,15 @@ import PropTypes from "prop-types";
 DeleteButton.propTypes = {
   id: PropTypes.string.isRequired, // id should be a string and is required
   reFetch: PropTypes.func.isRequired, // reFetch should be a function and is required
+  page: PropTypes.string.isRequired,
 };
 
-function DeleteButton({ id, reFetch }) {
-  const { performFetch } = useFetch(`/group/${id}`, () => {
+function DeleteButton({ id, page, reFetch }) {
+  const { performFetch } = useFetch(`/${page}/${id}`, () => {
     toast.error("Deleted successfully");
     reFetch();
   });
   const handleDeleteClick = () => {
-    // // Handle delete action here
     performFetch(null, "DELETE");
   };
   return (

@@ -19,23 +19,24 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Buttons/Button";
 import DeleteButton from "../../components/Buttons/DeleteButton";
 
-export default function GroupManagement() {
+export default function StudentManagementPage() {
   const [data, setData] = useState(null);
+  const navigate = useNavigate();
 
+  // eslint-disable-next-line no-console
+  console.log(data);
   useEffect(() => {
     performFetch();
     // eslint-disable-next-line no-console
     console.log(error);
   }, []);
 
-  const { performFetch, error, isLoading } = useFetch(
-    "/group/all",
-    (result) => {
-      // eslint-disable-next-line no-console
-      console.log(result);
-      setData(result.groupsData);
-    }
-  );
+  const { performFetch, error, isLoading } = useFetch("/user/all", (result) => {
+    // eslint-disable-next-line no-console
+    console.log(result);
+
+    setData(result.usersData);
+  });
 
   const handleEditClick = (id) => {
     // Handle edit action here
@@ -43,7 +44,6 @@ export default function GroupManagement() {
     console.log(`Edit clicked for ID ${id}`);
   };
 
-  const navigate = useNavigate();
   return (
     <>
       {isLoading && <h1>Loading</h1>}
@@ -55,7 +55,7 @@ export default function GroupManagement() {
               component="h2"
               sx={{ mb: 4, mt: 6, textAlign: "center" }}
             >
-              Group Management
+              Students Management
             </Typography>
           </Box>
           <Box
@@ -68,12 +68,12 @@ export default function GroupManagement() {
             <Button
               variant="contained"
               onClick={() => {
-                navigate("/addGroup");
+                navigate("/addStudent");
                 // eslint-disable-next-line no-console
-                console.log("Add Group clicked");
+                console.log("Add Student clicked");
               }}
             >
-              Add Group
+              Add Student
             </Button>
           </Box>
 
@@ -81,32 +81,32 @@ export default function GroupManagement() {
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell>Full Name</TableCell>
                   <TableCell>Group</TableCell>
-                  <TableCell>Color</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Creation Date</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Github</TableCell>
                   <TableCell>Edit</TableCell>
                   <TableCell>Delete</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.map((item) => (
-                  <TableRow key={item._id}>
-                    <TableCell>{item.numberOfGroupName}</TableCell>
-                    <TableCell>{item.color}</TableCell>
-                    <TableCell>{item.status}</TableCell>
+                {data.map((student) => (
+                  <TableRow key={student._id}>
                     <TableCell>
-                      {new Date(item.createdAt).toLocaleDateString()}
+                      {student.firstName} {student.lastName}
                     </TableCell>
+                    <TableCell>{student.group}</TableCell>
+                    <TableCell>{student.email}</TableCell>
+                    <TableCell>{student.github}</TableCell>
                     <TableCell>
-                      <IconButton onClick={() => handleEditClick(item._id)}>
+                      <IconButton onClick={() => handleEditClick(student._id)}>
                         <EditIcon sx={{ color: "grey" }} />
                       </IconButton>
                     </TableCell>
                     <TableCell>
                       <DeleteButton
-                        id={item._id}
-                        page="group"
+                        id={student._id}
+                        page="user"
                         reFetch={performFetch}
                       />
                     </TableCell>

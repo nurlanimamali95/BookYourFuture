@@ -81,6 +81,25 @@ export default function MainNavigation() {
                   }
                 />
               </ListItemButton>
+
+              <ListItemButton>
+                <ListItemText
+                  primary={
+                    <Link to="/groups" className="link">
+                      Groups
+                    </Link>
+                  }
+                />
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemText
+                  primary={
+                    <Link to="/students" className="link">
+                      Students
+                    </Link>
+                  }
+                />
+              </ListItemButton>
               <ListItemButton>
                 <ListItemText
                   primary={
