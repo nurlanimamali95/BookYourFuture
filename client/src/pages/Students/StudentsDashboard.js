@@ -25,8 +25,6 @@ export default function StudentDashboard() {
 
   const [selectedDate, setSelectedDate] = useState(todayDate);
   const [events, setEvents] = useState([]);
-
-  // Create state to hold event data
   const [eventInfo, setEventInfo] = useState("");
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
@@ -55,9 +53,8 @@ export default function StudentDashboard() {
     setEvents(processedEvents);
 
     if (processedEvents.length > 0) {
-      const firstEvent = processedEvents[22];
-      //eslint-disable-next-line
-      console.log(firstEvent.title);
+      const firstEvent = processedEvents[35];
+
       setEventInfo(firstEvent.title);
     }
   }
@@ -68,8 +65,6 @@ export default function StudentDashboard() {
       cancelFetch();
     };
   }, []);
-  //eslint-disable-next-line
-  console.log(eventInfo);
 
   return (
     <Container>

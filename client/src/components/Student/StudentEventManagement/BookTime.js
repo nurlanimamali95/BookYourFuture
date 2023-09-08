@@ -77,7 +77,7 @@ export default function BookTime(props) {
           flexDirection: "column",
         }}
       >
-        <TimeSlotButtons />
+        <TimeSlotButtons timeSlots={props.timeSlots} />
       </AccordionDetails>
     </Accordion>
   );
@@ -89,4 +89,5 @@ BookTime.propTypes = {
   handleChange: PropTypes.func,
   expanded: PropTypes.bool,
   onChange: PropTypes.func,
+  timeSlots: PropTypes.array.isRequired,
 };

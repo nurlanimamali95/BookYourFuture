@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -6,6 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
 import PropTypes from "prop-types";
 import { useRadioContext } from "./TimeSlotContext";
+import dayjs from "dayjs";
 
 function generateRadioButtons(buttonsData) {
   return buttonsData.map((button) => (
@@ -22,14 +23,25 @@ function generateRadioButtons(buttonsData) {
   ));
 }
 
-export default function TimeSlotButtons() {
+export default function TimeSlotButtons(props) {
   const { selectedValue, handleChange } = useRadioContext();
+  const { timeSlots } = props;
 
-  const buttonsData = [
-    { value: "1", label: "10:00-11:00" },
-    { value: "2", label: "11:00-12:00" },
-    { value: "3", label: "12:00-13:00" },
-  ];
+  const buttonsData = timeSlots.map((slot) => {
+    const durationInMinutes = slot.durationInSeconds
+      ? slot.durationInSeconds / 3600
+      : 0;
+
+    const startTime = dayjs(slot.startTime);
+    const endTime = startTime.add(durationInMinutes, "minute");
+
+    const label = `${startTime.format("HH:mm")}-${endTime.format("HH:mm")}`;
+
+    return {
+      value: slot._id,
+      label: label,
+    };
+  });
 
   return (
     <FormControl>
@@ -46,7 +58,5 @@ export default function TimeSlotButtons() {
 }
 
 TimeSlotButtons.propTypes = {
-  date: PropTypes.string,
-  value: PropTypes.string,
-  change: PropTypes.func,
+  timeSlots: PropTypes.array.isRequired,
 };

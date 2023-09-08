@@ -16,13 +16,12 @@ export default function TimeSlotsPage() {
     eventName: "",
     description: "",
   });
-  const [timeSlotDate, setTimeSlotDate] = useState("");
+  const [sessionSlots, setSessionSlots] = useState([]);
   const { isLoading, error, performFetch } = useFetch("/event/all", (data) => {
     if (data.success && data.eventsData.length > 0) {
-      const firstEvent = data.eventsData[22];
+      const firstEvent = data.eventsData[35];
       if (firstEvent.sessionSlot && firstEvent.sessionSlot.length > 0) {
-        const firstSessionSlot = firstEvent.sessionSlot[0];
-        setTimeSlotDate(formatDate(firstSessionSlot.startTime));
+        setSessionSlots(firstEvent.sessionSlot);
       }
       setEventData({
         eventName: firstEvent.title,
@@ -34,6 +33,16 @@ export default function TimeSlotsPage() {
   useEffect(() => {
     performFetch();
   }, []);
+
+  const groupedTimeSlots = {};
+
+  sessionSlots.forEach((slot) => {
+    const date = formatDate(slot.startTime);
+    if (!groupedTimeSlots[date]) {
+      groupedTimeSlots[date] = [];
+    }
+    groupedTimeSlots[date].push(slot);
+  });
 
   const handleAccordionChange = (panel) => {
     setExpanded(panel === expanded ? null : panel);
@@ -64,31 +73,27 @@ export default function TimeSlotsPage() {
                 {eventData.description}
               </Typography>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              <BookTime
-                date={timeSlotDate}
-                expanded={expanded === "panel1"}
-                onChange={() => handleAccordionChange("panel1")}
-              />
-              <BookTime
-                date={timeSlotDate}
-                expanded={expanded === "panel2"}
-                onChange={() => handleAccordionChange("panel2")}
-              />
-              <BookTime
-                date={timeSlotDate}
-                expanded={expanded === "panel3"}
-                onChange={() => handleAccordionChange("panel3")}
-              />
-            </Grid>
+            {Object.entries(groupedTimeSlots).map(
+              ([date, timeSlots], index) => (
+                <Grid
+                  item
+                  xs={12}
+                  key={index}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <BookTime
+                    date={date}
+                    expanded={expanded === `panel${index}`}
+                    onChange={() => handleAccordionChange(`panel${index}`)}
+                    timeSlots={timeSlots}
+                  />
+                </Grid>
+              )
+            )}
             <Grid item xs={12}>
               {isLoading ? (
                 <Typography variant="body1">Loading...</Typography>
