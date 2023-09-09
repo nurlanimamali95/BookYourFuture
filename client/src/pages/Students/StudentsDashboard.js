@@ -7,27 +7,25 @@ import EventTable from "../../components/Student/StudentDashboard/Table";
 import Grid from "@mui/material/Grid";
 import useFetch from "../../hooks/useFetch";
 import todayDate from "../../components/Student/StudentEventManagement/FormatDate";
+import { useSelector } from "react-redux";
 
 export default function StudentDashboard() {
   function processData(responseData) {
     if (responseData.success === true) {
       const eventsData = responseData.eventsData;
-      // eslint-disable-next-line
-      console.error("works", eventsData);
-
       return eventsData;
     } else {
-      // eslint-disable-next-line
-      console.error("API response indicates an error:", responseData);
       return [];
     }
   }
 
+  const userData = useSelector((state) => state.auth.data);
+  const userId = userData ? userData._id : null;
+  //eslint-disable-next-line
+  console.log(userId);
   const [selectedDate, setSelectedDate] = useState(todayDate);
   const [events, setEvents] = useState([]);
   const [eventInfo, setEventInfo] = useState("");
-  //eslint-disable-next-line
-  console.log(events);
 
   const { isLoading, error, performFetch } = useFetch(
     "/event/all",
@@ -48,21 +46,27 @@ export default function StudentDashboard() {
     setSelectedDate(date);
     performFetch();
   };
-
+  //eslint-disable-next-line
+  console.log(events);
   function handleEventsUpdate(responseData) {
     const data = processData(responseData);
-    setEvents(data);
 
-    if (data.length > 0) {
-      const firstEvent = data[35];
+    // Show the events only for the student
+    const filteredEvents = data.filter((event) =>
+      event.group[0]?.students.includes(userId)
+    );
 
+    setEvents(filteredEvents);
+
+    if (filteredEvents.length > 0) {
+      const firstEvent = filteredEvents[0];
       setEventInfo(firstEvent.title);
     }
   }
 
   useEffect(() => {
     performFetch();
-  }, []);
+  }, [selectedDate]);
 
   return (
     <Container>
