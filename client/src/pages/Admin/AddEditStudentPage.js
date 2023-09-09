@@ -1,54 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   TextField,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
   Typography,
   Grid,
   Container,
   Stack,
   Box,
+  Select,
 } from "@mui/material";
 import { CancelButton } from "../../components/Buttons/CancelButton";
 import { Button } from "../../components/Buttons/Button";
 import { toast } from "react-hot-toast";
 import useFetch from "../../hooks/useFetch";
+import FilterByGroup from "../../components/Admin/AdminEvents/EventManagement/FilterByGroup";
+import { useLocation, useParams } from "react-router-dom";
 
-export default function AddStudentPage() {
+export default function AddEditStudentPage() {
+  const { pathname } = useLocation();
+  const isEdit = useMemo(() => pathname.includes("editStudent"), [pathname]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [groupNumber, setGroupNumber] = useState("");
+  const { id } = useParams();
+  const { performFetch: getUserDetails, error: errorDetails } = useFetch(
+    `/user/${id}`,
+    ({ userData }) => {
+      // eslint-disable-next-line no-console
+
+      setFirstName(userData.firstName);
+      setLastName(userData.lastName);
+      setEmail(userData.email);
+      setGroupNumber(userData.group[0]?._id);
+    }
+  );
+
+  useEffect(() => {
+    isEdit && id && getUserDetails();
+  }, [isEdit]);
 
   const { performFetch, error } = useFetch("/auth/register", () => {
     // eslint-disable-next-line no-console
     toast.success("Student added successfully");
-    // setFirstName("");
-    // setLastName("");
-    // setEmail("");
-    // setGroupNumber("");
   });
+  const { performFetch: updateUser, error: errorUpdateUser } = useFetch(
+    `/user/edit/${id}`,
+    () => {
+      // eslint-disable-next-line no-console
+      toast.success("Student updated successfully");
+    }
+  );
+  // eslint-disable-next-line no-console
+  console.log(errorUpdateUser);
   // eslint-disable-next-line no-console
   console.log(error);
+  // eslint-disable-next-line no-console
+  console.log(errorDetails);
+  // eslint-disable-next-line no-console
+  console.log(groupNumber);
+
   const handleSave = (event) => {
     event.preventDefault();
     const usersData = {
       firstName: firstName,
       lastName: lastName,
-      group: [""],
-      passwordHash: "hsdkhdshdlash",
+      group: [groupNumber],
       email: email,
+      ...(!isEdit && { password: "hsdkhdshdlash" }),
     };
     // eslint-disable-next-line no-console
     console.log(usersData);
-    performFetch(usersData, "POST");
+    isEdit ? updateUser(usersData, "PUT") : performFetch(usersData, "POST");
   };
-
-  // const handleCancel = () => {
-  //   // Handle cancel action (e.g., navigate back to the student list)
-  // };
 
   return (
     <form onSubmit={handleSave}>
@@ -60,7 +83,7 @@ export default function AddStudentPage() {
               component="h2"
               sx={{ mb: 4, mt: 6, textAlign: "center" }}
             >
-              Add Student
+              {isEdit ? "Edit Student" : "Add Student"}
             </Typography>
           </Box>
           <Grid item xs={12}>
@@ -87,18 +110,17 @@ export default function AddStudentPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <FormControl fullWidth>
-                <InputLabel>Group Number</InputLabel>
+              <FilterByGroup
+                onFilterChange={(event) => setGroupNumber(event)}
+                isSelect={true}
+                idGroup={isEdit && groupNumber}
+              >
                 <Select
-                  value={groupNumber}
-                  onChange={(e) => setGroupNumber(e.target.value)}
-                >
-                  <MenuItem value={43}>43</MenuItem>
-                  <MenuItem value={44}>44</MenuItem>
-                  <MenuItem value={45}>45</MenuItem>
-                  <MenuItem value={46}>46</MenuItem>
-                </Select>
-              </FormControl>
+                  label="Filter"
+                  fullWidth
+                  style={{ height: "2.3em" }} // Set the height directly using the style prop
+                />
+              </FilterByGroup>
             </Stack>
           </Grid>
 
@@ -110,7 +132,9 @@ export default function AddStudentPage() {
               mt={3}
               sx={{ display: "flex", justifyContent: "center" }}
             >
-              <Button variant="outlined">Save</Button>
+              <Button type="submit" variant="outlined">
+                Save
+              </Button>
               <CancelButton variant="contained">Cancel</CancelButton>
             </Stack>
           </Grid>

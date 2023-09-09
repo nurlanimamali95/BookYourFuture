@@ -3,11 +3,18 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import PropTypes from "prop-types";
 import useFetch from "../../../../hooks/useFetch";
 
-export default function FilterByGroup({ onFilterChange }) {
+export default function FilterByGroup({
+  onFilterChange,
+  isSelect = false,
+  idGroup = "",
+}) {
   const [group, setGroup] = useState("");
   const [groupList, setGroupList] = useState([]);
 
   const { performFetch, error } = useFetch("/group/all", handleReceivedData);
+  useEffect(() => {
+    isSelect && idGroup && setGroup(idGroup);
+  }, [isSelect, idGroup]);
 
   useEffect(() => {
     performFetch();
@@ -27,10 +34,10 @@ export default function FilterByGroup({ onFilterChange }) {
 
   const activeGroups = groupList
     .filter((group) => group.status === "active")
-    .map((group) => group.numberOfGroupName);
+    .map((group) => ({ number: group.numberOfGroupName, id: group._id }));
 
   return (
-    <FormControl size="small" sx={{ m: 1, minWidth: 120 }}>
+    <FormControl size="small" sx={{ m: 1, minWidth: "140px" }}>
       <InputLabel id="group-label">Group</InputLabel>
       <Select
         labelId="group-label"
@@ -40,12 +47,13 @@ export default function FilterByGroup({ onFilterChange }) {
         onChange={handleChange}
         label="Group"
       >
-        <MenuItem value="">
+        <MenuItem value="All">
           <em>All</em>
         </MenuItem>
-        {activeGroups.map((group) => (
-          <MenuItem key={group} value={group.toString()}>
-            {`Group ${group}`}
+
+        {activeGroups.map(({ number, id }) => (
+          <MenuItem key={id} value={isSelect ? id : number.toString()}>
+            {`Group ${number}`}
           </MenuItem>
         ))}
       </Select>
@@ -55,4 +63,6 @@ export default function FilterByGroup({ onFilterChange }) {
 
 FilterByGroup.propTypes = {
   onFilterChange: PropTypes.func.isRequired,
+  isSelect: PropTypes.bool,
+  idGroup: PropTypes.string,
 };

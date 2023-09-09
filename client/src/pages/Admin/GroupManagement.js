@@ -108,6 +108,8 @@ export default function GroupManagement() {
                         id={item._id}
                         page="group"
                         reFetch={performFetch}
+                        titleConfirm={"Delete group"}
+                        contentConfirm={`Are you sure you want to delete a group ${item.numberOfGroupName}?`}
                       />
                     </TableCell>
                   </TableRow>

@@ -13,21 +13,19 @@ import {
   Box,
   Typography,
   TextField, // Import TextField for search
-  FormControl, // Import FormControl for group filter
-  InputLabel, // Import InputLabel for group filter
-  Select, // Import Select for group filter
-  MenuItem, // Import MenuItem for group filter
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Buttons/Button";
 import DeleteButton from "../../components/Buttons/DeleteButton";
+import FilterByGroup from "../../components/Admin/AdminEvents/EventManagement/FilterByGroup";
 
-export default function StudentManagementPage() {
+function StudentManagementPage() {
   const [data, setData] = useState(null);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [selectedGroup, setSelectedGroup] = useState("All"); // State for selected group filter
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,6 +41,7 @@ export default function StudentManagementPage() {
   const handleEditClick = (id) => {
     // eslint-disable-next-line no-console
     console.log(`Edit clicked for ID ${id}`);
+    navigate(`editStudent/${id}`);
   };
 
   const filteredData = data
@@ -53,7 +52,9 @@ export default function StudentManagementPage() {
         const email = student.email.toLowerCase();
         const query = searchQuery.toLowerCase();
         const isGroupMatch =
-          selectedGroup === "All" || student.group === selectedGroup;
+          selectedGroup === "All" ||
+          student.group[0]?.numberOfGroupName.toString() === selectedGroup;
+
         return (
           (fullName.includes(query) || email.includes(query)) && isGroupMatch
         );
@@ -82,29 +83,19 @@ export default function StudentManagementPage() {
               marginBottom: "20px",
             }}
           >
-            <div>
+            <Box>
               <TextField
                 label="Search"
                 variant="outlined"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-            </div>
-            <div>
-              <FormControl variant="outlined">
-                <InputLabel>Group Filter</InputLabel>
-                <Select
-                  value={selectedGroup}
-                  onChange={(e) => setSelectedGroup(e.target.value)}
-                  label="Group Filter"
-                >
-                  <MenuItem value="All">All</MenuItem>
-                  <MenuItem value="Group A">Group A</MenuItem>
-                  <MenuItem value="Group B">Group B</MenuItem>
-                  {/* Add more options for different groups */}
-                </Select>
-              </FormControl>
-            </div>
+            </Box>
+            <Box>
+              <FilterByGroup
+                onFilterChange={(group) => setSelectedGroup(group)}
+              />
+            </Box>
             <Button
               variant="contained"
               onClick={() => {
@@ -135,7 +126,12 @@ export default function StudentManagementPage() {
                     <TableCell>
                       {student.firstName} {student.lastName}
                     </TableCell>
-                    <TableCell>{student.group}</TableCell>
+                    <TableCell
+                      key={student.group[0]?._id}
+                      value={student.group[0]?.numberOfGroupName}
+                    >
+                      {student.group[0]?.numberOfGroupName}
+                    </TableCell>
                     <TableCell>{student.email}</TableCell>
                     <TableCell>{student.github}</TableCell>
                     <TableCell>
@@ -148,6 +144,8 @@ export default function StudentManagementPage() {
                         id={student._id}
                         page="user"
                         reFetch={performFetch}
+                        titleConfirm={"Delete student"}
+                        contentConfirm={`Are you sure you want to delete a student ${student.firstName} ${student.lastName}?`}
                       />
                     </TableCell>
                   </TableRow>
@@ -160,3 +158,5 @@ export default function StudentManagementPage() {
     </>
   );
 }
+
+export default StudentManagementPage;
