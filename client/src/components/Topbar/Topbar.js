@@ -70,24 +70,27 @@ export default function MainNavigation() {
           >
             {/* Horizontal navigation menu */}
             <List sx={{ display: "flex" }}>
-              <ListItemButton>
-                <ListItemText
-                  primary={
-                    <Link to="/admin" className="link">
-                      Home/admin
-                    </Link>
-                  }
-                />
-              </ListItemButton>
-              <ListItemButton>
-                <ListItemText
-                  primary={
-                    <Link to="/student" className="link">
-                      Home/student
-                    </Link>
-                  }
-                />
-              </ListItemButton>
+              {userData?.admin === true ? (
+                <ListItemButton>
+                  <ListItemText
+                    primary={
+                      <Link to="/admin" className="link">
+                        Home
+                      </Link>
+                    }
+                  />
+                </ListItemButton>
+              ) : (
+                <ListItemButton>
+                  <ListItemText
+                    primary={
+                      <Link to="/student" className="link">
+                        Home
+                      </Link>
+                    }
+                  />
+                </ListItemButton>
+              )}
               <ListItemButton sx={{ color: "white" }}>
                 <ListItemText
                   primary={
