@@ -22,7 +22,11 @@ export default function TabList({ value, onChange, groupLabels }) {
       sx={{ my: 2 }}
     >
       {groupLabels.map((group) => (
-        <Tab key={group} label={`Group ${group}`} {...a11yProps(group)} />
+        <Tab
+          key={group._id}
+          label={`Group ${group.numberOfGroupName}`}
+          {...a11yProps(group.numberOfGroupName)}
+        />
       ))}
     </Tabs>
   );
