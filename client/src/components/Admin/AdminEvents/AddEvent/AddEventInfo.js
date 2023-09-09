@@ -22,7 +22,8 @@ export default function MainEventInfo() {
     <>
       <Stack spacing={2}>
         <TextField
-          id="standard-basic"
+          required
+          id="standard-required"
           label="Title"
           variant="standard"
           fullWidth
@@ -51,6 +52,7 @@ export default function MainEventInfo() {
         }}
       >
         <LocationToggle
+          required
           value={eventData.location}
           onChange={handleDropdownChange("location")}
         />
