@@ -24,7 +24,7 @@ import { logout, selectorIsAuth } from "../../components/redux/authSlice";
 import { useNavigate } from "react-router-dom";
 
 import logo from "../../assets/download.svg";
-import { Avatar, ListItemIcon, Typography } from "@mui/material";
+import { Avatar, ListItemIcon } from "@mui/material";
 
 export default function MainNavigation() {
   const [open, setOpen] = useState(false);
@@ -71,15 +71,44 @@ export default function MainNavigation() {
             {/* Horizontal navigation menu */}
             <List sx={{ display: "flex" }}>
               {userData?.admin === true ? (
-                <ListItemButton>
-                  <ListItemText
-                    primary={
-                      <Link to="/admin" className="link">
-                        Home
-                      </Link>
-                    }
-                  />
-                </ListItemButton>
+                <>
+                  <ListItemButton>
+                    <ListItemText
+                      primary={
+                        <Link to="/admin" className="link">
+                          Home
+                        </Link>
+                      }
+                    />
+                  </ListItemButton>
+                  <ListItemButton sx={{ color: "white" }}>
+                    <ListItemText
+                      primary={
+                        <Link to="/events" className="link">
+                          Events
+                        </Link>
+                      }
+                    />
+                  </ListItemButton>
+                  <ListItemButton>
+                    <ListItemText
+                      primary={
+                        <Link to="/groups" className="link">
+                          Groups
+                        </Link>
+                      }
+                    />
+                  </ListItemButton>
+                  <ListItemButton>
+                    <ListItemText
+                      primary={
+                        <Link to="/students" className="link">
+                          Students
+                        </Link>
+                      }
+                    />
+                  </ListItemButton>
+                </>
               ) : (
                 <ListItemButton>
                   <ListItemText
@@ -91,55 +120,18 @@ export default function MainNavigation() {
                   />
                 </ListItemButton>
               )}
-              <ListItemButton sx={{ color: "white" }}>
-                <ListItemText
-                  primary={
-                    <Link to="/events" className="link">
-                      Events
-                    </Link>
-                  }
-                />
-              </ListItemButton>
-
-              <ListItemButton>
-                <ListItemText
-                  primary={
-                    <Link to="/groups" className="link">
-                      Groups
-                    </Link>
-                  }
-                />
-              </ListItemButton>
-              <ListItemButton>
-                <ListItemText
-                  primary={
-                    <Link to="/students" className="link">
-                      Students
-                    </Link>
-                  }
-                />
-              </ListItemButton>
-              <ListItemButton>
-                <ListItemText
-                  primary={
-                    <Link to="/userProfile" className="link">
-                      Profile
-                    </Link>
-                  }
-                />
-              </ListItemButton>
-
               {isAuth && (
                 <ListItemButton>
-                  <ListItemIcon>
-                    <Typography sx={{ color: "white" }}>
-                      {userData?.firstName}
-                    </Typography>
-                    <AccountCircleIcon sx={{ color: "white", ml: 1 }} />
-                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <Link to="/userProfile" className="link">
+                        {userData?.firstName}
+                      </Link>
+                    }
+                  />
+                  <AccountCircleIcon sx={{ color: "white", ml: 1 }} />
                 </ListItemButton>
               )}
-
               <ListItemButton>
                 <ListItemIcon>
                   <LogoutIcon sx={{ color: "white" }} onClick={onClickLogout} />
@@ -180,45 +172,81 @@ export default function MainNavigation() {
               </IconButton>
               <Divider sx={{ mb: 2 }} />
               <Box sx={{ mb: 2 }}>
+                {userData?.admin === true ? (
+                  <>
+                    <ListItemButton>
+                      <Link to="/admin">
+                        <ListItemIcon>
+                          <HomeIcon sx={{ color: "grey" }} />
+                        </ListItemIcon>
+                        <ListItemText primary="Home" />
+                      </Link>
+                    </ListItemButton>
+
+                    <ListItemButton>
+                      <Link to="/events">
+                        <ListItemIcon>
+                          <CalendarMonthIcon sx={{ color: "grey" }} />
+                        </ListItemIcon>
+                        <ListItemText primary="Events" />
+                      </Link>
+                    </ListItemButton>
+
+                    <ListItemButton>
+                      <Link to="/groups">
+                        <ListItemIcon>
+                          <GroupIcon sx={{ color: "grey" }} />
+                        </ListItemIcon>
+                        <ListItemText primary="Groups" />
+                      </Link>
+                    </ListItemButton>
+
+                    <ListItemButton>
+                      <Link to="/students">
+                        <ListItemIcon>
+                          <PersonIcon sx={{ color: "grey" }} />
+                        </ListItemIcon>
+                        <ListItemText primary="Students" />
+                      </Link>
+                    </ListItemButton>
+
+                    <ListItemButton onClick={onClickLogout}>
+                      <ListItemIcon>
+                        <LogoutIcon sx={{ color: "grey" }} />
+                      </ListItemIcon>
+                      <ListItemText primary="Log Out" />
+                    </ListItemButton>
+                  </>
+                ) : (
+                  <>
+                    <ListItemButton>
+                      <Link to="/student">
+                        <ListItemIcon>
+                          <HomeIcon sx={{ color: "grey" }} />
+                        </ListItemIcon>
+                        <ListItemText primary="Home" />
+                      </Link>
+                    </ListItemButton>
+
+                    <ListItemButton onClick={onClickLogout}>
+                      <ListItemIcon>
+                        <LogoutIcon sx={{ color: "grey" }} />
+                      </ListItemIcon>
+                      <ListItemText primary="Log Out" />
+                    </ListItemButton>
+                  </>
+                )}
                 <ListItemButton>
-                  <ListItemIcon>
-                    <HomeIcon sx={{ color: "grey" }} />
-                  </ListItemIcon>
-                  <ListItemText primary="Home" />
+                  <Link to="/userProfile">
+                    <ListItemIcon>
+                      <AccountCircleIcon sx={{ color: "grey" }} />
+                      <ListItemText
+                        sx={{ ml: 1 }}
+                        primary={userData?.firstName}
+                      />
+                    </ListItemIcon>
+                  </Link>
                 </ListItemButton>
-
-                <ListItemButton>
-                  <ListItemIcon>
-                    <CalendarMonthIcon sx={{ color: "grey" }} />
-                  </ListItemIcon>
-                  <ListItemText primary="Events" />
-                </ListItemButton>
-
-                <ListItemButton>
-                  <ListItemIcon>
-                    <GroupIcon sx={{ color: "grey" }} />
-                  </ListItemIcon>
-                  <ListItemText primary="Group" />
-                </ListItemButton>
-
-                <ListItemButton>
-                  <ListItemIcon>
-                    <PersonIcon sx={{ color: "grey" }} />
-                  </ListItemIcon>
-                  <ListItemText primary="Student" />
-                </ListItemButton>
-
-                <ListItemButton onClick={onClickLogout}>
-                  <ListItemIcon>
-                    <LogoutIcon sx={{ color: "white" }} />
-                  </ListItemIcon>
-                  <ListItemText primary="Log Out" />
-                </ListItemButton>
-
-                <ListItemIcon>
-                  <AccountCircleIcon sx={{ color: "white" }} />
-                  <ListItemText primary={userData?.firstName} />
-                </ListItemIcon>
               </Box>
               <Box
                 sx={{
@@ -226,7 +254,7 @@ export default function MainNavigation() {
                   justifyContent: "center",
                   position: "absolute",
                   bottom: "0",
-                  left: "30%",
+                  left: "40%",
                   transform: "translate(-50%, 0)",
                 }}
               ></Box>
