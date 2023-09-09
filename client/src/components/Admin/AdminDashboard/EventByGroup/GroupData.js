@@ -60,9 +60,7 @@ GroupData.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
+
     location: PropTypes.string.isRequired,
     student: PropTypes.array.isRequired,
     group: PropTypes.array.isRequired,

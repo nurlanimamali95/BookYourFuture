@@ -2,8 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TabList from "./TabList";
 import TabPanels from "./TabPanels";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import useFetch from "../../../../hooks/useFetch";
 
 export default function EventByGroup() {
@@ -22,7 +21,6 @@ export default function EventByGroup() {
     setGroupList(data.groupsData);
   }
 
-  // Fetching demoData (events)
   const [demoData, setDemoData] = useState([]);
   const { performFetch: fetchEvents, error: eventError } = useFetch(
     "/event/all",
@@ -34,11 +32,9 @@ export default function EventByGroup() {
   }, []);
 
   function handleEventsReceived(data) {
-    setDemoData(data.eventsData); // Assuming the structure of your returned data contains an eventsData field
+    setDemoData(data.eventsData);
   }
-  // console.log(demoData);
 
-  // Error handling
   if (groupError) return <div>Error fetching groups: {groupError.message}</div>;
   if (eventError) return <div>Error fetching events: {eventError.message}</div>;
 

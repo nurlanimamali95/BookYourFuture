@@ -3,11 +3,9 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import { Pagination } from "@mui/material";
-
 import CustomTabPanel from "./CustomTabPanel";
 import EmptyGroupData from "./EmptyGroupData";
 import GroupData from "./GroupData";
-
 export default function TabPanels({ value, groupLabels, demoData }) {
   const itemsPerPage = 5;
   const [page, setPage] = useState(1);
