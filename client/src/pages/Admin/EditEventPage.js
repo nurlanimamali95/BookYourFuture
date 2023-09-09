@@ -33,7 +33,7 @@ export default function EditEventPage() {
     sessionSlot: [],
   });
 
-  const { performFetch, cancelFetch, isLoading } = useFetch(
+  const { performFetch, cancelFetch, isLoading, error } = useFetch(
     `/event/${id}`,
     handleReceivedData
   );
@@ -45,6 +45,12 @@ export default function EditEventPage() {
       cancelFetch();
     };
   }, []);
+
+  useEffect(() => {
+    if (error) {
+      handleMessage("There was an error fetching the event data.");
+    }
+  }, [error]);
 
   function handleReceivedData(data) {
     const processedSessionSlots = data?.eventData?.sessionSlot?.map((slot) => ({
