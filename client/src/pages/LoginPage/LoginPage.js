@@ -15,7 +15,7 @@ import background from "../../assets/loginbackground.jpg";
 import logo from "../../assets/logo.svg";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   fetchUserData,
   selectorIsAuth,
@@ -24,7 +24,8 @@ import {
 const LoginPage = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectorIsAuth);
-  const { userData } = useSelector((state) => state.auth);
+  const userData = useSelector((state) => state.auth.data);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -32,7 +33,7 @@ const LoginPage = () => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      email: "auth@test.com",
+      email: "admin@test.com",
       password: "123456",
     },
     mode: "onChange",
@@ -63,14 +64,8 @@ const LoginPage = () => {
     },
   });
 
-  {
-    isAuth ? (
-      userData.admin === "admin" ? (
-        <Navigate to="/admin" />
-      ) : (
-        <Navigate to="/student" />
-      )
-    ) : null;
+  if (isAuth) {
+    userData?.admin === true ? navigate("/admin") : navigate("/student");
   }
 
   return (

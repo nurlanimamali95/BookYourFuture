@@ -21,15 +21,17 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, selectorIsAuth } from "../../components/redux/authSlice";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import logo from "../../assets/download.svg";
-import { Avatar, ListItemIcon } from "@mui/material";
+import { Avatar, ListItemIcon, Typography } from "@mui/material";
 
 export default function MainNavigation() {
   const [open, setOpen] = useState(false);
   const isAuth = useSelector(selectorIsAuth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userData = useSelector((state) => state.auth.data);
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -45,8 +47,8 @@ export default function MainNavigation() {
     if (window.confirm("Are you sure you want to logout?")) {
       dispatch(logout());
       window.localStorage.removeItem("token");
+      navigate("/login");
     }
-    return <Navigate to="/login" />;
   };
 
   return (
@@ -103,8 +105,19 @@ export default function MainNavigation() {
                     </Link>
                   }
                 />
-                {isAuth && <AccountCircleIcon sx={{ color: "white" }} />}
               </ListItemButton>
+
+              {isAuth && (
+                <ListItemButton>
+                  <ListItemIcon>
+                    <Typography sx={{ color: "white" }}>
+                      {userData?.firstName}
+                    </Typography>
+                    <AccountCircleIcon sx={{ color: "white", ml: 1 }} />
+                  </ListItemIcon>
+                </ListItemButton>
+              )}
+
               <ListItemButton>
                 <ListItemIcon>
                   <LogoutIcon sx={{ color: "white" }} onClick={onClickLogout} />
@@ -173,7 +186,7 @@ export default function MainNavigation() {
                   <ListItemText primary="Student" />
                 </ListItemButton>
 
-                <ListItemButton>
+                <ListItemButton onClick={onClickLogout}>
                   <ListItemIcon>
                     <LogoutIcon sx={{ color: "white" }} />
                   </ListItemIcon>
@@ -182,7 +195,7 @@ export default function MainNavigation() {
 
                 <ListItemIcon>
                   <AccountCircleIcon sx={{ color: "white" }} />
-                  <ListItemText primary="UserName" />
+                  <ListItemText primary={userData?.firstName} />
                 </ListItemIcon>
               </Box>
               <Box
