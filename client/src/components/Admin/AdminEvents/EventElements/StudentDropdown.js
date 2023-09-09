@@ -6,13 +6,12 @@ import useFetch from "../../../../hooks/useFetch";
 export default function StudentDropdown({
   value,
   onChange,
-  disabled,
-  isGroup,
+  disabled = false, // default value
+  isGroup = false, // default value
   groupId,
 }) {
   const [studentsList, setStudentsList] = useState([]);
 
-  //Not working yet
   const { performFetch, error } = useFetch(
     `/group/${groupId}`,
     handleReceivedData
@@ -29,8 +28,7 @@ export default function StudentDropdown({
       setStudentsList(data.groupData.students);
     }
   }
-  //eslint-disable-next-line
-  console.log(studentsList);
+
   if (isGroup) {
     return (
       <FormControl sx={{ minWidth: 220 }}>
@@ -62,7 +60,7 @@ export default function StudentDropdown({
         >
           {studentsList.map((student) => (
             <MenuItem key={student._id} value={student._id}>
-              {student.name}
+              {student.firstName + " " + student.lastName}
             </MenuItem>
           ))}
         </Select>

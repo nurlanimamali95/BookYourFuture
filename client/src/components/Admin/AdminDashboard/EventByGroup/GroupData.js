@@ -35,18 +35,18 @@ export default function GroupData({ data }) {
         ":hover": { backgroundColor: "#fafafa" },
       }}
     >
-      <Box>
+      <Box sx={{ flex: 1 }}>
         <Typography variant="subtitle2">{sessionDate}</Typography>
         <Typography variant="subtitle2">{sessionTime}</Typography>
       </Box>
-      <Box sx={{}}>
+      <Box sx={{ flex: 1 }}>
         <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
-          {data.student[0] || "All"}
+          {data.student[0]?.firstName || "All"}
         </Typography>
         <Typography variant="subtitle2">{data.title}</Typography>
       </Box>
       <Hidden smDown>
-        <Box>
+        <Box sx={{ flex: 1 }}>
           <Typography variant="subtitle1" align="right">
             {data.location}
           </Typography>

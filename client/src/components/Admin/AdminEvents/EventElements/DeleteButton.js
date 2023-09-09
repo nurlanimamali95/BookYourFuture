@@ -18,7 +18,12 @@ export default function DeleteButton({ endpoint, onDeleted, redirectPath }) {
   };
 
   return (
-    <Button variant="outlined" onClick={handleDelete} disabled={isLoading}>
+    <Button
+      variant="outlined"
+      onClick={handleDelete}
+      disabled={isLoading}
+      color="error"
+    >
       Delete Event
     </Button>
   );

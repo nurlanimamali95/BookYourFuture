@@ -74,18 +74,12 @@ export default function MainEventInfo() {
           value={eventData.group}
           onChange={handleDropdownChange("group")}
         />
-        {/* <StudentDropdown
-          value={eventData.student}
-          onChange={handleDropdownChange("student")}
-          isGroup={eventData.receiverType === "Group"}
-          disabled={eventData.receiverType !== "Student"}
-        /> */}
         <StudentDropdown
           groupId={eventData.group}
           value={eventData.student}
           onChange={handleDropdownChange("student")}
-          isGroup={eventData.receiverType === "Group"}
-          disabled={eventData.receiverType !== "Student"}
+          isGroup={eventData.receiverType === "group"}
+          disabled={eventData.receiverType !== "student"}
         />
       </Stack>
     </>

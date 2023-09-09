@@ -6,6 +6,7 @@ import EditEventDatePicker from "../../components/Admin/AdminEvents/EditEvent/Ed
 import EventContext from "../../components/Admin/AdminEvents/AddEvent/EventContext";
 import SaveButton from "../../components/Admin/AdminEvents/EventElements/SaveButton";
 import DeleteButton from "../../components/Admin/AdminEvents/EventElements/DeleteButton";
+import CancelButton from "../../components/Admin/AdminEvents/EventElements/CancelButton";
 import {
   Container,
   Typography,
@@ -86,19 +87,23 @@ export default function EditEventPage() {
                 </Box>
               </Grid>
             </Grid>
-            <Stack direction="row" spacing={2} sx={{ mt: 4 }}>
-              <SaveButton
-                eventData={eventData}
-                onSaved={handleMessage}
-                onError={handleMessage}
-                endpoint={`/event/edit/${id}`}
-              />
-              <DeleteButton
-                endpoint={`/event/${id}`}
-                onDeleted={handleMessage}
-                redirectPath="/events"
-              />
-            </Stack>
+            <Grid container justifyContent="center">
+              <Stack direction="row" spacing={4} sx={{ mt: 4 }}>
+                <SaveButton
+                  eventData={eventData}
+                  onSaved={handleMessage}
+                  onError={handleMessage}
+                  endpoint={`/event/edit/${id}`}
+                  redirectPath="/events"
+                />
+                <DeleteButton
+                  endpoint={`/event/${id}`}
+                  onDeleted={handleMessage}
+                  redirectPath="/events"
+                />
+                <CancelButton endpoint="/events" />
+              </Stack>
+            </Grid>
           </>
         )}
       </Container>
