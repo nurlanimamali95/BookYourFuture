@@ -13,7 +13,12 @@ export default function TabPanels({ value, groupLabels, demoData }) {
   const handlePageChange = (event, newPage) => setPage(newPage);
 
   const getGroupDataFor = (groupNumber) =>
-    demoData.filter((data) => data.group[0].numberOfGroupName === groupNumber);
+    demoData.filter(
+      (data) =>
+        Array.isArray(data.group) &&
+        data.group.length > 0 &&
+        data.group[0].numberOfGroupName === groupNumber
+    );
 
   return (
     <>
