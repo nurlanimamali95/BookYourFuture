@@ -11,6 +11,7 @@ export default function CustomMonthLayout(props) {
         showDaysOutsideCurrentMonth
         fixedWeekNumber={6}
         onChange={props.onDateSelected}
+        autoFocus={true}
       />
     </LocalizationProvider>
   );
