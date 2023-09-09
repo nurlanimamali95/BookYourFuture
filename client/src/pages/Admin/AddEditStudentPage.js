@@ -12,7 +12,7 @@ import { CancelButton } from "../../components/Buttons/CancelButton";
 import { Button } from "../../components/Buttons/Button";
 import { toast } from "react-hot-toast";
 import useFetch from "../../hooks/useFetch";
-import FilterByGroup from "../../components/Admin/AdminEvents/EventManagement/FilterByGroup";
+import FilterByGroup from "../../components/Filters/FilterByGroup";
 import { useLocation, useParams } from "react-router-dom";
 
 export default function AddEditStudentPage() {
@@ -115,11 +115,7 @@ export default function AddEditStudentPage() {
                 isSelect={true}
                 idGroup={isEdit && groupNumber}
               >
-                <Select
-                  label="Filter"
-                  fullWidth
-                  style={{ height: "2.3em" }} // Set the height directly using the style prop
-                />
+                <Select label="Filter" fullWidth />
               </FilterByGroup>
             </Stack>
           </Grid>
