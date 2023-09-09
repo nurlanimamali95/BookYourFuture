@@ -10,7 +10,7 @@ export default function GroupData({ data }) {
     data.sessionSlot &&
     data.sessionSlot.length > 0 &&
     data.sessionSlot[0].startTime
-      ? dayjs(data.sessionSlot[0].startTime).format("YYYY-MM-DD")
+      ? dayjs(data.sessionSlot[0].startTime).format("D MMMM")
       : "N/A";
 
   const sessionTime =
@@ -39,9 +39,9 @@ export default function GroupData({ data }) {
         <Typography variant="subtitle2">{sessionDate}</Typography>
         <Typography variant="subtitle2">{sessionTime}</Typography>
       </Box>
-      <Box>
+      <Box sx={{}}>
         <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
-          {data.student[0]}
+          {data.student[0] || "All"}
         </Typography>
         <Typography variant="subtitle2">{data.title}</Typography>
       </Box>
