@@ -32,9 +32,11 @@ export default function FilterByGroup({
 
   if (error) return <div>Error: {error.message}</div>;
 
-  const activeGroups = groupList
-    .map((group) => ({ number: group.numberOfGroupName, id: group._id }));
-   
+  const activeGroups = groupList.map((group) => ({
+    number: group.numberOfGroupName,
+    id: group._id,
+  }));
+
   return (
     <FormControl size="small" sx={{ m: 1, minWidth: "140px" }}>
       <InputLabel id="group-label">Group</InputLabel>
@@ -53,7 +55,6 @@ export default function FilterByGroup({
         {activeGroups.map(({ number, id }) => (
           <MenuItem key={id} value={isSelect ? id : number.toString()}>
             {`Group ${number}`}
-
           </MenuItem>
         ))}
       </Select>

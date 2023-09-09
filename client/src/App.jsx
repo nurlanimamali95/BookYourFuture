@@ -18,7 +18,6 @@ import { useDispatch } from "react-redux";
 import { fetchAuthMe } from "./components/redux/authSlice";
 // import { Navigate } from "react-router-dom";
 
-
 const App = () => {
   const dispatch = useDispatch();
   // const isAuth = useSelector(selectorIsAuth);
