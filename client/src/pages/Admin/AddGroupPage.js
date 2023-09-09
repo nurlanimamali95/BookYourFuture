@@ -15,6 +15,9 @@ import useFetch from "../../hooks/useFetch";
 import { CancelButton } from "../../components/Buttons/CancelButton";
 import { Button } from "../../components/Buttons/Button";
 import { toast } from "react-hot-toast";
+import { selectorIsAuth } from "../../components/redux/authSlice";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 // const mainColors = [
 //   "#FF0000", // Red
@@ -30,6 +33,8 @@ import { toast } from "react-hot-toast";
 // ];
 
 function AddGroupPage() {
+  const isAuth = useSelector(selectorIsAuth);
+  const navigate = useNavigate();
   const [groupName, setGroupName] = useState("");
   const [groupColor, setGroupColor] = useState("");
   const { performFetch, error } = useFetch("/group/add", () => {
@@ -61,6 +66,10 @@ function AddGroupPage() {
   // const handleCancel = () => {
   //   // Handle cancel action (e.g., navigate back to the student list)
   // };
+
+  if (!isAuth) {
+    return navigate("/login");
+  }
 
   return (
     <form onSubmit={handleSave}>
