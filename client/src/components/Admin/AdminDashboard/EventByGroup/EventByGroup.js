@@ -2,118 +2,43 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TabList from "./TabList";
 import TabPanels from "./TabPanels";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useFetch from "../../../../hooks/useFetch";
 
 export default function EventByGroup() {
-  const demoGroup = [42, 43, 44, 45];
-  const demoData = [
-    {
-      groupNumber: 43,
-      name: "1",
-      title: "Interview with Adyen",
-      date: "12 September",
-      time: "16:00 - 17:00",
-      status: "Online",
-    },
-    {
-      groupNumber: 42,
-      name: "2",
-      title: "Interview with Adyen",
-      date: "16 September",
-      time: "16:00 - 17:00",
-      status: "Online",
-    },
-    {
-      groupNumber: 42,
-      name: "3",
-      title: "Interview with Adyen",
-      date: "17 September",
-      time: "18:00 - 19:00",
-      status: "Online",
-    },
-    {
-      groupNumber: 44,
-      name: "4",
-      title: "Interview with Adyen",
-      date: "16 September",
-      time: "16:00 - 17:00",
-      status: "Online",
-    },
-    {
-      groupNumber: 44,
-      name: "5",
-      title: "Interview with Adyen",
-      date: "20 September",
-      time: "12:00 - 17:00",
-      status: "Online",
-    },
-    {
-      groupNumber: 44,
-      name: "6",
-      title: "Interview with Adyen",
-      date: "16 September",
-      time: "9:00 - 17:00",
-      status: "Online",
-    },
-    {
-      groupNumber: 43,
-      name: "7",
-      title: "Interview with Adyen",
-      date: "16 September",
-      time: "16:00 - 17:00",
-      status: "Online",
-    },
-    {
-      groupNumber: 43,
-      name: "8",
-      title: "Interview with Adyen",
-      date: "16 September",
-      time: "16:00 - 17:00",
-      status: "Online",
-    },
-    {
-      groupNumber: 43,
-      name: "9",
-      title: "Interview with Adyen",
-      date: "16 September",
-      time: "16:00 - 17:00",
-      status: "Online",
-    },
-    {
-      groupNumber: 43,
-      name: "10",
-      title: "Interview with Adyen",
-      date: "16 September",
-      time: "16:00 - 17:00",
-      status: "Online",
-    },
-    {
-      groupNumber: 43,
-      name: "11",
-      title: "Interview with Adyen",
-      date: "16 September",
-      time: "16:00 - 17:00",
-      status: "Online",
-    },
-    {
-      groupNumber: 43,
-      name: "12",
-      title: "Interview with Adyen",
-      date: "16 September",
-      time: "16:00 - 17:00",
-      status: "Online",
-    },
-    {
-      groupNumber: 43,
-      name: "13",
-      title: "Interview with Adyen",
-      date: "16 September",
-      time: "16:00 - 17:00",
-      status: "Online",
-    },
-  ];
-
   const [value, setValue] = useState(0);
+  const [groupList, setGroupList] = useState([]);
+  const { performFetch: fetchGroups, error: groupError } = useFetch(
+    "/group/all",
+    handleGroupsReceived
+  );
+
+  useEffect(() => {
+    fetchGroups();
+  }, []);
+
+  function handleGroupsReceived(data) {
+    setGroupList(data.groupsData);
+  }
+
+  const [demoData, setDemoData] = useState([]);
+  const { performFetch: fetchEvents, error: eventError } = useFetch(
+    "/event/all",
+    handleEventsReceived
+  );
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  function handleEventsReceived(data) {
+    setDemoData(data.eventsData);
+  }
+
+  if (groupError) return <div>Error fetching groups: {groupError.message}</div>;
+  if (eventError) return <div>Error fetching events: {eventError.message}</div>;
+
+  const activeGroups = groupList.filter((group) => group.status === "active");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -125,10 +50,10 @@ export default function EventByGroup() {
         <TabList
           value={value}
           onChange={handleChange}
-          groupLabels={demoGroup}
+          groupLabels={activeGroups}
         />
       </Box>
-      <TabPanels value={value} groupLabels={demoGroup} demoData={demoData} />
+      <TabPanels value={value} groupLabels={activeGroups} demoData={demoData} />
     </Box>
   );
 }

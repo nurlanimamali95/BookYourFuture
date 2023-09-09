@@ -3,8 +3,23 @@ import PropTypes from "prop-types";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { Hidden } from "@mui/material";
+import dayjs from "dayjs";
 
 export default function GroupData({ data }) {
+  const sessionDate =
+    data.sessionSlot &&
+    data.sessionSlot.length > 0 &&
+    data.sessionSlot[0].startTime
+      ? dayjs(data.sessionSlot[0].startTime).format("D MMMM")
+      : "N/A";
+
+  const sessionTime =
+    data.sessionSlot &&
+    data.sessionSlot.length > 0 &&
+    data.sessionSlot[0].startTime
+      ? dayjs(data.sessionSlot[0].startTime).format("HH:mm:ss")
+      : "N/A";
+
   return (
     <Box
       elevation={1}
@@ -20,22 +35,22 @@ export default function GroupData({ data }) {
         ":hover": { backgroundColor: "#fafafa" },
       }}
     >
-      <box>
-        <Typography variant="subtitle2">{data.date}</Typography>
-        <Typography variant="subtitle2">{data.time}</Typography>
-      </box>
-      <box>
+      <Box sx={{ flex: 1 }}>
+        <Typography variant="subtitle2">{sessionDate}</Typography>
+        <Typography variant="subtitle2">{sessionTime}</Typography>
+      </Box>
+      <Box sx={{ flex: 1 }}>
         <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
-          {data.name}
+          {data.student[0]?.firstName || "All"}
         </Typography>
         <Typography variant="subtitle2">{data.title}</Typography>
-      </box>
+      </Box>
       <Hidden smDown>
-        <box>
+        <Box sx={{ flex: 1 }}>
           <Typography variant="subtitle1" align="right">
-            {data.status}
+            {data.location}
           </Typography>
-        </box>
+        </Box>
       </Hidden>
     </Box>
   );
@@ -45,8 +60,14 @@ GroupData.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
+
+    location: PropTypes.string.isRequired,
+    student: PropTypes.array.isRequired,
+    group: PropTypes.array.isRequired,
+    sessionSlot: PropTypes.arrayOf(
+      PropTypes.shape({
+        startTime: PropTypes.string,
+      })
+    ),
   }).isRequired,
 };

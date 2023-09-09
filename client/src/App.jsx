@@ -9,9 +9,11 @@ import EventManagement from "./pages/Admin/EventManagementPage";
 import EditEventPage from "./pages/Admin/EditEventPage";
 import AddEventPage from "./pages/Admin/AddEventPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
-import AddStudentPage from "./pages/Admin/AddStudentPage";
+import AddEditStudentPage from "./pages/Admin/AddEditStudentPage";
 import AddGroupPage from "./pages/Admin/AddGroupPage";
 import GroupManagement from "./pages/Admin/GroupManagement";
+
+import StudentManagementPage from "./pages/Admin/StudentManagementPage";
 import { useDispatch } from "react-redux";
 import { fetchAuthMe } from "./components/redux/authSlice";
 // import { Navigate } from "react-router-dom";
@@ -36,9 +38,15 @@ const App = () => {
         <Route path="/student/event/timeslots" element={<TimeSlotPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/userProfile" element={<UserProfilePage />} />
-        <Route path="/addStudent" element={<AddStudentPage />} />
+        <Route path="/addStudent" element={<AddEditStudentPage />} />
+
         <Route path="/addGroup" element={<AddGroupPage />} />
         <Route path="/groups" element={<GroupManagement />} />
+        <Route path="/students" element={<StudentManagementPage />} />
+        <Route
+          path="/students/editStudent/:id"
+          element={<AddEditStudentPage />}
+        />
       </Routes>
     </>
   );

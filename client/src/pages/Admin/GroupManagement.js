@@ -22,6 +22,12 @@ import DeleteButton from "../../components/Buttons/DeleteButton";
 export default function GroupManagement() {
   const [data, setData] = useState(null);
 
+  useEffect(() => {
+    performFetch();
+    // eslint-disable-next-line no-console
+    console.log(error);
+  }, []);
+
   const { performFetch, error, isLoading } = useFetch(
     "/group/all",
     (result) => {
@@ -30,11 +36,6 @@ export default function GroupManagement() {
       setData(result.groupsData);
     }
   );
-  useEffect(() => {
-    performFetch();
-    // eslint-disable-next-line no-console
-    console.log(error);
-  }, []);
 
   const handleEditClick = (id) => {
     // Handle edit action here
@@ -103,7 +104,13 @@ export default function GroupManagement() {
                       </IconButton>
                     </TableCell>
                     <TableCell>
-                      <DeleteButton id={item._id} reFetch={performFetch} />
+                      <DeleteButton
+                        id={item._id}
+                        page="group"
+                        reFetch={performFetch}
+                        titleConfirm={"Delete group"}
+                        contentConfirm={`Are you sure you want to delete a group ${item.numberOfGroupName}?`}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}

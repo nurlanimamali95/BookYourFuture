@@ -59,7 +59,7 @@ export default function AddEventPage() {
             redirectPath="/events"
             buttonLabel="Add Event"
           />
-          <CancelButton path="/events" />
+          <CancelButton endpoint="/events" />
         </Stack>
       </Container>
       <Snackbar
