@@ -21,7 +21,7 @@ export const add = async (req, res) => {
 };
 export const all = async (req, res) => {
   try {
-    const { title, groupId } = req.query;
+    const { title, groupId, studentId } = req.query;
     const query = {};
 
     if (title) {
@@ -30,7 +30,11 @@ export const all = async (req, res) => {
     }
 
     if (groupId) {
-      query.group = groupId; // Assuming `group` is the field storing the group's _id
+      query.group = { _id: groupId }; // Assuming `group` is the field storing the group's _id
+    }
+
+    if (studentId) {
+      query.students = { _id: studentId }; // Assuming `student` is the field storing the student's _id
     }
 
     const events = await EventModel.find(query)
