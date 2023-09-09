@@ -10,8 +10,9 @@ import { Hidden } from "@mui/material";
 
 import EventByGroup from "../../components/Admin/AdminDashboard/EventByGroup/EventByGroup";
 import PieChartCard from "../../components/Admin/AdminDashboard/PieChart/PieChartCard";
-import AdminCalender from "../../components/Admin/AdminDashboard/Calender/AdminCalender";
-import AdminEventTable from "../../components/Admin/AdminDashboard/AdminEventTable/AdminEventTable";
+// import AdminCalender from "../../components/Admin/AdminDashboard/Calender/AdminCalender";
+// import AdminEventTable from "../../components/Admin/AdminDashboard/AdminEventTable/AdminEventTable";
+import EventCalander from "../../components/Admin/AdminDashboard/AdminEventTable/EventCalander";
 
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -44,16 +45,17 @@ export default function AdminDashboard() {
                 </Item>
               </Grid>
             </Hidden>
-            <Grid xs={12} md={4}>
+            <Grid xs={12} md={12}>
               <Item>
-                <AdminCalender />
+                <EventCalander />
+                {/* <AdminCalender /> */}
               </Item>
             </Grid>
-            <Grid xs={12} md={8}>
+            {/* <Grid xs={12} md={8}>
               <Item>
                 <AdminEventTable />
               </Item>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Box>
       </Container>

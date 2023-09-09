@@ -33,7 +33,7 @@ export default function EditEventPage() {
     sessionSlot: [],
   });
 
-  const { performFetch, cancelFetch, isLoading } = useFetch(
+  const { performFetch, cancelFetch, isLoading, error } = useFetch(
     `/event/${id}`,
     handleReceivedData
   );
@@ -46,6 +46,12 @@ export default function EditEventPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (error) {
+      handleMessage("There was an error fetching the event data.");
+    }
+  }, [error]);
+
   function handleReceivedData(data) {
     const processedSessionSlots = data?.eventData?.sessionSlot?.map((slot) => ({
       durationInSeconds: slot.durationInSeconds,
@@ -55,6 +61,7 @@ export default function EditEventPage() {
     setEventData({
       ...data.eventData,
       group: data.eventData.group[0]._id,
+      student: data.eventData.student[0]._id,
       sessionSlot: processedSessionSlots,
       duration: data.eventData.sessionSlot / 60,
     });
