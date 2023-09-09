@@ -19,7 +19,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Buttons/Button";
 import DeleteButton from "../../components/Buttons/DeleteButton";
-import FilterByGroup from "../../components/Admin/AdminEvents/EventManagement/FilterByGroup";
+import FilterByGroup from "../../components/Filters/FilterByGroup";
 
 function StudentManagementPage() {
   const [data, setData] = useState(null);
