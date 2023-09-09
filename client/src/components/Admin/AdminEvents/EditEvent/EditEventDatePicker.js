@@ -7,14 +7,23 @@ import IconButton from "@mui/material/IconButton";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Box from "@mui/material/Box";
-import EventContext from "./EventContext";
+import EventContext from "../AddEvent/EventContext";
 import { useContext } from "react";
 import "dayjs/locale/de";
-import { DurationDropdown } from "../AddEvent/AddEventElements";
+// import { DurationDropdown } from "../AddEvent/AddEventElements";
 
-export default function BasicDateTimePicker() {
+export default function EditEventDatePicker() {
   const [datePickers, setDatePickers] = React.useState([{ date: null }]);
   const { eventData, setEventData } = useContext(EventContext);
+
+  React.useEffect(() => {
+    if (eventData.sessionSlot && eventData.sessionSlot.length > 0) {
+      const initialPickers = eventData.sessionSlot.map((slot) => ({
+        date: slot.startTime,
+      }));
+      setDatePickers(initialPickers);
+    }
+  }, [eventData.sessionSlot]); // Use sessionSlot as a dependency
 
   const handleDateChange = (date, index) => {
     const updatedSessionSlot = [...eventData.sessionSlot];
@@ -37,28 +46,24 @@ export default function BasicDateTimePicker() {
   };
 
   const handleAdd = () => {
-    const lastDate = datePickers[datePickers.length - 1].date;
-    setDatePickers((prevDatePickers) => [
-      ...prevDatePickers,
-      { date: lastDate },
-    ]);
+    setDatePickers((prevDatePickers) => [...prevDatePickers, { date: null }]);
   };
 
-  function handleDropdownChange(name) {
-    return (event) => {
-      setEventData((prev) => ({
-        ...prev,
-        [name]: event.target.value,
-      }));
-    };
-  }
+  // function handleDropdownChange(name) {
+  //   return (event) => {
+  //     setEventData((prev) => ({
+  //       ...prev,
+  //       [name]: event.target.value,
+  //     }));
+  //   };
+  // }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-      <DurationDropdown
+      {/* <DurationDropdown
         value={eventData.duration}
         onChange={handleDropdownChange("duration")}
-      />
+      /> */}
       <DemoContainer components={["DateTimePicker"]} sx={{ mt: 3 }}>
         {datePickers.map((picker, index) => (
           <Box

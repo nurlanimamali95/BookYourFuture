@@ -21,7 +21,6 @@ export function DurationDropdown({ value, onChange }) {
         label="Duration"
         value={value}
         onChange={onChange}
-        defaultValue={30}
       >
         <MenuItem value={15}>15 min</MenuItem>
         <MenuItem value={30}>30 min</MenuItem>
@@ -41,7 +40,7 @@ DurationDropdown.propTypes = {
 export function LocationToggle({ value, onChange }) {
   return (
     <FormControl component="fieldset">
-      <FormLabel component="legend">Location</FormLabel>
+      <FormLabel component="legend">Location *</FormLabel>
       <RadioGroup row name="location" value={value} onChange={onChange}>
         <FormControlLabel value="online" control={<Radio />} label="Online" />
         <FormControlLabel value="offline" control={<Radio />} label="Offline" />

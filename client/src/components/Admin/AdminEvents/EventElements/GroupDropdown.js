@@ -22,14 +22,14 @@ export default function GroupDropdown({ value, onChange, defaultValue }) {
   const activeGroups = groupList.filter((group) => group.status === "active");
 
   return (
-    <FormControl sx={{ minWidth: 220 }}>
+    <FormControl sx={{ minWidth: 220 }} required>
       <InputLabel id="group-select-label">Group</InputLabel>
       <Select
         labelId="group-select-label"
         id="group-select"
         value={value || defaultValue || ""}
         onChange={onChange}
-        label="Group"
+        label="Group *"
       >
         {activeGroups.map((group) => (
           <MenuItem key={group._id} value={group._id}>

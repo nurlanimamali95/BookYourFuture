@@ -4,7 +4,6 @@ import {
   Grid,
   Container,
   Typography,
-  Button,
   Stack,
   Box,
   Snackbar,
@@ -12,9 +11,8 @@ import {
 import EventContext from "../../components/Admin/AdminEvents/AddEvent/EventContext";
 import { useState } from "react";
 import AddEventDatePicker from "../../components/Admin/AdminEvents/AddEvent/AddEventDatePicker";
-import useFetch from "../../hooks/useFetch";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import AddEventButton from "../../components/Admin/AdminEvents/EventElements/AddButton";
+import CancelButton from "../../components/Admin/AdminEvents/EventElements/CancelButton";
 
 export default function AddEventPage() {
   const [eventData, setEventData] = useState({
@@ -28,33 +26,7 @@ export default function AddEventPage() {
     sessionSlot: [],
   });
 
-  const navigate = useNavigate();
   const [message, setMessage] = useState("");
-
-  const handleCancelClick = () => {
-    navigate("/events");
-  };
-
-  const { isLoading, error, performFetch } = useFetch("/event/add ", () => {
-    setMessage("Event added successfully! Redirecting...");
-
-    setTimeout(() => {
-      navigate("/events");
-    }, 2000);
-  });
-
-  useEffect(() => {
-    if (error) {
-      setMessage("There was an error adding the event. Please try again.");
-    }
-  }, [error]);
-
-  const handleOnSubmit = () => {
-    performFetch(eventData, "POST");
-  };
-
-  //eslint-disable-next-line
-  console.log(eventData);
 
   return (
     <EventContext.Provider value={{ eventData, setEventData }}>
@@ -80,21 +52,19 @@ export default function AddEventPage() {
           spacing={4}
           sx={{ mt: 6 }}
         >
-          <Button
-            variant="contained"
-            onClick={handleOnSubmit}
-            disabled={isLoading}
-          >
-            Add Event
-          </Button>
-          <Button variant="outlined" onClick={handleCancelClick}>
-            Cancel
-          </Button>
+          <AddEventButton
+            eventData={eventData}
+            onEventAdded={setMessage}
+            endpoint="/event/add"
+            redirectPath="/events"
+            buttonLabel="Add Event"
+          />
+          <CancelButton path="/events" />
         </Stack>
       </Container>
       <Snackbar
         open={Boolean(message)}
-        autoHideDuration={6000} // Adjust this duration as needed
+        autoHideDuration={3000}
         onClose={() => setMessage("")}
         message={message}
       />

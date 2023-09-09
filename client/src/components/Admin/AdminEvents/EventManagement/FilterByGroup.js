@@ -56,3 +56,31 @@ export default function FilterByGroup({ onFilterChange }) {
 FilterByGroup.propTypes = {
   onFilterChange: PropTypes.func.isRequired,
 };
+
+// const activeGroups = groupList
+//     .filter(group => group.status === "active")
+//     .map(group => ({ label: group.numberOfGroupName, value: group._id }));
+
+//   return (
+//     <FormControl size="small" sx={{ m: 1, minWidth: 120 }}>
+//       <InputLabel id="group-label">Group</InputLabel>
+//       <Select
+//         labelId="group-label"
+//         variant="outlined"
+//         size="small"
+//         value={group}
+//         onChange={handleChange}
+//         label="Group"
+//       >
+//         <MenuItem value="">
+//           <em>All</em>
+//         </MenuItem>
+//         {activeGroups.map(groupItem => (
+//           <MenuItem key={groupItem.value} value={groupItem.value}>
+//             {`Group ${groupItem.label}`}
+//           </MenuItem>
+//         ))}
+//       </Select>
+//     </FormControl>
+//   );
+// }
