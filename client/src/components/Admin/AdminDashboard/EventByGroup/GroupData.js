@@ -41,7 +41,7 @@ export default function GroupData({ data }) {
       </Box>
       <Box sx={{ flex: 1 }}>
         <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
-          {data.student[0] || "All"}
+          {data.student[0]?.firstName || "All"}
         </Typography>
         <Typography variant="subtitle2">{data.title}</Typography>
       </Box>

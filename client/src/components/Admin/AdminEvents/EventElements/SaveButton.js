@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import useFetch from "../../../../hooks/useFetch";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 export default function SaveButton({
   eventData,
@@ -10,12 +11,17 @@ export default function SaveButton({
   endpoint,
   successMessage = "Saved successfully!",
   errorMessage = "An error occurred while saving.",
+  redirectPath,
 }) {
+  const navigate = useNavigate();
   const { isLoading, error, performFetch } = useFetch(endpoint, () => {
     if (error) {
       onError(errorMessage);
     } else {
       onSaved(successMessage);
+      setTimeout(() => {
+        navigate(redirectPath);
+      }, 500);
     }
   });
 
@@ -37,4 +43,5 @@ SaveButton.propTypes = {
   endpoint: PropTypes.string.isRequired,
   successMessage: PropTypes.string,
   errorMessage: PropTypes.string,
+  redirectPath: PropTypes.string,
 };
