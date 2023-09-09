@@ -14,16 +14,24 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import HomeIcon from "@mui/icons-material/Home";
 import GroupIcon from "@mui/icons-material/Group";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonIcon from "@mui/icons-material/Person";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout, selectorIsAuth } from "../../components/redux/authSlice";
+import { useNavigate } from "react-router-dom";
 
 import logo from "../../assets/download.svg";
-import { Avatar, ListItemIcon } from "@mui/material";
+import { Avatar, ListItemIcon, Typography } from "@mui/material";
 
 export default function MainNavigation() {
   const [open, setOpen] = useState(false);
+  const isAuth = useSelector(selectorIsAuth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userData = useSelector((state) => state.auth.data);
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -33,6 +41,14 @@ export default function MainNavigation() {
       return;
     }
     setOpen(open);
+  };
+
+  const onClickLogout = () => {
+    if (window.confirm("Are you sure you want to logout?")) {
+      dispatch(logout());
+      window.localStorage.removeItem("token");
+      navigate("/login");
+    }
   };
 
   return (
@@ -54,24 +70,27 @@ export default function MainNavigation() {
           >
             {/* Horizontal navigation menu */}
             <List sx={{ display: "flex" }}>
-              <ListItemButton>
-                <ListItemText
-                  primary={
-                    <Link to="/admin" className="link">
-                      Home/admin
-                    </Link>
-                  }
-                />
-              </ListItemButton>
-              <ListItemButton>
-                <ListItemText
-                  primary={
-                    <Link to="/student" className="link">
-                      Home/student
-                    </Link>
-                  }
-                />
-              </ListItemButton>
+              {userData?.admin === true ? (
+                <ListItemButton>
+                  <ListItemText
+                    primary={
+                      <Link to="/admin" className="link">
+                        Home
+                      </Link>
+                    }
+                  />
+                </ListItemButton>
+              ) : (
+                <ListItemButton>
+                  <ListItemText
+                    primary={
+                      <Link to="/student" className="link">
+                        Home
+                      </Link>
+                    }
+                  />
+                </ListItemButton>
+              )}
               <ListItemButton sx={{ color: "white" }}>
                 <ListItemText
                   primary={
@@ -109,14 +128,21 @@ export default function MainNavigation() {
                   }
                 />
               </ListItemButton>
+
+              {isAuth && (
+                <ListItemButton>
+                  <ListItemIcon>
+                    <Typography sx={{ color: "white" }}>
+                      {userData?.firstName}
+                    </Typography>
+                    <AccountCircleIcon sx={{ color: "white", ml: 1 }} />
+                  </ListItemIcon>
+                </ListItemButton>
+              )}
+
               <ListItemButton>
                 <ListItemIcon>
-                  <LogoutIcon
-                    sx={{ color: "grey" }}
-                    onClick={() => {
-                      // logout logic here
-                    }}
-                  />
+                  <LogoutIcon sx={{ color: "white" }} onClick={onClickLogout} />
                 </ListItemIcon>
               </ListItemButton>
             </List>
@@ -182,12 +208,17 @@ export default function MainNavigation() {
                   <ListItemText primary="Student" />
                 </ListItemButton>
 
-                <ListItemButton>
+                <ListItemButton onClick={onClickLogout}>
                   <ListItemIcon>
-                    <LogoutIcon sx={{ color: "grey" }} />
+                    <LogoutIcon sx={{ color: "white" }} />
                   </ListItemIcon>
                   <ListItemText primary="Log Out" />
                 </ListItemButton>
+
+                <ListItemIcon>
+                  <AccountCircleIcon sx={{ color: "white" }} />
+                  <ListItemText primary={userData?.firstName} />
+                </ListItemIcon>
               </Box>
               <Box
                 sx={{

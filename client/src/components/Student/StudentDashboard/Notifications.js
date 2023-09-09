@@ -5,18 +5,17 @@ import Button from "@mui/material/Button";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import "./Notifications.css";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
-export default function Notifications() {
+export default function Notifications(props) {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
+    //eslint-disable-next-line
+    console.log(props.message);
     const fetchedNotifications = [
       {
-        message: "Class call with Josephine at 12:00",
-        type: "info",
-      },
-      {
-        message: "Social interview with Adyen",
+        message: props.message,
         type: "warning",
         action: {
           label: "Book a slot",
@@ -24,13 +23,7 @@ export default function Notifications() {
       },
     ];
     setNotifications(fetchedNotifications);
-  }, []);
-
-  const handleAlertClose = (index) => {
-    const updatedNotifications = [...notifications];
-    updatedNotifications.splice(index, 1);
-    setNotifications(updatedNotifications);
-  };
+  }, [props.message]);
 
   return (
     <Stack sx={{ width: "100%" }} spacing={2}>
@@ -38,11 +31,6 @@ export default function Notifications() {
         <Alert
           key={index}
           className="animated-alert"
-          onClose={() => {
-            if (notification.type === "info") {
-              handleAlertClose(index);
-            }
-          }}
           action={
             notification.action ? (
               <Link
@@ -68,3 +56,7 @@ export default function Notifications() {
     </Stack>
   );
 }
+
+Notifications.propTypes = {
+  message: PropTypes.string,
+};

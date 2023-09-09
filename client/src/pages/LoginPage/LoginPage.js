@@ -13,14 +13,45 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import background from "../../assets/loginbackground.jpg";
 import logo from "../../assets/logo.svg";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  fetchUserData,
+  selectorIsAuth,
+} from "../../components/redux/authSlice";
 
 const LoginPage = () => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    data.get("email");
-    data.get("password");
+  const dispatch = useDispatch();
+  const isAuth = useSelector(selectorIsAuth);
+  const userData = useSelector((state) => state.auth.data);
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    defaultValues: {
+      email: "admin@test.com",
+      password: "123456",
+    },
+    mode: "onChange",
+  });
+
+  const onSubmit = async (values) => {
+    const data = await dispatch(fetchUserData(values));
+
+    if (!data.payload) {
+      //eslint-disable-next-line
+      console.log("Failed to login");
+    }
+
+    if ("token" in data.payload) {
+      window.localStorage.setItem("token", data.payload.token);
+    }
   };
+
   const theme = createTheme({
     palette: {
       primary: {
@@ -32,6 +63,11 @@ const LoginPage = () => {
       },
     },
   });
+
+  if (isAuth) {
+    userData?.admin === true ? navigate("/admin") : navigate("/student");
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -80,74 +116,84 @@ const LoginPage = () => {
                 <LockOutlinedIcon />
               </Avatar>
             </Box>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{
-                mt: 1,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <TextField
-                margin="normal"
-                size="small"
-                required
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                size="small"
-                required
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    sx={{
-                      color: theme.palette.primary.main,
-                      "&.Mui-checked": {
-                        color: theme.palette.secondary.main,
-                      },
-                    }}
-                    value="remember"
-                  />
-                }
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                variant="contained"
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Box
+                noValidate
                 sx={{
-                  mt: 7,
-                  mb: 2,
-                  backgroundColor: theme.palette.primary.main,
-                  "&:hover": {
-                    backgroundColor: theme.palette.secondary.main,
-                  },
-                  size: "medium",
+                  mt: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
               >
-                Login
-              </Button>
-              <Grid container align="center">
-                <Grid item xs>
-                  <RouterLink to="/dashboard" variant="body2">
-                    Forgot password?
-                  </RouterLink>
+                <TextField
+                  margin="normal"
+                  size="small"
+                  required
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  type="email"
+                  autoFocus
+                  error={Boolean(errors.email)}
+                  helperText={errors.email?.message}
+                  {...register("email", { required: "Email is required" })}
+                />
+                <TextField
+                  margin="normal"
+                  size="small"
+                  required
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  error={Boolean(errors.password)}
+                  helperText={errors.password?.message}
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      sx={{
+                        color: theme.palette.primary.main,
+                        "&.Mui-checked": {
+                          color: theme.palette.secondary.main,
+                        },
+                      }}
+                      value="remember"
+                    />
+                  }
+                  label="Remember me"
+                />
+                <Button
+                  disabled={!isValid}
+                  type="submit"
+                  variant="contained"
+                  sx={{
+                    mt: 7,
+                    mb: 2,
+                    backgroundColor: theme.palette.primary.main,
+                    "&:hover": {
+                      backgroundColor: theme.palette.secondary.main,
+                    },
+                    size: "medium",
+                  }}
+                >
+                  Login
+                </Button>
+                <Grid container align="center">
+                  <Grid item xs>
+                    <RouterLink to="/dashboard" variant="body2">
+                      Forgot password?
+                    </RouterLink>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Box>
+              </Box>
+            </form>
           </Box>
         </Grid>
       </Grid>

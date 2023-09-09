@@ -9,7 +9,7 @@ function EventTableRow({ rows }) {
   const navigate = useNavigate();
 
   const handleEditClick = (_id) => {
-    navigate(`/edit/${_id}`);
+    navigate(`/events/edit/${_id}`);
   };
 
   return rows.map((event) => (
@@ -21,14 +21,18 @@ function EventTableRow({ rows }) {
         {event.title}
       </TableCell>
       <TableCell align="right">
-        {new Date(event.createdAt).toLocaleDateString()}
+        {event.sessionSlot.length > 0
+          ? new Date(event.sessionSlot[0].startTime).toLocaleDateString()
+          : "N/A"}
       </TableCell>
       <TableCell align="right">{event.location}</TableCell>
       <TableCell align="right">
-        {event.group.map((g) => g.numberOfGroupName).join(", ")}
+        {event.group[0]?.numberOfGroupName || "All"}
       </TableCell>
       <TableCell align="right">
-        {event.student.map((s) => s.firstName + " " + s.lastName).join(", ")}
+        {event.student.length > 0
+          ? event.student.map((s) => s.firstName + " " + s.lastName).join(", ")
+          : "All"}
       </TableCell>
       <TableCell align="right">
         <EditIcon

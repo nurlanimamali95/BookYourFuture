@@ -33,9 +33,8 @@ export default function FilterByGroup({
   if (error) return <div>Error: {error.message}</div>;
 
   const activeGroups = groupList
-    .filter((group) => group.status === "active")
     .map((group) => ({ number: group.numberOfGroupName, id: group._id }));
-
+   
   return (
     <FormControl size="small" sx={{ m: 1, minWidth: "140px" }}>
       <InputLabel id="group-label">Group</InputLabel>
@@ -54,6 +53,7 @@ export default function FilterByGroup({
         {activeGroups.map(({ number, id }) => (
           <MenuItem key={id} value={isSelect ? id : number.toString()}>
             {`Group ${number}`}
+
           </MenuItem>
         ))}
       </Select>
@@ -66,3 +66,31 @@ FilterByGroup.propTypes = {
   isSelect: PropTypes.bool,
   idGroup: PropTypes.string,
 };
+
+// const activeGroups = groupList
+//     .filter(group => group.status === "active")
+//     .map(group => ({ label: group.numberOfGroupName, value: group._id }));
+
+//   return (
+//     <FormControl size="small" sx={{ m: 1, minWidth: 120 }}>
+//       <InputLabel id="group-label">Group</InputLabel>
+//       <Select
+//         labelId="group-label"
+//         variant="outlined"
+//         size="small"
+//         value={group}
+//         onChange={handleChange}
+//         label="Group"
+//       >
+//         <MenuItem value="">
+//           <em>All</em>
+// </MenuItem>
+// {activeGroups.map(groupItem => (
+//   <MenuItem key={groupItem.value} value={groupItem.value}>
+//     {`Group ${groupItem.label}`}
+//   </MenuItem>
+//         ))}
+//       </Select>
+//     </FormControl>
+//   );
+// }

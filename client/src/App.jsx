@@ -12,16 +12,28 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import AddEditStudentPage from "./pages/Admin/AddEditStudentPage";
 import AddGroupPage from "./pages/Admin/AddGroupPage";
 import GroupManagement from "./pages/Admin/GroupManagement";
+
 import StudentManagementPage from "./pages/Admin/StudentManagementPage";
+import { useDispatch } from "react-redux";
+import { fetchAuthMe } from "./components/redux/authSlice";
+// import { Navigate } from "react-router-dom";
+
 
 const App = () => {
+  const dispatch = useDispatch();
+  // const isAuth = useSelector(selectorIsAuth);
+
+  React.useEffect(() => {
+    dispatch(fetchAuthMe());
+  }, []);
+
   return (
     <>
       <Layout />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/events/" element={<EventManagement />} />
-        <Route path="events/edit/:id" element={<EditEventPage />} />
+        <Route path="/events/edit/:id" element={<EditEventPage />} />
         <Route path="/events/add" element={<AddEventPage />} />
         <Route path="/student" element={<StudentDashboard />} />
         <Route path="/student/event/timeslots" element={<TimeSlotPage />} />

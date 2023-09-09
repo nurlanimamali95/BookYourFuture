@@ -12,8 +12,7 @@ export const userMe = async (req, res) => {
       });
     }
     const { passwordHash, ...userData } = user._doc;
-
-    res.status(200).json({ success: true, userData });
+    res.status(200).json(userData);
   } catch (err) {
     res.status(500).json({
       message: "Something is wrong",

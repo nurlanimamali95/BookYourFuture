@@ -34,15 +34,16 @@ export function DurationDropdown({ value, onChange }) {
 DurationDropdown.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func.isRequired,
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export function LocationToggle({ value, onChange }) {
   return (
     <FormControl component="fieldset">
-      <FormLabel component="legend">Location</FormLabel>
+      <FormLabel component="legend">Location *</FormLabel>
       <RadioGroup row name="location" value={value} onChange={onChange}>
-        <FormControlLabel value="Online" control={<Radio />} label="Online" />
-        <FormControlLabel value="Offline" control={<Radio />} label="Offline" />
+        <FormControlLabel value="online" control={<Radio />} label="Online" />
+        <FormControlLabel value="offline" control={<Radio />} label="Offline" />
       </RadioGroup>
     </FormControl>
   );
@@ -58,8 +59,8 @@ export function ReceiverToggle({ value, onChange }) {
     <FormControl component="fieldset">
       <FormLabel component="legend">Receiver Type</FormLabel>
       <RadioGroup row name="receiverType" value={value} onChange={onChange}>
-        <FormControlLabel value="Group" control={<Radio />} label="Group" />
-        <FormControlLabel value="Student" control={<Radio />} label="Student" />
+        <FormControlLabel value="group" control={<Radio />} label="Group" />
+        <FormControlLabel value="student" control={<Radio />} label="Student" />
       </RadioGroup>
     </FormControl>
   );
@@ -69,32 +70,6 @@ ReceiverToggle.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func.isRequired,
 };
-
-export function GroupDropdown({ value, onChange }) {
-  return (
-    <FormControl sx={{ minWidth: 220 }}>
-      <InputLabel id="group-select-label">Group</InputLabel>
-      <Select
-        labelId="group-select-label"
-        id="group-select"
-        value={value}
-        label="Group"
-        onChange={onChange}
-      >
-        <MenuItem value={43}>43</MenuItem>
-        <MenuItem value={44}>44</MenuItem>
-        <MenuItem value={45}>45</MenuItem>
-        <MenuItem value={46}>46</MenuItem>
-      </Select>
-    </FormControl>
-  );
-}
-
-GroupDropdown.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onChange: PropTypes.func.isRequired,
-};
-
 export function StudentDropdown({ value, onChange, disabled, isGroup }) {
   if (isGroup) {
     return (
