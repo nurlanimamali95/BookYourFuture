@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import { Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import BasicTable from "../../components/Admin/AdminEvents/EventManagement/EventManagmentTable";
-import FilterByGroup from "../../components/Admin/AdminEvents/EventManagement/FilterByGroup";
+import FilterGroup from "../../components/Admin/AdminEvents/EventManagement/FilterGroup";
 import SearchEvent from "../../components/Admin/AdminEvents/EventManagement/SearchEvent";
 import Grid from "@mui/material/Grid";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -26,9 +26,7 @@ export default function EventManagement() {
       <Grid container alignItems="center" spacing={2}>
         <Grid item xs={10} container spacing={1}>
           <Grid item sx={{ mt: 2, mb: 1, ml: 2 }}>
-            <FilterByGroup
-              onFilterChange={(group) => setSelectedGroup(group)}
-            />
+            <FilterGroup onFilterChange={(group) => setSelectedGroup(group)} />
           </Grid>
           <Grid item sx={{ mt: 2, mb: 1 }}>
             <SearchEvent onSearchChange={(term) => setSearch(term)} />
