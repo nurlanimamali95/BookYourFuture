@@ -11,10 +11,14 @@ const timeSlotSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  student: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  },
 });
 
 // eslint-disable-next-line
-mongoose.model("timeSlot", timeSlotSchema);
+const TimeSlot = mongoose.model("timeSlot", timeSlotSchema);
 
 const eventSchema = new mongoose.Schema(
   {
@@ -82,4 +86,4 @@ export const validateEvent = [
   body("student").optional(),
 ];
 
-export default Event;
+export { Event, TimeSlot };
