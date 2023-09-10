@@ -19,7 +19,7 @@ export default function TimeSlotsPage() {
   const [sessionSlots, setSessionSlots] = useState([]);
   const { isLoading, error, performFetch } = useFetch("/event/all", (data) => {
     if (data.success && data.eventsData.length > 0) {
-      const firstEvent = data.eventsData[35];
+      const firstEvent = data.eventsData[0];
       if (firstEvent.sessionSlot && firstEvent.sessionSlot.length > 0) {
         setSessionSlots(firstEvent.sessionSlot);
       }

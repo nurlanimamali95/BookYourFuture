@@ -20,7 +20,9 @@ export default function EventTable(props) {
   const formattedDate = dayjs(selectedDate).format("YYYY-MM-DD");
 
   const filteredEvents = events.filter((event) =>
-    dayjs(event.createdAt).isSame(formattedDate, "day")
+    event.sessionSlot.some(
+      (slot) => dayjs(slot.startTime).format("YYYY-MM-DD") === formattedDate
+    )
   );
 
   const itemsPerPage = 3;
@@ -119,5 +121,5 @@ EventTable.propTypes = {
       colorCode: PropTypes.string,
     })
   ).isRequired,
-  selectedDate: PropTypes.string,
+  selectedDate: PropTypes.object,
 };
