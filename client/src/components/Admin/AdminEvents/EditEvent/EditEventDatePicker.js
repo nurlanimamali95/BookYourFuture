@@ -40,7 +40,7 @@ export default function EditEventDatePicker() {
     updatedSessionSlot[index].startTime = date ? date.toDate() : null;
 
     // Convert duration to seconds and store it in the sessionSlot
-    const durationInSeconds = Number(eventData.duration) * 3600;
+    const durationInSeconds = Number(eventData.duration);
     updatedSessionSlot[index].durationInSeconds = durationInSeconds;
 
     setEventData((prev) => ({ ...prev, sessionSlot: updatedSessionSlot }));

@@ -64,11 +64,16 @@ export default function EditEventPage() {
       _id: slot._id,
     }));
 
+    const firstSessionDuration =
+      processedSessionSlots && processedSessionSlots.length > 0
+        ? processedSessionSlots[0].durationInSeconds
+        : "";
+
     setEventData({
       ...data.eventData,
       group: data.eventData.group[0]._id,
       sessionSlot: processedSessionSlots,
-      duration: data.eventData.sessionSlot / 60,
+      duration: firstSessionDuration,
     });
   }
 
