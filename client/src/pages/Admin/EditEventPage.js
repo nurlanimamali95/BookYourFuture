@@ -19,6 +19,7 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectorIsAuth } from "../../components/redux/authSlice";
+import { DurationDropdown } from "../../components/Admin/AdminEvents/AddEvent/AddEventElements";
 
 export default function EditEventPage() {
   const isAuth = useSelector(selectorIsAuth);
@@ -103,6 +104,10 @@ export default function EditEventPage() {
               <Grid item xs={false} md={2}></Grid>
               <Grid item xs={12} md={5}>
                 <Box sx={{ minHeight: { xs: "30px", md: "500px" } }}>
+                  <DurationDropdown
+                    disabled={true}
+                    value={eventData.duration}
+                  />
                   <EditEventDatePicker sessionSlot={eventData.sessionSlot} />
                 </Box>
               </Grid>
