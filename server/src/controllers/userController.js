@@ -15,7 +15,7 @@ export const userMe = async (req, res) => {
     res.status(200).json(userData);
   } catch (err) {
     res.status(500).json({
-      message: "Something is wrong",
+      message: "Internal server error",
     });
   }
 };
@@ -37,7 +37,7 @@ export const all = async (req, res) => {
     res.status(200).json({ success: true, usersData: usersWithoutPassword });
   } catch (err) {
     res.status(500).json({
-      message: "what`s wrong",
+      message: "Internal server error",
     });
   }
 };
@@ -65,7 +65,7 @@ export const getOne = async (req, res) => {
     res.status(200).json({ success: true, userData });
   } catch (err) {
     res.status(500).json({
-      message: "Something is wrong",
+      message: "Internal server error",
     });
   }
 };
@@ -106,7 +106,7 @@ export const remove = async (req, res) => {
     res.status(200).json({ success: true });
   } catch (err) {
     res.status(500).json({
-      message: "something is wrong",
+      message: "Internal server error",
     });
   }
 };
@@ -156,7 +156,7 @@ export const edit = async (req, res) => {
     res.status(200).json({ success: true });
   } catch (err) {
     res.status(500).json({
-      message: "something is wrong",
+      message: "Internal server error",
     });
   }
 };
@@ -187,7 +187,7 @@ export const changePassword = async (req, res) => {
     res.status(200).json({ success: true, token });
   } catch (err) {
     res.status(500).json({
-      message: "something is wrong",
+      message: "Internal server error",
     });
   }
 };

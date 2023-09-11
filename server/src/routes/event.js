@@ -8,6 +8,7 @@ const eventRouter = express.Router();
 
 eventRouter.get("/all", eventController.all);
 eventRouter.get("/:id", eventController.getOne);
+eventRouter.get("/all/:studentId", eventController.findTimeSlotByStudentId);
 
 eventRouter.post(
   "/add",
@@ -29,6 +30,12 @@ eventRouter.patch(
   validateEvent,
   validationErrorMessage,
   eventController.edit
+);
+
+eventRouter.post(
+  "/bookTime/addStudent/:sessionId",
+  // checkAuth,
+  eventController.bookSession
 );
 
 export default eventRouter;

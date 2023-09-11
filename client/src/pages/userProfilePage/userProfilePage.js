@@ -9,8 +9,14 @@ import {
   Typography,
 } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
+import { selectorIsAuth } from "../../components/redux/authSlice";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const UserProfilePage = () => {
+  const isAuth = useSelector(selectorIsAuth);
+  const navigate = useNavigate();
+
   const buttonStyle = {
     backgroundColor: "#56ae5a",
     color: "white",
@@ -31,6 +37,10 @@ const UserProfilePage = () => {
       border: "1px solid red", // Border style on hover
     },
   };
+
+  if (!isAuth) {
+    return navigate("/login");
+  }
 
   return (
     <Container maxWidth="md">

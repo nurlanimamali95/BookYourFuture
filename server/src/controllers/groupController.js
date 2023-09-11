@@ -20,7 +20,7 @@ export const add = async (req, res) => {
       // Duplicate key error
       res.status(400).json({ message: "Duplicate numberOfGroupName" });
     } else {
-      res.status(500).json({ message: "Something went wrong." });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 };
@@ -35,7 +35,7 @@ export const all = async (req, res) => {
     res.status(200).json({ success: true, groupsData: groups });
   } catch (err) {
     res.status(500).json({
-      message: "something is wrong",
+      message: "Internal server error",
     });
   }
 };
@@ -63,7 +63,7 @@ export const getOne = async (req, res) => {
     res.status(200).json({ success: true, groupData: group });
   } catch (err) {
     res.status(500).json({
-      message: "Something is wrong",
+      message: "Internal server error",
     });
   }
 };
@@ -98,7 +98,7 @@ export const remove = async (req, res) => {
     res.status(200).json({ success: true });
   } catch (err) {
     res.status(500).json({
-      message: "something is wrong",
+      message: "Internal server error",
     });
   }
 };
@@ -126,7 +126,7 @@ export const edit = async (req, res) => {
     res.status(200).json({ success: true, groupData: updatedGroup }); // Send the updatedGroup in the response
   } catch (err) {
     res.status(500).json({
-      message: "something is wrong",
+      message: "Internal server error",
     });
   }
 };

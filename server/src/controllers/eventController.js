@@ -1,4 +1,4 @@
-import EventModel from "../models/Event.js";
+import { Event as EventModel } from "../models/Event.js";
 
 export const add = async (req, res) => {
   try {
@@ -16,7 +16,7 @@ export const add = async (req, res) => {
 
     res.status(200).json({ success: true, eventData: event });
   } catch (err) {
-    res.status(500).json({ message: "Something went wrong." });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 export const all = async (req, res) => {
@@ -47,7 +47,7 @@ export const all = async (req, res) => {
     res.status(200).json({ success: true, eventsData: events });
   } catch (err) {
     res.status(500).json({
-      message: "something is wrong",
+      message: "Internal server error",
     });
   }
 };
@@ -76,7 +76,7 @@ export const getOne = async (req, res) => {
     res.status(200).json({ success: true, eventData: event });
   } catch (err) {
     res.status(500).json({
-      message: "Something is wrong",
+      message: "Internal server error",
     });
   }
 };
@@ -111,7 +111,7 @@ export const remove = async (req, res) => {
     res.status(200).json({ success: true });
   } catch (err) {
     res.status(500).json({
-      message: "something is wrong",
+      message: "Internal server error",
     });
   }
 };
@@ -144,7 +144,61 @@ export const edit = async (req, res) => {
     res.status(200).json({ success: true, eventData: updatedEvent }); // Send the updatedGroup in the response
   } catch (err) {
     res.status(500).json({
-      message: "something is wrong",
+      message: "Internal server error",
     });
+  }
+};
+
+export const bookSession = async (req, res) => {
+  try {
+    const sessionId = req.params.sessionId;
+    const studentId = req.body.studentId; // Assuming you send the studentId in the request body
+    // Find the event by sessionId and update the sessionSlot with the new studentId
+
+    // Check if the session slot is already booked by the student
+    const isAlreadyBooked = await EventModel.exists({
+      "sessionSlot._id": sessionId,
+      "sessionSlot.student": studentId,
+    });
+
+    if (isAlreadyBooked) {
+      return res
+        .status(400)
+        .json({ message: "Student is already booked for this session" });
+    }
+
+    const event = await EventModel.findOneAndUpdate(
+      { "sessionSlot._id": sessionId },
+      { $push: { "sessionSlot.$.student": studentId } },
+      { new: true }
+    )
+      .populate("student")
+      .exec();
+
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    res.status(200).json({ success: true, eventData: event });
+  } catch (err) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const findTimeSlotByStudentId = async (req, res) => {
+  try {
+    const studentId = req.params.studentId;
+
+    const bookedSlots = await EventModel.find({
+      "sessionSlot.student": studentId,
+    });
+
+    if (!bookedSlots) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    res.status(200).json({ success: true, bookedSlots });
+  } catch (err) {
+    res.status(500).json({ message: "Internal server error" });
   }
 };

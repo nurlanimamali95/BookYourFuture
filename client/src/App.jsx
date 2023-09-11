@@ -16,11 +16,9 @@ import GroupManagement from "./pages/Admin/GroupManagement";
 import StudentManagementPage from "./pages/Admin/StudentManagementPage";
 import { useDispatch } from "react-redux";
 import { fetchAuthMe } from "./components/redux/authSlice";
-// import { Navigate } from "react-router-dom";
 
 const App = () => {
   const dispatch = useDispatch();
-  // const isAuth = useSelector(selectorIsAuth);
 
   React.useEffect(() => {
     dispatch(fetchAuthMe());

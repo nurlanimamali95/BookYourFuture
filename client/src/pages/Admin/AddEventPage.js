@@ -13,8 +13,12 @@ import { useState } from "react";
 import AddEventDatePicker from "../../components/Admin/AdminEvents/AddEvent/AddEventDatePicker";
 import AddEventButton from "../../components/Admin/AdminEvents/EventElements/AddButton";
 import CancelButton from "../../components/Admin/AdminEvents/EventElements/CancelButton";
+import { useSelector } from "react-redux";
+import { selectorIsAuth } from "../../components/redux/authSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function AddEventPage() {
+  const isAuth = useSelector(selectorIsAuth);
   const [eventData, setEventData] = useState({
     title: "",
     description: "",
@@ -25,8 +29,13 @@ export default function AddEventPage() {
     student: "",
     sessionSlot: [],
   });
+  const navigate = useNavigate();
 
   const [message, setMessage] = useState("");
+
+  if (!isAuth) {
+    return navigate("/login");
+  }
 
   return (
     <EventContext.Provider value={{ eventData, setEventData }}>
