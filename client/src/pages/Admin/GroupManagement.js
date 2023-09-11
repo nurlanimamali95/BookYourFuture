@@ -17,12 +17,12 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import { Button } from "../../components/Buttons/Button";
 import DeleteButton from "../../components/Buttons/DeleteButton";
-import { selectorIsAuth } from "../../components/redux/authSlice";
-import { useSelector } from "react-redux";
+// import { selectorIsAuth } from "../../components/redux/authSlice";
+// import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function GroupManagement() {
-  const isAuth = useSelector(selectorIsAuth);
+  // const isAuth = useSelector(selectorIsAuth);
   const navigate = useNavigate();
   const [data, setData] = useState(null);
 
@@ -47,9 +47,9 @@ export default function GroupManagement() {
     console.log(`Edit clicked for ID ${id}`);
   };
 
-  if (!isAuth) {
-    return navigate("/login");
-  }
+  // if (!isAuth) {
+  //   return navigate("/login");
+  // }
 
   return (
     <>

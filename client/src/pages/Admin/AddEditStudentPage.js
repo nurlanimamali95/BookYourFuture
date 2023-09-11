@@ -14,13 +14,13 @@ import { toast } from "react-hot-toast";
 import useFetch from "../../hooks/useFetch";
 import FilterByGroup from "../../components/Filters/FilterByGroup";
 import { useLocation, useParams } from "react-router-dom";
-import { selectorIsAuth } from "../../components/redux/authSlice";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+// import { selectorIsAuth } from "../../components/redux/authSlice";
+// import { useSelector } from "react-redux";
+// import { useNavigate } from "react-router-dom";
 
 export default function AddEditStudentPage() {
-  const isAuth = useSelector(selectorIsAuth);
-  const navigate = useNavigate();
+  // const isAuth = useSelector(selectorIsAuth);
+  // const navigate = useNavigate();
   const { pathname } = useLocation();
   const isEdit = useMemo(() => pathname.includes("editStudent"), [pathname]);
   const [firstName, setFirstName] = useState("");
@@ -78,9 +78,9 @@ export default function AddEditStudentPage() {
     isEdit ? updateUser(usersData, "PUT") : performFetch(usersData, "POST");
   };
 
-  if (!isAuth) {
-    return navigate("/login");
-  }
+  // if (!isAuth) {
+  //   return navigate("/login");
+  // }
 
   return (
     <form onSubmit={handleSave}>

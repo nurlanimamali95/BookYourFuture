@@ -7,9 +7,9 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { Hidden } from "@mui/material";
-import { selectorIsAuth } from "../../components/redux/authSlice";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+// import { selectorIsAuth } from "../../components/redux/authSlice";
+// import { useSelector } from "react-redux";
+// import { useNavigate } from "react-router-dom";
 
 import EventByGroup from "../../components/Admin/AdminDashboard/EventByGroup/EventByGroup";
 import PieChartCard from "../../components/Admin/AdminDashboard/PieChart/PieChartCard";
@@ -23,12 +23,12 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function AdminDashboard() {
-  const isAuth = useSelector(selectorIsAuth);
-  const navigate = useNavigate();
+  // const isAuth = useSelector(selectorIsAuth);
+  // const navigate = useNavigate();
 
-  if (!isAuth) {
-    return navigate("/login");
-  }
+  // if (!isAuth) {
+  //   return navigate("/login");
+  // }
   return (
     <React.Fragment>
       <CssBaseline />
