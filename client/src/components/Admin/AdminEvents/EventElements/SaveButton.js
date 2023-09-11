@@ -16,7 +16,7 @@ export default function SaveButton({
     onSaved("Saved successfully!");
     setTimeout(() => {
       navigate(redirectPath);
-    }, 500);
+    }, 1000);
   });
 
   useEffect(() => {
