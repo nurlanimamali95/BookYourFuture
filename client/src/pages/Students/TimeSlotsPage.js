@@ -4,24 +4,31 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import BookTime from "../../components/Student/StudentEventManagement/BookTime";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import Button from "../../components/Student/StudentEventManagement/ConfirmEventButton";
 import { RadioProvider } from "../../components/Student/StudentEventManagement/TimeSlotContext";
 import { useState, useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import formatDate from "../../components/Student/StudentEventManagement/FormatDate";
+import { Snackbar } from "@mui/material";
 
 export default function TimeSlotsPage() {
   const [expanded, setExpanded] = useState(null);
+  const [message, setMessage] = useState("");
   const [eventData, setEventData] = useState({
     eventName: "",
     description: "",
   });
   const [sessionSlots, setSessionSlots] = useState([]);
+  const [sessionSlotId, setSessionSlotId] = useState([]);
+  //eslint-disable-next-line
+  console.log(sessionSlotId);
+
   const { isLoading, error, performFetch } = useFetch("/event/all", (data) => {
     if (data.success && data.eventsData.length > 0) {
-      const firstEvent = data.eventsData[0];
+      const firstEvent = data.eventsData[6];
       if (firstEvent.sessionSlot && firstEvent.sessionSlot.length > 0) {
         setSessionSlots(firstEvent.sessionSlot);
+        setSessionSlotId(firstEvent.sessionSlot[0]._id);
       }
       setEventData({
         eventName: firstEvent.title,
@@ -102,6 +109,9 @@ export default function TimeSlotsPage() {
               ) : (
                 <Button
                   variant="contained"
+                  sessionSlotId={sessionSlotId}
+                  onEventAdded={setMessage}
+                  redirectPath="/student"
                   sx={{
                     display: "flex",
                     margin: "0 auto",
@@ -114,6 +124,12 @@ export default function TimeSlotsPage() {
           </Grid>
         </Box>
       </Container>
+      <Snackbar
+        open={Boolean(message)}
+        autoHideDuration={3000}
+        onClose={() => setMessage("")}
+        message={message}
+      />
     </RadioProvider>
   );
 }
