@@ -17,14 +17,15 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectorIsAuth } from "../../components/redux/authSlice";
 import { DurationDropdown } from "../../components/Admin/AdminEvents/AddEvent/AddEventElements";
+// import { useNavigate } from "react-router-dom";
+// import { useSelector } from "react-redux";
+// import { selectorIsAuth } from "../../components/redux/authSlice";
 
 export default function EditEventPage() {
-  const isAuth = useSelector(selectorIsAuth);
+  // const isAuth = useSelector(selectorIsAuth);
   const { id } = useParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [message, setMessage] = useState("");
 
@@ -83,9 +84,9 @@ export default function EditEventPage() {
     setMessage(msg);
   };
 
-  if (!isAuth) {
-    return navigate("/login");
-  }
+  // if (!isAuth) {
+  //   return navigate("/login");
+  // }
   return (
     <EventContext.Provider value={{ eventData, setEventData }}>
       <Container>

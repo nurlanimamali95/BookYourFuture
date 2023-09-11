@@ -7,13 +7,13 @@ import EventTable from "../../components/Student/StudentDashboard/Table";
 import Grid from "@mui/material/Grid";
 import useFetch from "../../hooks/useFetch";
 import todayDate from "../../components/Student/StudentEventManagement/FormatDate";
-import { selectorIsAuth } from "../../components/redux/authSlice";
+// import { selectorIsAuth } from "../../components/redux/authSlice";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 export default function StudentDashboard() {
-  const isAuth = useSelector(selectorIsAuth);
-  const navigate = useNavigate();
+  // const isAuth = useSelector(selectorIsAuth);
+  // const navigate = useNavigate();
   function processData(responseData) {
     if (responseData.success === true) {
       const eventsData = responseData.eventsData;
@@ -72,9 +72,9 @@ export default function StudentDashboard() {
     performFetch();
   }, [selectedDate]);
 
-  if (!isAuth) {
-    return navigate("/login");
-  }
+  // if (!isAuth) {
+  //   return navigate("/login");
+  // }
 
   return (
     <Container>
