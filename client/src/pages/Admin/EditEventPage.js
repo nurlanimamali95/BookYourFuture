@@ -61,6 +61,7 @@ export default function EditEventPage() {
     const processedSessionSlots = data?.eventData?.sessionSlot?.map((slot) => ({
       durationInSeconds: slot.durationInSeconds,
       startTime: dayjs(slot.startTime),
+      _id: slot._id,
     }));
 
     setEventData({

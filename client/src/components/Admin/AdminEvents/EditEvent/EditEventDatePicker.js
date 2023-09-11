@@ -8,22 +8,29 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Box from "@mui/material/Box";
 import EventContext from "../AddEvent/EventContext";
-import { useContext } from "react";
 import "dayjs/locale/de";
-// import { DurationDropdown } from "../AddEvent/AddEventElements";
 
 export default function EditEventDatePicker() {
-  const [datePickers, setDatePickers] = React.useState([{ date: null }]);
-  const { eventData, setEventData } = useContext(EventContext);
+  const { eventData, setEventData } = React.useContext(EventContext);
 
-  React.useEffect(() => {
-    if (eventData.sessionSlot && eventData.sessionSlot.length > 0) {
-      const initialPickers = eventData.sessionSlot.map((slot) => ({
-        date: slot.startTime,
-      }));
-      setDatePickers(initialPickers);
-    }
-  }, [eventData.sessionSlot]); // Use sessionSlot as a dependency
+  const handleAdd = () => {
+    const newSlot = { startTime: null }; // Temporarily using Date.now() for unique _id
+    setEventData((prev) => ({
+      ...prev,
+      sessionSlot: [...prev.sessionSlot, newSlot],
+    }));
+  };
+
+  const handleRemove = (idToRemove) => {
+    setEventData((prev) => ({
+      ...prev,
+      sessionSlot: prev.sessionSlot.filter((slot) => slot._id !== idToRemove),
+    }));
+    setEventData((prev) => ({
+      ...prev,
+      sessionSlot: prev.sessionSlot.filter((slot) => slot._id !== idToRemove),
+    }));
+  };
 
   const handleDateChange = (date, index) => {
     const updatedSessionSlot = [...eventData.sessionSlot];
@@ -39,50 +46,27 @@ export default function EditEventDatePicker() {
     setEventData((prev) => ({ ...prev, sessionSlot: updatedSessionSlot }));
   };
 
-  const handleRemove = (indexToRemove) => {
-    setDatePickers((prevDatePickers) =>
-      prevDatePickers.filter((_, index) => index !== indexToRemove)
-    );
-  };
-
-  const handleAdd = () => {
-    setDatePickers((prevDatePickers) => [...prevDatePickers, { date: null }]);
-  };
-
-  // function handleDropdownChange(name) {
-  //   return (event) => {
-  //     setEventData((prev) => ({
-  //       ...prev,
-  //       [name]: event.target.value,
-  //     }));
-  //   };
-  // }
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-      {/* <DurationDropdown
-        value={eventData.duration}
-        onChange={handleDropdownChange("duration")}
-      /> */}
       <DemoContainer components={["DateTimePicker"]} sx={{ mt: 3 }}>
-        {datePickers.map((picker, index) => (
+        {eventData.sessionSlot.map((slot, index) => (
           <Box
-            key={index}
+            key={slot._id}
             display="flex"
             alignItems="center"
             justifyContent="space-between"
           >
             <DateTimePicker
               label="Pick date and time"
-              value={picker.date}
+              value={slot.startTime}
               onChange={(date) => handleDateChange(date, index)}
               ampm={false}
               sx={{ width: "100%", mr: 2 }}
             />
             <IconButton
               color="secondary"
-              onClick={() => handleRemove(index)}
-              disabled={datePickers.length === 1}
+              onClick={() => handleRemove(slot._id)}
+              disabled={eventData.sessionSlot.length === 1}
               sx={{ ml: 1 }}
             >
               <RemoveCircleOutlineIcon fontSize="large" />
