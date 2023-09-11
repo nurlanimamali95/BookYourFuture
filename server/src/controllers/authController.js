@@ -30,6 +30,8 @@ export const register = async (req, res) => {
 
     res.status(200).json({ ...userData, token, success: true });
   } catch (err) {
+    //eslint-disable-next-line
+    console.error(err);
     if (err.code === 11000) {
       // Duplicate key error
       res.status(400).json({ message: "Duplicate email" });
@@ -69,6 +71,8 @@ export const login = async (req, res) => {
 
     res.status(200).json({ ...userData, token, success: true });
   } catch (err) {
+    //eslint-disable-next-line
+    console.error(err);
     res.status(500).json({
       message: "No Auth, sorry error....",
     });
