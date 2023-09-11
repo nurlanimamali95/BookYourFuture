@@ -15,9 +15,9 @@ export default function TableHeader() {
         <TableCell sx={{ fontWeight: "bold" }} align="right">
           Group
         </TableCell>
-        <TableCell sx={{ fontWeight: "bold" }} align="right">
+        {/* <TableCell sx={{ fontWeight: "bold" }} align="right">
           Student
-        </TableCell>
+        </TableCell> */}
         <TableCell sx={{ fontWeight: "bold" }} align="right"></TableCell>
       </TableRow>
     </TableHead>

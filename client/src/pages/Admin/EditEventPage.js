@@ -66,7 +66,6 @@ export default function EditEventPage() {
     setEventData({
       ...data.eventData,
       group: data.eventData.group[0]._id,
-      student: data.eventData.student[0]._id,
       sessionSlot: processedSessionSlots,
       duration: data.eventData.sessionSlot / 60,
     });
