@@ -20,20 +20,29 @@ export default function AdminEventTable(props) {
   const formattedDate = dayjs(selectedDate).format("YYYY-MM-DD");
 
   const filteredEvents = events.filter((event) =>
-    dayjs(event.createdAt).isSame(formattedDate, "day")
+    event.sessionSlot.some((slot) =>
+      dayjs(slot.startTime).isSame(formattedDate, "day")
+    )
   );
 
-  const itemsPerPage = 3;
+  const flattenedEvents = filteredEvents.flatMap((event) =>
+    event.sessionSlot.map((slot) => ({
+      ...event,
+      slot, // this will add the individual slot to each event object
+    }))
+  );
+
+  const itemsPerPage = 5;
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
+  const totalPages = Math.ceil(flattenedEvents.length / itemsPerPage);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
 
   const endIndex = startIndex + itemsPerPage;
 
-  const eventsForCurrentPage = filteredEvents.slice(startIndex, endIndex);
+  const eventsForCurrentPage = flattenedEvents.slice(startIndex, endIndex);
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
@@ -43,26 +52,21 @@ export default function AdminEventTable(props) {
     <Container>
       {filteredEvents.length > 0 && (
         <>
-          <Typography variant="h5" sx={{ mt: 2, mb: 4, textAlign: "left" }}>
+          <Typography variant="h6" sx={{ mb: 2, textAlign: "left" }}>
             Events for {dayjs(selectedDate).format("MMMM D")}
           </Typography>
           <Table size="inherit">
             <TableHead>
               <TableRow>
                 <TableCell></TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Location</TableCell>
                 <TableCell>Time</TableCell>
+                <TableCell>Title</TableCell>
+
+                <TableCell>Student</TableCell>
+                <TableCell>Location</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody
-              style={{
-                maxHeight: "200px",
-                overflowY: "auto",
-              }}
-            >
+            <TableBody style={{ maxHeight: "200px", overflowY: "auto" }}>
               {eventsForCurrentPage.map((event, index) => (
                 <TableRow key={index}>
                   <TableCell>
@@ -70,17 +74,23 @@ export default function AdminEventTable(props) {
                       sx={{
                         width: 4,
                         height: 25,
-                        bgcolor: "green",
+                        bgcolor: event.group[0]?.color || "defaultColor",
                       }}
                     />
                   </TableCell>
-                  <TableCell>{event.title}</TableCell>
                   <TableCell>
-                    {dayjs(selectedDate).format("DD-MM-YYYY")}
+                    {dayjs(event.slot.startTime).format("HH:mm")}
                   </TableCell>
-                  <TableCell>{event.description}</TableCell>
+                  <TableCell>
+                    {event.title.length > 120
+                      ? `${event.title.slice(0, 118)}...`
+                      : event.title}
+                  </TableCell>
+                  <TableCell>
+                    {event.slot.student?.firstName || "N/A"}{" "}
+                    {event.slot.student?.lastName || ""}
+                  </TableCell>
                   <TableCell>{event.location}</TableCell>
-                  <TableCell>{event.time}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -111,12 +121,17 @@ export default function AdminEventTable(props) {
 AdminEventTable.propTypes = {
   events: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
-      date: PropTypes.string,
-      description: PropTypes.string,
+      title: PropTypes.string,
       location: PropTypes.string,
-      time: PropTypes.string,
-      colorCode: PropTypes.string,
+      sessionSlot: PropTypes.arrayOf(
+        PropTypes.shape({
+          student: PropTypes.shape({
+            firstName: PropTypes.string,
+            lastName: PropTypes.string,
+          }),
+          startTime: PropTypes.string,
+        })
+      ),
     })
   ).isRequired,
   selectedDate: PropTypes.string,

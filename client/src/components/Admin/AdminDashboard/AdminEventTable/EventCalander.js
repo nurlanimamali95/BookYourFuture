@@ -7,12 +7,10 @@ import Grid from "@mui/material/Grid";
 import useFetch from "../../../../hooks/useFetch";
 import todayDate from "../../../Student/StudentEventManagement/FormatDate";
 
-export default function StudentDashboard() {
+export default function EventCalander() {
   function processData(responseData) {
     if (responseData.success === true) {
       const eventsData = responseData.eventsData;
-      // eslint-disable-next-line
-      console.error("works", eventsData);
 
       return eventsData;
     } else {
@@ -24,9 +22,6 @@ export default function StudentDashboard() {
 
   const [selectedDate, setSelectedDate] = useState(todayDate);
   const [events, setEvents] = useState([]);
-
-  //eslint-disable-next-line
-  console.log(events);
 
   const { isLoading, error, performFetch } = useFetch(
     "/event/all",
@@ -58,7 +53,7 @@ export default function StudentDashboard() {
   }, []);
 
   return (
-    <Container sx={{ height: { md: "550px" } }}>
+    <Container sx={{ minHeight: { md: "470px" } }}>
       <Box sx={{ flexGrow: 1, display: "flex" }}>
         <CssBaseline />
         <Box
@@ -70,7 +65,6 @@ export default function StudentDashboard() {
           }}
         >
           <Grid container spacing={3}>
-            656
             <Grid item xs={12} sm={12} md={12} lg={12}></Grid>
             <Grid item mt="2" xs={12} sm={12} md={3} lg={4}>
               <AdminCalender

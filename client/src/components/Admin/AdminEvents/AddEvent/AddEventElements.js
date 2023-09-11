@@ -11,9 +11,14 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 
-export function DurationDropdown({ value, onChange }) {
+export function DurationDropdown({
+  value,
+  onChange,
+  disabled,
+  size = "medium",
+}) {
   return (
-    <FormControl sx={{ minWidth: 220 }}>
+    <FormControl sx={{ minWidth: 220 }} size={size}>
       <InputLabel id="duration-select-label">Duration</InputLabel>
       <Select
         labelId="duration-select-label"
@@ -21,11 +26,12 @@ export function DurationDropdown({ value, onChange }) {
         label="Duration"
         value={value}
         onChange={onChange}
+        disabled={disabled}
       >
-        <MenuItem value={15}>15 min</MenuItem>
-        <MenuItem value={30}>30 min</MenuItem>
-        <MenuItem value={60}>1 hour</MenuItem>
-        <MenuItem value={180}>3 hours</MenuItem>
+        <MenuItem value={900}>15 min</MenuItem>
+        <MenuItem value={1800}>30 min</MenuItem>
+        <MenuItem value={3600}>1 hour</MenuItem>
+        <MenuItem value={10800}>3 hours</MenuItem>
       </Select>
     </FormControl>
   );
@@ -35,6 +41,8 @@ DurationDropdown.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func.isRequired,
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  disabled: PropTypes.bool,
+  size: PropTypes.string,
 };
 
 export function LocationToggle({ value, onChange }) {

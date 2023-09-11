@@ -57,14 +57,8 @@ export default function AdminDashboard() {
             <Grid xs={12} md={12}>
               <Item>
                 <EventCalander />
-                {/* <AdminCalender /> */}
               </Item>
             </Grid>
-            {/* <Grid xs={12} md={8}>
-              <Item>
-                <AdminEventTable />
-              </Item>
-            </Grid> */}
           </Grid>
         </Box>
       </Container>
