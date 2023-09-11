@@ -63,6 +63,7 @@ export default function EditEventPage() {
       durationInSeconds: slot.durationInSeconds,
       startTime: dayjs(slot.startTime),
       _id: slot._id,
+      student: slot.student,
     }));
 
     const firstSessionDuration =
@@ -103,9 +104,15 @@ export default function EditEventPage() {
               </Grid>
               <Grid item xs={false} md={2}></Grid>
               <Grid item xs={12} md={5}>
-                <Box sx={{ minHeight: { xs: "30px", md: "500px" } }}>
+                <Box
+                  sx={{
+                    minHeight: { xs: "30px", md: "500px" },
+                    mt: { xs: 4, md: 0 },
+                  }}
+                >
                   <DurationDropdown
                     disabled={true}
+                    size="small"
                     value={eventData.duration}
                   />
                   <EditEventDatePicker sessionSlot={eventData.sessionSlot} />

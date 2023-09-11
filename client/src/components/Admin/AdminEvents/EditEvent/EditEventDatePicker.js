@@ -3,10 +3,9 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import IconButton from "@mui/material/IconButton";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Box from "@mui/material/Box";
+import { Box, Chip, IconButton } from "@mui/material";
 import EventContext from "../AddEvent/EventContext";
 import "dayjs/locale/de";
 
@@ -53,27 +52,42 @@ export default function EditEventDatePicker() {
           <Box
             key={slot._id}
             display="flex"
-            alignItems="center"
-            justifyContent="space-between"
+            flexDirection={"column"}
+            gap={2}
+            alignItems={"start"}
           >
-            <DateTimePicker
-              label="Pick date and time"
-              value={slot.startTime}
-              onChange={(date) => handleDateChange(date, index)}
-              ampm={false}
-              sx={{ width: "100%", mr: 2 }}
-            />
-            <IconButton
-              color="secondary"
-              onClick={() => handleRemove(slot._id)}
-              disabled={eventData.sessionSlot.length === 1}
-              sx={{ ml: 1 }}
+            {slot.student && (
+              <Chip
+                label={`${slot.student.firstName} ${slot.student.lastName}`}
+                sx={{ mr: 2 }}
+              />
+            )}
+
+            <Box
+              key={index}
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
             >
-              <RemoveCircleOutlineIcon fontSize="large" />
-            </IconButton>
-            <IconButton color="primary" onClick={handleAdd} sx={{ ml: 1 }}>
-              <AddCircleOutlineIcon fontSize="large" />
-            </IconButton>
+              <DateTimePicker
+                label="Pick date and time"
+                value={slot.startTime}
+                onChange={(date) => handleDateChange(date, index)}
+                ampm={false}
+                sx={{ width: "100%", mr: 2 }}
+              />
+              <IconButton
+                color="secondary"
+                onClick={() => handleRemove(slot._id)}
+                disabled={eventData.sessionSlot.length === 1 || !!slot.student}
+                sx={{ ml: 1 }}
+              >
+                <RemoveCircleOutlineIcon fontSize="large" />
+              </IconButton>
+              <IconButton color="primary" onClick={handleAdd} sx={{ ml: 1 }}>
+                <AddCircleOutlineIcon fontSize="large" />
+              </IconButton>
+            </Box>
           </Box>
         ))}
       </DemoContainer>
