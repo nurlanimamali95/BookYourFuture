@@ -40,9 +40,9 @@ export default function GroupData({ data }) {
         <Typography variant="subtitle2">{sessionTime}</Typography>
       </Box>
       <Box sx={{ flex: 1 }}>
-        <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+        {/* <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
           {data.student[0]?.firstName || "All"}
-        </Typography>
+        </Typography> */}
         <Typography variant="subtitle2">{data.title}</Typography>
       </Box>
       <Hidden smDown>
