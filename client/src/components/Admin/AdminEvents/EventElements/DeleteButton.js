@@ -17,7 +17,6 @@ export default function DeleteButton({ endpoint, onDeleted, redirectPath }) {
   const [deleteTimer, setDeleteTimer] = useState(null);
 
   const handleDelete = () => {
-    // Start a timer for 3 seconds
     const timer = setTimeout(() => {
       performFetch(null, "DELETE");
       setSnackbarOpen(false);
