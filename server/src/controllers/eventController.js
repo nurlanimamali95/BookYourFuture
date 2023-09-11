@@ -221,6 +221,7 @@ export const deleteStudentFromSessionSlot = async (req, res) => {
 
     res.status(200).json({ success: true, sessionSlot: bookedSlot });
   } catch (err) {
+    //eslint-disable-next-line
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
