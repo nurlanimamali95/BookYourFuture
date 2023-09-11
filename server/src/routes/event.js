@@ -38,4 +38,9 @@ eventRouter.post(
   eventController.bookSession
 );
 
+eventRouter.delete(
+  "/bookTime/deleteStudent/:sessionId",
+  eventController.deleteStudentFromSessionSlot
+);
+
 export default eventRouter;
