@@ -9,13 +9,16 @@ export function useRadioContext() {
 
 export function RadioProvider({ children }) {
   const [selectedValue, setSelectedValue] = useState("");
+  const [eventName, setEventName] = useState("");
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
 
   return (
-    <RadioContext.Provider value={{ selectedValue, handleChange }}>
+    <RadioContext.Provider
+      value={{ selectedValue, handleChange, eventName, setEventName }}
+    >
       {children}
     </RadioContext.Provider>
   );

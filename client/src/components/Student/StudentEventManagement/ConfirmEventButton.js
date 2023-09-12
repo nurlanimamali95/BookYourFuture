@@ -47,7 +47,7 @@ export default function ConfirmEventButton({
 }
 
 ConfirmEventButton.propTypes = {
-  sessionSlotId: PropTypes.object.isRequired,
+  sessionSlotId: PropTypes.string,
   onEventAdded: PropTypes.func.isRequired,
   endpoint: PropTypes.string,
   redirectPath: PropTypes.string,

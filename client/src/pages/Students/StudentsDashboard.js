@@ -25,11 +25,9 @@ export default function StudentDashboard() {
 
   const userData = useSelector((state) => state.auth.data);
   const userId = userData ? userData._id : null;
-  //eslint-disable-next-line
-  console.log(userId);
   const [selectedDate, setSelectedDate] = useState(todayDate);
   const [events, setEvents] = useState([]);
-  const [eventInfo, setEventInfo] = useState("");
+  const [notifications, setNotifications] = useState([]);
 
   const { isLoading, error, performFetch } = useFetch(
     "/event/all",
@@ -50,27 +48,37 @@ export default function StudentDashboard() {
     setSelectedDate(date);
     performFetch();
   };
-  //eslint-disable-next-line
-  console.log(events);
+
   function handleEventsUpdate(responseData) {
     const data = processData(responseData);
 
-    // Show the events only for the student
     const filteredEvents = data.filter((event) =>
       event.group[0]?.students.includes(userId)
     );
 
-    setEvents(filteredEvents);
+    const eventNotifications = filteredEvents
+      .filter((event) =>
+        event.sessionSlot.every(
+          (slot) => !slot.student || slot.student._id !== userId
+        )
+      )
+      .map((event) => ({
+        message: event.title,
+        type: "warning",
+        id: event._id,
+        action: {
+          label: "Book a slot",
+          link: "/student/event/timeslots",
+        },
+      }));
 
-    if (filteredEvents.length > 0) {
-      const firstEvent = filteredEvents[0];
-      setEventInfo(firstEvent.title);
-    }
+    setEvents(filteredEvents);
+    setNotifications(eventNotifications);
   }
 
   useEffect(() => {
     performFetch();
-  }, [selectedDate]);
+  }, []);
 
   // if (!isAuth) {
   //   return navigate("/login");
@@ -103,7 +111,7 @@ export default function StudentDashboard() {
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Notifications message={eventInfo} />
+              <Notifications notifications={notifications} />
             </Grid>
             <Grid item mt="2em" xs={12} sm={12} md={3} lg={4}>
               <Calendar
