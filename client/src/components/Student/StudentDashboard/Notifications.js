@@ -14,12 +14,10 @@ export default function Notifications(props) {
   const [visibleNotifications, setVisibleNotifications] = useState([]);
 
   useEffect(() => {
-    // When notifications change, set visible notifications to the first two notifications
     setVisibleNotifications(notifications.slice(0, 2));
   }, [notifications]);
 
   const handleDismiss = (notificationId) => {
-    // Remove the dismissed notification from visibleNotifications
     setVisibleNotifications((prevNotifications) =>
       prevNotifications.filter(
         (notification) => notification.id !== notificationId
@@ -66,7 +64,7 @@ export default function Notifications(props) {
 Notifications.propTypes = {
   notifications: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string, // Add id property for identifying notifications
+      id: PropTypes.string,
       message: PropTypes.string,
       type: PropTypes.string,
       action: PropTypes.shape({
