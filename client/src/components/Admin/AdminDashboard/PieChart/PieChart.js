@@ -15,16 +15,26 @@ export default function BasicPie() {
         series={[
           {
             data: [
-              { id: 0, value: 10, label: "G42" },
-              { id: 1, value: 15, label: "G43" },
-              { id: 2, value: 20, label: "G44" },
-              { id: 3, value: 25, label: "G45" },
+              { id: 0, value: 10, label: "Group 42" },
+              { id: 1, value: 15, label: "Group 43" },
+              { id: 2, value: 20, label: "Group 44" },
+              { id: 3, value: 25, label: "Group 45" },
             ],
             innerRadius: 30,
           },
         ]}
-        width={400}
-        height={200}
+        height={150}
+        legend={{
+          direction: "column",
+          position: {
+            vertical: "bottom",
+            horizontal: "right",
+          },
+        }}
+        sx={{
+          "--ChartsLegend-itemMarkSize": "12px",
+          "--ChartsLegend-rootOffsetY": "-70px",
+        }}
       />
     </Box>
   );
