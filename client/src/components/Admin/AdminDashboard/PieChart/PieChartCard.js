@@ -23,10 +23,10 @@ export default function PieChartCard() {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "flex-start",
-            flex: "2", // 2/3 of the width
-            backgroundColor: "white", // background color for the text section
-            padding: "16px", // padding for the text section
-            color: "#00695c" // text color to match icon's bg
+            flex: "2",
+            backgroundColor: "white",
+            padding: "16px",
+            color: "#00695c",
           }}
         >
           <Typography variant="h6">Active Students</Typography>
@@ -61,10 +61,10 @@ export default function PieChartCard() {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "flex-start",
-            flex: "2", // 2/3 of the width
-            backgroundColor: "white", // background color for the text section
-            padding: "16px", // padding for the text section
-            color: "#1976d2" // A shade of blue
+            flex: "2",
+            backgroundColor: "white",
+            padding: "16px",
+            color: "#1976d2",
           }}
         >
           <Typography variant="h6">Upcoming Events</Typography>
