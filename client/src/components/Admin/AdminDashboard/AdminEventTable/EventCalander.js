@@ -64,15 +64,14 @@ export default function EventCalander() {
             justifyContent: "space-between",
           }}
         >
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={12} md={12} lg={12}></Grid>
-            <Grid item mt="2" xs={12} sm={12} md={3} lg={4}>
+          <Grid container gap={6}>
+            <Grid item mt="2" xs={12} sm={12} md={4}>
               <AdminCalender
                 value={selectedDate}
                 onDateSelected={handleDateChange}
               />
             </Grid>
-            <Grid item xs={12} sm={12} md={9} lg={8}>
+            <Grid item xs={12} sm={12} md={7}>
               {renderContent()}
             </Grid>
           </Grid>
