@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -8,22 +8,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 export default function Notifications(props) {
-  const [notifications, setNotifications] = useState([]);
-
-  useEffect(() => {
-    //eslint-disable-next-line
-    console.log(props.message);
-    const fetchedNotifications = [
-      {
-        message: props.message,
-        type: "warning",
-        action: {
-          label: "Book a slot",
-        },
-      },
-    ];
-    setNotifications(fetchedNotifications);
-  }, [props.message]);
+  const { notifications } = props;
 
   return (
     <Stack sx={{ width: "100%" }} spacing={2}>
@@ -34,7 +19,7 @@ export default function Notifications(props) {
           action={
             notification.action ? (
               <Link
-                to="/student/event/timeslots"
+                to={notification.action.link}
                 sx={{ textDecoration: "none" }}
               >
                 <Button
@@ -58,5 +43,14 @@ export default function Notifications(props) {
 }
 
 Notifications.propTypes = {
-  message: PropTypes.string,
+  notifications: PropTypes.arrayOf(
+    PropTypes.shape({
+      message: PropTypes.string,
+      type: PropTypes.string,
+      action: PropTypes.shape({
+        label: PropTypes.string,
+        link: PropTypes.string,
+      }),
+    })
+  ),
 };

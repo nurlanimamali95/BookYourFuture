@@ -29,7 +29,7 @@ export default function StudentDashboard() {
   console.log(userId);
   const [selectedDate, setSelectedDate] = useState(todayDate);
   const [events, setEvents] = useState([]);
-  const [eventInfo, setEventInfo] = useState("");
+  const [notifications, setNotifications] = useState([]);
 
   const { isLoading, error, performFetch } = useFetch(
     "/event/all",
@@ -55,22 +55,26 @@ export default function StudentDashboard() {
   function handleEventsUpdate(responseData) {
     const data = processData(responseData);
 
-    // Show the events only for the student
     const filteredEvents = data.filter((event) =>
       event.group[0]?.students.includes(userId)
     );
 
-    setEvents(filteredEvents);
+    const eventNotifications = filteredEvents.map((event) => ({
+      message: event.title,
+      type: "warning",
+      action: {
+        label: "Book a slot",
+        link: "/student/event/timeslots",
+      },
+    }));
 
-    if (filteredEvents.length > 0) {
-      const firstEvent = filteredEvents[0];
-      setEventInfo(firstEvent.title);
-    }
+    setEvents(filteredEvents);
+    setNotifications(eventNotifications);
   }
 
   useEffect(() => {
     performFetch();
-  }, [selectedDate]);
+  }, []);
 
   // if (!isAuth) {
   //   return navigate("/login");
@@ -103,7 +107,7 @@ export default function StudentDashboard() {
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Notifications message={eventInfo} />
+              <Notifications notifications={notifications} />
             </Grid>
             <Grid item mt="2em" xs={12} sm={12} md={3} lg={4}>
               <Calendar
