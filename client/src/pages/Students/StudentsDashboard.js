@@ -25,8 +25,6 @@ export default function StudentDashboard() {
 
   const userData = useSelector((state) => state.auth.data);
   const userId = userData ? userData._id : null;
-  //eslint-disable-next-line
-  console.log(userId);
   const [selectedDate, setSelectedDate] = useState(todayDate);
   const [events, setEvents] = useState([]);
   const [notifications, setNotifications] = useState([]);
@@ -50,8 +48,7 @@ export default function StudentDashboard() {
     setSelectedDate(date);
     performFetch();
   };
-  //eslint-disable-next-line
-  console.log(events);
+
   function handleEventsUpdate(responseData) {
     const data = processData(responseData);
 
@@ -62,6 +59,7 @@ export default function StudentDashboard() {
     const eventNotifications = filteredEvents.map((event) => ({
       message: event.title,
       type: "warning",
+      id: event._id,
       action: {
         label: "Book a slot",
         link: "/student/event/timeslots",

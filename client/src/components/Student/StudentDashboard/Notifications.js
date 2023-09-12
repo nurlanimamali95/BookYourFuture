@@ -6,9 +6,11 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import "./Notifications.css";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useRadioContext } from "../StudentEventManagement/TimeSlotContext";
 
 export default function Notifications(props) {
   const { notifications } = props;
+  const { setEventName } = useRadioContext();
 
   return (
     <Stack sx={{ width: "100%" }} spacing={2}>
@@ -20,6 +22,7 @@ export default function Notifications(props) {
             notification.action ? (
               <Link
                 to={notification.action.link}
+                onClick={() => setEventName(notification.id)}
                 sx={{ textDecoration: "none" }}
               >
                 <Button
