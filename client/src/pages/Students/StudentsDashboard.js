@@ -56,15 +56,21 @@ export default function StudentDashboard() {
       event.group[0]?.students.includes(userId)
     );
 
-    const eventNotifications = filteredEvents.map((event) => ({
-      message: event.title,
-      type: "warning",
-      id: event._id,
-      action: {
-        label: "Book a slot",
-        link: "/student/event/timeslots",
-      },
-    }));
+    const eventNotifications = filteredEvents
+      .filter((event) =>
+        event.sessionSlot.every(
+          (slot) => !slot.student || slot.student._id !== userId
+        )
+      )
+      .map((event) => ({
+        message: event.title,
+        type: "warning",
+        id: event._id,
+        action: {
+          label: "Book a slot",
+          link: "/student/event/timeslots",
+        },
+      }));
 
     setEvents(filteredEvents);
     setNotifications(eventNotifications);
