@@ -53,7 +53,7 @@ export default function EventCalander() {
   }, []);
 
   return (
-    <Container sx={{ minHeight: { md: "470px" } }}>
+    <Container sx={{ minHeight: { md: "400px" } }}>
       <Box sx={{ flexGrow: 1, display: "flex" }}>
         <CssBaseline />
         <Box

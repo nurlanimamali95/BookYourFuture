@@ -19,12 +19,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import StudentManagementPage from "./pages/Admin/StudentManagementPage";
 import { useDispatch } from "react-redux";
 import { fetchAuthMe } from "./components/redux/authSlice";
-import { green } from "@mui/material/colors";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: green[700], // Adjust this to your preferred color
+      main: "#00897b", // Adjust this to your preferred color
     },
   },
 });

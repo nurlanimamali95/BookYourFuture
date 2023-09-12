@@ -1,36 +1,92 @@
-import * as React from "react";
+import React from "react";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-
-import PieChart from "./PieChart";
+import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
+import BasicPie from "./PieChart";
+import EventTwoToneIcon from "@mui/icons-material/EventTwoTone";
 
 export default function PieChartCard() {
   return (
     <>
-      <Typography
-        variant="h5"
-        component="h3"
-        sx={{ mt: 2, mb: 1, mx: 1, textAlign: "center" }}
-      >
-        Number of students by group
-      </Typography>
-      {/* <Typography
-        variant="h3"
-        component="h2"
-        sx={{
-          mb: 2,
-
-          mx: 1,
-          textAlign: "left",
-          color: "#3f51b5",
-          fontWeight: "bold",
+      <Card
+        style={{
+          backgroundColor: "white",
+          display: "flex",
+          flexDirection: "row",
+          margin: "16px",
         }}
       >
-        40
-      </Typography> */}
-      <Divider sx={{ my: 3 }} />
+        <CardContent
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            flex: "2", // 2/3 of the width
+            backgroundColor: "white", // background color for the text section
+            padding: "16px", // padding for the text section
+            color: "#00695c" // text color to match icon's bg
+          }}
+        >
+          <Typography variant="h6">Active Students</Typography>
+          <Typography variant="h4">{40}</Typography>
+        </CardContent>
+        <div
+          style={{
+            flex: "1",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "white",
+          }}
+        >
+          <AccountCircleTwoToneIcon
+            style={{ fontSize: 50, color: "#00695c" }}
+          />
+        </div>
+      </Card>
 
-      <PieChart />
+      <Card
+        style={{
+          backgroundColor: "white",
+          display: "flex",
+          flexDirection: "row",
+          margin: "16px",
+        }}
+      >
+        <CardContent
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            flex: "2", // 2/3 of the width
+            backgroundColor: "white", // background color for the text section
+            padding: "16px", // padding for the text section
+            color: "#1976d2" // A shade of blue
+          }}
+        >
+          <Typography variant="h6">Upcoming Events</Typography>
+          <Typography variant="h4">{17}</Typography>
+        </CardContent>
+        <div
+          style={{
+            flex: "1",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "white",
+          }}
+        >
+          <EventTwoToneIcon
+            style={{ fontSize: 50, color: "#1976d2" }} // Matching color with the text
+          />
+        </div>
+      </Card>
+      <Card sx={{ my: 3, mx: 2 }}>
+        <BasicPie />
+      </Card>
     </>
   );
 }

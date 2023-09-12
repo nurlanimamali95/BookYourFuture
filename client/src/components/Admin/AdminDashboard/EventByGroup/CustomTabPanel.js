@@ -13,7 +13,7 @@ export default function CustomTabPanel({ children, value, index, ...other }) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ px: 1, minHeight: "470px" }}>
+        <Box sx={{ px: 1, minHeight: "362px" }}>
           <Typography>{children}</Typography>
         </Box>
       )}
