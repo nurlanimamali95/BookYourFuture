@@ -1,6 +1,7 @@
 import UserModel from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { generateRandomPassword, sendEmail } from "../util/password-logic.js";
 
 export const userMe = async (req, res) => {
   try {
@@ -12,10 +13,11 @@ export const userMe = async (req, res) => {
       });
     }
     const { passwordHash, ...userData } = user._doc;
-    res.status(200).json(userData);
+
+    res.status(200).json({ success: true, userData });
   } catch (err) {
     res.status(500).json({
-      message: "Internal server error",
+      message: "Something is wrong",
     });
   }
 };
@@ -36,10 +38,8 @@ export const all = async (req, res) => {
 
     res.status(200).json({ success: true, usersData: usersWithoutPassword });
   } catch (err) {
-    //eslint-disable-next-line
-    console.error(err);
     res.status(500).json({
-      message: "Internal server error",
+      message: "what`s wrong",
     });
   }
 };
@@ -66,10 +66,8 @@ export const getOne = async (req, res) => {
 
     res.status(200).json({ success: true, userData });
   } catch (err) {
-    //eslint-disable-next-line
-    console.error(err);
     res.status(500).json({
-      message: "Internal server error",
+      message: "Something is wrong",
     });
   }
 };
@@ -109,10 +107,8 @@ export const remove = async (req, res) => {
 
     res.status(200).json({ success: true });
   } catch (err) {
-    //eslint-disable-next-line
-    console.error(err);
     res.status(500).json({
-      message: "Internal server error",
+      message: "something is wrong",
     });
   }
 };
@@ -161,10 +157,8 @@ export const edit = async (req, res) => {
 
     res.status(200).json({ success: true });
   } catch (err) {
-    //eslint-disable-next-line
-    console.error(err);
     res.status(500).json({
-      message: "Internal server error",
+      message: "something is wrong",
     });
   }
 };
@@ -194,10 +188,60 @@ export const changePassword = async (req, res) => {
 
     res.status(200).json({ success: true, token });
   } catch (err) {
-    //eslint-disable-next-line
-    console.error(err);
     res.status(500).json({
-      message: "Internal server error",
+      message: "something is wrong",
     });
+  }
+};
+
+export const forgotPassword = async (req, res) => {
+  try {
+    const currentUser = await UserModel.findById(req.userId);
+    // Generate a new random password
+    const password = generateRandomPassword();
+
+    // Hash the new password
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    // Find the user based on the provided email
+    const user = await UserModel.findOne({ email: req.body.email });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (currentUser.email === user.email) {
+      user.passwordHash = hash;
+      await currentUser.save();
+    }
+
+    // Generate a new JWT token
+    const token = jwt.sign(
+      {
+        _id: user._id,
+      },
+      process.env.KEY_JWT_AUTH, // Your secret key
+      { expiresIn: "30d" } // Token expiration time
+    );
+
+    // Send the new password to the user's email
+    await sendEmail(
+      req.body.email, // Use the provided email, not newUser.email
+      "New Password for BookYourFuture",
+      `Your new password: ${password}\nBYF Team`
+    );
+
+    // Respond with the updated user data and the new token
+    const { passwordHash, ...userData } = user._doc;
+    res.status(200).json({ ...userData, token, success: true });
+  } catch (err) {
+    // eslint-disable-next-line
+    console.error(err);
+    if (err.code === 11000) {
+      res.status(400).json({ message: "Duplicate email" });
+    } else {
+      res.status(500).json({ message: "Internal server error" });
+    }
   }
 };

@@ -18,6 +18,13 @@ export default async (req, res, next) => {
       return res.status(401).json({ error: "Invalid old password" });
     }
 
+    // Check if the new password matches the confirm password
+    if (req.body.newPassword !== req.body.confirmPassword) {
+      return res
+        .status(400)
+        .json({ error: "New password and confirm password do not match" });
+    }
+
     req.user = user;
     next();
   } catch (error) {

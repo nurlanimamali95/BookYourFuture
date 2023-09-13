@@ -1,10 +1,11 @@
 import UserModel from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { generateRandomPassword, sendEmail } from "../util/password-logic.js";
 
 export const register = async (req, res) => {
   try {
-    const password = req.body.password.toString();
+    const password = generateRandomPassword();
     const salt = await bcrypt.genSalt(10); // salt
     const hash = await bcrypt.hash(password, salt); // hash password
 
@@ -28,9 +29,17 @@ export const register = async (req, res) => {
 
     const { passwordHash, ...userData } = user._doc;
 
+    await sendEmail(
+      newUser.email,
+      "Welcome to Book You Future",
+      `If you want to login in BookYouFuture, please use:
+      email: ${newUser.email}, 
+      password: ${password}\nBYF Team`
+    );
+
     res.status(200).json({ ...userData, token, success: true });
   } catch (err) {
-    //eslint-disable-next-line
+    // eslint-disable-next-line
     console.error(err);
     if (err.code === 11000) {
       // Duplicate key error

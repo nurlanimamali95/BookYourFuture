@@ -66,9 +66,6 @@ export const registerValidationUser = [
     min: 3,
   }),
   body("email", "Email must be valid").isEmail().isString(),
-  body("password", "Password must be at least 6 characters").isLength({
-    min: 6,
-  }),
   body("group", "Group field is required").exists(),
   body("admin").optional().isBoolean(),
 ];
@@ -93,8 +90,14 @@ export const loginValidationUser = [
 
 export const changePasswordValidationUser = [
   body("oldPassword", "Old password is required").notEmpty(),
-  body("newPassword", "New password must be at least 6 characters").isLength({
-    min: 6,
+  body("newPassword", "New password must be at least 8 characters").isLength({
+    min: 8,
+  }),
+  body(
+    "confirmPassword",
+    "Confirm password must be at least 8 characters"
+  ).isLength({
+    min: 8,
   }),
 ];
 

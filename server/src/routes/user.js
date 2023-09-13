@@ -15,11 +15,15 @@ userRouter.get("/:id", userController.getOne);
 
 userRouter.get("/", checkAuth, userController.userMe);
 
-userRouter.delete("/:id", checkAuth, userController.remove);
+userRouter.delete(
+  "/:id",
+  // checkAuth,
+  userController.remove
+);
 
 userRouter.put(
   "/edit/:id",
-  checkAuth,
+  // checkAuth,
   editValidationUser,
   validationErrorMessage,
   userController.edit
@@ -33,5 +37,7 @@ userRouter.post(
   validationErrorMessage,
   userController.changePassword
 );
+
+userRouter.post("/forgot-password/", checkAuth, userController.forgotPassword);
 
 export default userRouter;
