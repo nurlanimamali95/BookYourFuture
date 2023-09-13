@@ -2,9 +2,9 @@ import React from "react";
 import { TextField, Stack } from "@mui/material";
 import EventContext from "./EventContext";
 import { useContext } from "react";
-import { LocationToggle, ReceiverToggle } from "./AddEventElements";
+import { LocationToggle } from "./AddEventElements";
 import GroupDropdown from "../EventElements/GroupDropdown";
-import StudentDropdown from "../EventElements/StudentDropdown";
+// import StudentDropdown from "../EventElements/StudentDropdown";
 
 export default function MainEventInfo() {
   const { eventData, setEventData } = useContext(EventContext);
@@ -56,10 +56,10 @@ export default function MainEventInfo() {
           value={eventData.location}
           onChange={handleDropdownChange("location")}
         />
-        <ReceiverToggle
+        {/* <ReceiverToggle
           value={eventData.receiverType}
           onChange={handleDropdownChange("receiverType")}
-        />
+        /> */}
       </Stack>
 
       <Stack
@@ -74,13 +74,13 @@ export default function MainEventInfo() {
           value={eventData.group}
           onChange={handleDropdownChange("group")}
         />
-        <StudentDropdown
+        {/* <StudentDropdown
           groupId={eventData.group}
           value={eventData.student}
           onChange={handleDropdownChange("student")}
           isGroup={eventData.receiverType === "group"}
           disabled={eventData.receiverType !== "student"}
-        />
+        /> */}
       </Stack>
     </>
   );

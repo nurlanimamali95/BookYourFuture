@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import PropTypes from "prop-types";
-import useFetch from "../../../../hooks/useFetch";
+import useFetch from "../../hooks/useFetch";
 
 export default function FilterByGroup({
   onFilterChange,

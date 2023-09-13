@@ -13,42 +13,54 @@ import AddEditStudentPage from "./pages/Admin/AddEditStudentPage";
 import AddGroupPage from "./pages/Admin/AddGroupPage";
 import GroupManagement from "./pages/Admin/GroupManagement";
 
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
 import StudentManagementPage from "./pages/Admin/StudentManagementPage";
 import { useDispatch } from "react-redux";
 import { fetchAuthMe } from "./components/redux/authSlice";
-// import { Navigate } from "react-router-dom";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#00897b", // Adjust this to your preferred color
+    },
+  },
+});
 
 const App = () => {
   const dispatch = useDispatch();
-  // const isAuth = useSelector(selectorIsAuth);
 
   React.useEffect(() => {
     dispatch(fetchAuthMe());
   }, []);
 
   return (
-    <>
-      <Layout />
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/events/" element={<EventManagement />} />
-        <Route path="/events/edit/:id" element={<EditEventPage />} />
-        <Route path="/events/add" element={<AddEventPage />} />
-        <Route path="/student" element={<StudentDashboard />} />
-        <Route path="/student/event/timeslots" element={<TimeSlotPage />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/userProfile" element={<UserProfilePage />} />
-        <Route path="/addStudent" element={<AddEditStudentPage />} />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <>
+        <Layout />
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/events/" element={<EventManagement />} />
+          <Route path="/events/edit/:id" element={<EditEventPage />} />
+          <Route path="/events/add" element={<AddEventPage />} />
+          <Route path="/student" element={<StudentDashboard />} />
+          <Route path="/student/event/timeslots" element={<TimeSlotPage />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/userProfile" element={<UserProfilePage />} />
+          <Route path="/addStudent" element={<AddEditStudentPage />} />
 
-        <Route path="/addGroup" element={<AddGroupPage />} />
-        <Route path="/groups" element={<GroupManagement />} />
-        <Route path="/students" element={<StudentManagementPage />} />
-        <Route
-          path="/students/editStudent/:id"
-          element={<AddEditStudentPage />}
-        />
-      </Routes>
-    </>
+          <Route path="/addGroup" element={<AddGroupPage />} />
+          <Route path="/groups" element={<GroupManagement />} />
+          <Route path="/students" element={<StudentManagementPage />} />
+          <Route
+            path="/students/editStudent/:id"
+            element={<AddEditStudentPage />}
+          />
+        </Routes>
+      </>
+    </ThemeProvider>
   );
 };
 

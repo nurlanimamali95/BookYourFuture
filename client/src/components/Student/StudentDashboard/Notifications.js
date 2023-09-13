@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -6,35 +6,39 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import "./Notifications.css";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useRadioContext } from "../StudentEventManagement/TimeSlotContext";
 
 export default function Notifications(props) {
-  const [notifications, setNotifications] = useState([]);
+  const { notifications } = props;
+  const { setEventName } = useRadioContext();
+  const [visibleNotifications, setVisibleNotifications] = useState([]);
 
   useEffect(() => {
-    //eslint-disable-next-line
-    console.log(props.message);
-    const fetchedNotifications = [
-      {
-        message: props.message,
-        type: "warning",
-        action: {
-          label: "Book a slot",
-        },
-      },
-    ];
-    setNotifications(fetchedNotifications);
-  }, [props.message]);
+    setVisibleNotifications(notifications.slice(0, 2));
+  }, [notifications]);
+
+  const handleDismiss = (notificationId) => {
+    setVisibleNotifications((prevNotifications) =>
+      prevNotifications.filter(
+        (notification) => notification.id !== notificationId
+      )
+    );
+  };
 
   return (
     <Stack sx={{ width: "100%" }} spacing={2}>
-      {notifications.map((notification, index) => (
+      {visibleNotifications.map((notification, index) => (
         <Alert
           key={index}
           className="animated-alert"
           action={
             notification.action ? (
               <Link
-                to="/student/event/timeslots"
+                to={notification.action.link}
+                onClick={() => {
+                  setEventName(notification.id);
+                  handleDismiss(notification.id);
+                }}
                 sx={{ textDecoration: "none" }}
               >
                 <Button
@@ -58,5 +62,15 @@ export default function Notifications(props) {
 }
 
 Notifications.propTypes = {
-  message: PropTypes.string,
+  notifications: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      message: PropTypes.string,
+      type: PropTypes.string,
+      action: PropTypes.shape({
+        label: PropTypes.string,
+        link: PropTypes.string,
+      }),
+    })
+  ),
 };

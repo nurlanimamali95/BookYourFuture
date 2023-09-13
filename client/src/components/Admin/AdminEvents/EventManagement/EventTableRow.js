@@ -29,11 +29,11 @@ function EventTableRow({ rows }) {
       <TableCell align="right">
         {event.group[0]?.numberOfGroupName || "All"}
       </TableCell>
-      <TableCell align="right">
+      {/* <TableCell align="right">
         {event.student.length > 0
           ? event.student.map((s) => s.firstName + " " + s.lastName).join(", ")
           : "All"}
-      </TableCell>
+      </TableCell> */}
       <TableCell align="right">
         <EditIcon
           onClick={() => handleEditClick(event._id)}

@@ -7,11 +7,15 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { Hidden } from "@mui/material";
+// import { selectorIsAuth } from "../../components/redux/authSlice";
+// import { useSelector } from "react-redux";
+// import { useNavigate } from "react-router-dom";
 
 import EventByGroup from "../../components/Admin/AdminDashboard/EventByGroup/EventByGroup";
 import PieChartCard from "../../components/Admin/AdminDashboard/PieChart/PieChartCard";
-import AdminCalender from "../../components/Admin/AdminDashboard/Calender/AdminCalender";
-import AdminEventTable from "../../components/Admin/AdminDashboard/AdminEventTable/AdminEventTable";
+// import AdminCalender from "../../components/Admin/AdminDashboard/Calender/AdminCalender";
+// import AdminEventTable from "../../components/Admin/AdminDashboard/AdminEventTable/AdminEventTable";
+import EventCalander from "../../components/Admin/AdminDashboard/AdminEventTable/EventCalander";
 
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -19,6 +23,12 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function AdminDashboard() {
+  // const isAuth = useSelector(selectorIsAuth);
+  // const navigate = useNavigate();
+
+  // if (!isAuth) {
+  //   return navigate("/login");
+  // }
   return (
     <React.Fragment>
       <CssBaseline />
@@ -44,14 +54,9 @@ export default function AdminDashboard() {
                 </Item>
               </Grid>
             </Hidden>
-            <Grid xs={12} md={4}>
+            <Grid xs={12} md={12}>
               <Item>
-                <AdminCalender />
-              </Item>
-            </Grid>
-            <Grid xs={12} md={8}>
-              <Item>
-                <AdminEventTable />
+                <EventCalander />
               </Item>
             </Grid>
           </Grid>

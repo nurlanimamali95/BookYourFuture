@@ -47,7 +47,7 @@ export default function TimeSlotButtons(props) {
     <FormControl>
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
-        sx={{ display: "flex", flexDirection: "row" }}
+        sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
         value={selectedValue}
         onChange={handleChange}
       >

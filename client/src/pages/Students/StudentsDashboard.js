@@ -7,27 +7,27 @@ import EventTable from "../../components/Student/StudentDashboard/Table";
 import Grid from "@mui/material/Grid";
 import useFetch from "../../hooks/useFetch";
 import todayDate from "../../components/Student/StudentEventManagement/FormatDate";
+// import { selectorIsAuth } from "../../components/redux/authSlice";
+import { useSelector } from "react-redux";
+// import { useNavigate } from "react-router-dom";
 
 export default function StudentDashboard() {
+  // const isAuth = useSelector(selectorIsAuth);
+  // const navigate = useNavigate();
   function processData(responseData) {
     if (responseData.success === true) {
       const eventsData = responseData.eventsData;
-      // eslint-disable-next-line
-      console.error("works", eventsData);
-
       return eventsData;
     } else {
-      // eslint-disable-next-line
-      console.error("API response indicates an error:", responseData);
       return [];
     }
   }
 
+  const userData = useSelector((state) => state.auth.data);
+  const userId = userData ? userData._id : null;
   const [selectedDate, setSelectedDate] = useState(todayDate);
   const [events, setEvents] = useState([]);
-  const [eventInfo, setEventInfo] = useState("");
-  //eslint-disable-next-line
-  console.log(events);
+  const [notifications, setNotifications] = useState([]);
 
   const { isLoading, error, performFetch } = useFetch(
     "/event/all",
@@ -51,18 +51,38 @@ export default function StudentDashboard() {
 
   function handleEventsUpdate(responseData) {
     const data = processData(responseData);
-    setEvents(data);
 
-    if (data.length > 0) {
-      const firstEvent = data[35];
+    const filteredEvents = data.filter((event) =>
+      event.group[0]?.students.includes(userId)
+    );
 
-      setEventInfo(firstEvent.title);
-    }
+    const eventNotifications = filteredEvents
+      .filter((event) =>
+        event.sessionSlot.every(
+          (slot) => !slot.student || slot.student._id !== userId
+        )
+      )
+      .map((event) => ({
+        message: event.title,
+        type: "warning",
+        id: event._id,
+        action: {
+          label: "Book a slot",
+          link: "/student/event/timeslots",
+        },
+      }));
+
+    setEvents(filteredEvents);
+    setNotifications(eventNotifications);
   }
 
   useEffect(() => {
     performFetch();
   }, []);
+
+  // if (!isAuth) {
+  //   return navigate("/login");
+  // }
 
   return (
     <Container>
@@ -91,7 +111,7 @@ export default function StudentDashboard() {
               </Typography>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Notifications message={eventInfo} />
+              <Notifications notifications={notifications} />
             </Grid>
             <Grid item mt="2em" xs={12} sm={12} md={3} lg={4}>
               <Calendar

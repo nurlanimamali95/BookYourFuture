@@ -16,11 +16,13 @@ export const add = async (req, res) => {
 
     res.status(200).json({ success: true, groupData: group });
   } catch (err) {
+    //eslint-disable-next-line
+    console.error(err);
     if (err.code === 11000) {
       // Duplicate key error
       res.status(400).json({ message: "Duplicate numberOfGroupName" });
     } else {
-      res.status(500).json({ message: "Something went wrong." });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 };
@@ -28,14 +30,19 @@ export const add = async (req, res) => {
 export const all = async (req, res) => {
   try {
     const groups = await GroupModel.find()
-      .populate("students")
+      .populate({
+        path: "students",
+        select: "_id lastName firstName email",
+      })
       .populate("user")
       .exec();
 
     res.status(200).json({ success: true, groupsData: groups });
   } catch (err) {
+    //eslint-disable-next-line
+    console.error(err);
     res.status(500).json({
-      message: "something is wrong",
+      message: "Internal server error",
     });
   }
 };
@@ -52,7 +59,10 @@ export const getOne = async (req, res) => {
 
     const group = await GroupModel.findById(groupId)
       .populate("user")
-      .populate("students")
+      .populate({
+        path: "students",
+        select: "_id lastName firstName email",
+      })
       .exec();
 
     if (!group) {
@@ -62,8 +72,10 @@ export const getOne = async (req, res) => {
     }
     res.status(200).json({ success: true, groupData: group });
   } catch (err) {
+    //eslint-disable-next-line
+    console.error(err);
     res.status(500).json({
-      message: "Something is wrong",
+      message: "Internal server error",
     });
   }
 };
@@ -97,8 +109,10 @@ export const remove = async (req, res) => {
 
     res.status(200).json({ success: true });
   } catch (err) {
+    //eslint-disable-next-line
+    console.error(err);
     res.status(500).json({
-      message: "something is wrong",
+      message: "Internal server error",
     });
   }
 };
@@ -125,8 +139,10 @@ export const edit = async (req, res) => {
 
     res.status(200).json({ success: true, groupData: updatedGroup }); // Send the updatedGroup in the response
   } catch (err) {
+    //eslint-disable-next-line
+    console.error(err);
     res.status(500).json({
-      message: "something is wrong",
+      message: "Internal server error",
     });
   }
 };

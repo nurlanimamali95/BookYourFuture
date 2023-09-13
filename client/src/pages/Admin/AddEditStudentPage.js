@@ -12,10 +12,15 @@ import { CancelButton } from "../../components/Buttons/CancelButton";
 import { Button } from "../../components/Buttons/Button";
 import { toast } from "react-hot-toast";
 import useFetch from "../../hooks/useFetch";
-import FilterByGroup from "../../components/Admin/AdminEvents/EventManagement/FilterByGroup";
+import FilterByGroup from "../../components/Filters/FilterByGroup";
 import { useLocation, useParams } from "react-router-dom";
+// import { selectorIsAuth } from "../../components/redux/authSlice";
+// import { useSelector } from "react-redux";
+// import { useNavigate } from "react-router-dom";
 
 export default function AddEditStudentPage() {
+  // const isAuth = useSelector(selectorIsAuth);
+  // const navigate = useNavigate();
   const { pathname } = useLocation();
   const isEdit = useMemo(() => pathname.includes("editStudent"), [pathname]);
   const [firstName, setFirstName] = useState("");
@@ -73,6 +78,10 @@ export default function AddEditStudentPage() {
     isEdit ? updateUser(usersData, "PUT") : performFetch(usersData, "POST");
   };
 
+  // if (!isAuth) {
+  //   return navigate("/login");
+  // }
+
   return (
     <form onSubmit={handleSave}>
       <Container maxWidth="md" sx={{ marginTop: "25px" }}>
@@ -115,11 +124,7 @@ export default function AddEditStudentPage() {
                 isSelect={true}
                 idGroup={isEdit && groupNumber}
               >
-                <Select
-                  label="Filter"
-                  fullWidth
-                  style={{ height: "2.3em" }} // Set the height directly using the style prop
-                />
+                <Select label="Filter" fullWidth />
               </FilterByGroup>
             </Stack>
           </Grid>

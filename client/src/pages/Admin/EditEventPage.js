@@ -16,9 +16,15 @@ import {
   Stack,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { DurationDropdown } from "../../components/Admin/AdminEvents/AddEvent/AddEventElements";
+// import { useNavigate } from "react-router-dom";
+// import { useSelector } from "react-redux";
+// import { selectorIsAuth } from "../../components/redux/authSlice";
 
 export default function EditEventPage() {
+  // const isAuth = useSelector(selectorIsAuth);
   const { id } = useParams();
+  // const navigate = useNavigate();
 
   const [message, setMessage] = useState("");
 
@@ -33,7 +39,7 @@ export default function EditEventPage() {
     sessionSlot: [],
   });
 
-  const { performFetch, cancelFetch, isLoading } = useFetch(
+  const { performFetch, cancelFetch, isLoading, error } = useFetch(
     `/event/${id}`,
     handleReceivedData
   );
@@ -46,17 +52,30 @@ export default function EditEventPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (error) {
+      handleMessage("There was an error fetching the event data.");
+    }
+  }, [error]);
+
   function handleReceivedData(data) {
     const processedSessionSlots = data?.eventData?.sessionSlot?.map((slot) => ({
       durationInSeconds: slot.durationInSeconds,
       startTime: dayjs(slot.startTime),
+      _id: slot._id,
+      student: slot.student,
     }));
+
+    const firstSessionDuration =
+      processedSessionSlots && processedSessionSlots.length > 0
+        ? processedSessionSlots[0].durationInSeconds
+        : "";
 
     setEventData({
       ...data.eventData,
       group: data.eventData.group[0]._id,
       sessionSlot: processedSessionSlots,
-      duration: data.eventData.sessionSlot / 60,
+      duration: firstSessionDuration,
     });
   }
 
@@ -64,6 +83,9 @@ export default function EditEventPage() {
     setMessage(msg);
   };
 
+  // if (!isAuth) {
+  //   return navigate("/login");
+  // }
   return (
     <EventContext.Provider value={{ eventData, setEventData }}>
       <Container>
@@ -82,7 +104,17 @@ export default function EditEventPage() {
               </Grid>
               <Grid item xs={false} md={2}></Grid>
               <Grid item xs={12} md={5}>
-                <Box sx={{ minHeight: { xs: "30px", md: "500px" } }}>
+                <Box
+                  sx={{
+                    minHeight: { xs: "30px", md: "500px" },
+                    mt: { xs: 4, md: 0 },
+                  }}
+                >
+                  <DurationDropdown
+                    disabled={true}
+                    size="small"
+                    value={eventData.duration}
+                  />
                   <EditEventDatePicker sessionSlot={eventData.sessionSlot} />
                 </Box>
               </Grid>

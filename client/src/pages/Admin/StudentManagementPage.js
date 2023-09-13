@@ -16,16 +16,18 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
+// import { selectorIsAuth } from "../../components/redux/authSlice";
+// import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Buttons/Button";
 import DeleteButton from "../../components/Buttons/DeleteButton";
-import FilterByGroup from "../../components/Admin/AdminEvents/EventManagement/FilterByGroup";
+import FilterByGroup from "../../components/Filters/FilterByGroup";
 
 function StudentManagementPage() {
   const [data, setData] = useState(null);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [selectedGroup, setSelectedGroup] = useState("All"); // State for selected group filter
-
+  // const isAuth = useSelector(selectorIsAuth);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,6 +62,10 @@ function StudentManagementPage() {
         );
       })
     : [];
+
+  // if (!isAuth) {
+  //   return navigate("/login");
+  // }
 
   return (
     <>

@@ -4,35 +4,48 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import BookTime from "../../components/Student/StudentEventManagement/BookTime";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import { RadioProvider } from "../../components/Student/StudentEventManagement/TimeSlotContext";
+import Button from "../../components/Student/StudentEventManagement/ConfirmEventButton";
 import { useState, useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import formatDate from "../../components/Student/StudentEventManagement/FormatDate";
+import { Snackbar } from "@mui/material";
+import { useRadioContext } from "../../components/Student/StudentEventManagement/TimeSlotContext";
 
 export default function TimeSlotsPage() {
+  const { eventName } = useRadioContext();
   const [expanded, setExpanded] = useState(null);
+  const [message, setMessage] = useState("");
   const [eventData, setEventData] = useState({
     eventName: "",
     description: "",
   });
   const [sessionSlots, setSessionSlots] = useState([]);
+  const [sessionSlotId, setSessionSlotId] = useState([]);
+
   const { isLoading, error, performFetch } = useFetch("/event/all", (data) => {
     if (data.success && data.eventsData.length > 0) {
-      const firstEvent = data.eventsData[35];
-      if (firstEvent.sessionSlot && firstEvent.sessionSlot.length > 0) {
-        setSessionSlots(firstEvent.sessionSlot);
+      const matchingEvent = data.eventsData.find(
+        (event) => event._id === eventName
+      );
+
+      if (
+        matchingEvent &&
+        matchingEvent.sessionSlot &&
+        matchingEvent.sessionSlot.length > 0
+      ) {
+        setSessionSlots(matchingEvent.sessionSlot);
+        setSessionSlotId(matchingEvent.sessionSlot[0]._id);
       }
       setEventData({
-        eventName: firstEvent.title,
-        description: firstEvent.description,
+        eventName: matchingEvent ? matchingEvent.title : "",
+        description: matchingEvent ? matchingEvent.description : "",
       });
     }
   });
 
   useEffect(() => {
     performFetch();
-  }, []);
+  }, [eventName]);
 
   const groupedTimeSlots = {};
 
@@ -49,7 +62,7 @@ export default function TimeSlotsPage() {
   };
 
   return (
-    <RadioProvider>
+    <>
       <Container>
         <Box>
           <Grid container spacing={2}>
@@ -94,7 +107,11 @@ export default function TimeSlotsPage() {
                 </Grid>
               )
             )}
-            <Grid item xs={12}>
+            <Grid
+              item
+              xs={12}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
               {isLoading ? (
                 <Typography variant="body1">Loading...</Typography>
               ) : error ? (
@@ -102,10 +119,10 @@ export default function TimeSlotsPage() {
               ) : (
                 <Button
                   variant="contained"
-                  sx={{
-                    display: "flex",
-                    margin: "0 auto",
-                  }}
+                  sessionSlotId={sessionSlotId}
+                  onEventAdded={setMessage}
+                  redirectPath="/student"
+                  sx={{ display: "flex", justifyContent: "center" }}
                 >
                   Confirm
                 </Button>
@@ -114,6 +131,12 @@ export default function TimeSlotsPage() {
           </Grid>
         </Box>
       </Container>
-    </RadioProvider>
+      <Snackbar
+        open={Boolean(message)}
+        autoHideDuration={3000}
+        onClose={() => setMessage("")}
+        message={message}
+      />
+    </>
   );
 }

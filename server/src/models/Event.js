@@ -11,10 +11,14 @@ const timeSlotSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  student: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  },
 });
 
 // eslint-disable-next-line
-mongoose.model("timeSlot", timeSlotSchema);
+const TimeSlot = mongoose.model("timeSlot", timeSlotSchema);
 
 const eventSchema = new mongoose.Schema(
   {
@@ -30,24 +34,12 @@ const eventSchema = new mongoose.Schema(
       required: true,
     },
 
-    receiverType: {
-      type: String,
-      required: true,
-    },
-
     sessionSlot: [timeSlotSchema],
 
     group: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "group",
     },
-
-    student: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
-      },
-    ],
 
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -63,7 +55,7 @@ const Event = mongoose.model("event", eventSchema);
 
 export const validateEvent = [
   body("title", "Title must be at least 6 characters")
-    .isLength({ min: 6 })
+    .isLength({ min: 3 })
     .isString(),
   body("description").optional().isString(),
 
@@ -72,14 +64,8 @@ export const validateEvent = [
     .withMessage("Location must be 'online' or 'offline'")
     .isString(),
 
-  body("receiverType")
-    .isIn(["group", "student"])
-    .withMessage("receiverType must be 'group' or 'student'")
-    .isString(),
-
   body("sessionSlot").optional().isArray(),
   body("group").optional(),
-  body("student").optional(),
 ];
 
-export default Event;
+export { Event, TimeSlot };

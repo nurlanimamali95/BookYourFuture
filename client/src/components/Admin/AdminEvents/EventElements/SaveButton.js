@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@mui/material";
 import useFetch from "../../../../hooks/useFetch";
 import PropTypes from "prop-types";
@@ -9,21 +9,21 @@ export default function SaveButton({
   onSaved,
   onError,
   endpoint,
-  successMessage = "Saved successfully!",
-  errorMessage = "An error occurred while saving.",
   redirectPath,
 }) {
   const navigate = useNavigate();
   const { isLoading, error, performFetch } = useFetch(endpoint, () => {
-    if (error) {
-      onError(errorMessage);
-    } else {
-      onSaved(successMessage);
-      setTimeout(() => {
-        navigate(redirectPath);
-      }, 500);
-    }
+    onSaved("Saved successfully!");
+    setTimeout(() => {
+      navigate(redirectPath);
+    }, 1000);
   });
+
+  useEffect(() => {
+    if (error) {
+      onError("An error occurred while saving.");
+    }
+  }, [error, onError]);
 
   const handleSave = () => {
     performFetch(eventData, "PATCH");

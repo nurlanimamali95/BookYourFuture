@@ -3,13 +3,19 @@ import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import { Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+// import { useSelector } from "react-redux";
+// import { selectorIsAuth } from "../../components/redux/authSlice";
+
 import BasicTable from "../../components/Admin/AdminEvents/EventManagement/EventManagmentTable";
+
 import FilterGroup from "../../components/Admin/AdminEvents/EventManagement/FilterGroup";
+
 import SearchEvent from "../../components/Admin/AdminEvents/EventManagement/SearchEvent";
 import Grid from "@mui/material/Grid";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 export default function EventManagement() {
+  // const isAuth = useSelector(selectorIsAuth);
   const [selectedGroup, setSelectedGroup] = useState("");
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -17,6 +23,10 @@ export default function EventManagement() {
   const handleAddEvent = () => {
     navigate("/events/add");
   };
+
+  // if (!isAuth) {
+  //   return navigate("/login");
+  // }
 
   return (
     <Container>
