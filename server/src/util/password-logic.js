@@ -24,14 +24,14 @@ export const sendEmail = async (to, subject, text) => {
     port: 465,
     secure: true,
     auth: {
-      user: "byfhyf23@gmail.com",
-      pass: "ryrw abiu rhvt sbtq",
+      user: process.env.KEY_USER_MAIL,
+      pass: process.env.KEY_PASSWORD_APP,
     },
   });
 
   // Email data
   const mailOptions = {
-    from: "byfhyf23@gmail.com",
+    from: process.env.KEY_USER_MAIL,
     to,
     subject,
     text,
