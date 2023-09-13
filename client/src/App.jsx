@@ -12,6 +12,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import AddEditStudentPage from "./pages/Admin/AddEditStudentPage";
 import AddGroupPage from "./pages/Admin/AddGroupPage";
 import GroupManagement from "./pages/Admin/GroupManagement";
+import PasswordPage from "./pages/Password/PasswordPage";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -41,6 +42,7 @@ const App = () => {
       <>
         <Layout />
         <Routes>
+          <Route path="/change-password" element={<PasswordPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/events/" element={<EventManagement />} />
           <Route path="/events/edit/:id" element={<EditEventPage />} />
