@@ -111,7 +111,7 @@ const ChangePasswordPage = () => {
           >
             <Box sx={{ mb: 10 }}>
               <Typography sx={{ textAlign: "center" }} variant="h4">
-                Change password page
+                Change password
               </Typography>
             </Box>
             <form onSubmit={handleSubmit(onSubmit)}>

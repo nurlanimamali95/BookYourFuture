@@ -8,11 +8,11 @@ import TimeSlotPage from "../src/pages/Students/TimeSlotsPage";
 import EventManagement from "./pages/Admin/EventManagementPage";
 import EditEventPage from "./pages/Admin/EditEventPage";
 import AddEventPage from "./pages/Admin/AddEventPage";
-import LoginPage from "./pages/LoginPage/LoginPage";
+import LoginPage from "./pages/LoginPage/Login";
 import AddEditStudentPage from "./pages/Admin/AddEditStudentPage";
 import AddGroupPage from "./pages/Admin/AddGroupPage";
 import GroupManagement from "./pages/Admin/GroupManagement";
-import PasswordPage from "./pages/Password/PasswordPage";
+import PasswordPage from "./pages/Password/ChangePassword";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -20,6 +20,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import StudentManagementPage from "./pages/Admin/StudentManagementPage";
 import { useDispatch } from "react-redux";
 import { fetchAuthMe } from "./components/redux/authSlice";
+import ForgotPasswordPage from "./pages/Password/ForgotPassword";
 
 const theme = createTheme({
   palette: {
@@ -43,6 +44,7 @@ const App = () => {
         {/* Public routes without layout */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/change-password" element={<PasswordPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         {/* Protected routes with layout */}
         <Route path="*" element={<Layout />}>

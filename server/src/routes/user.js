@@ -38,6 +38,6 @@ userRouter.post(
   userController.changePassword
 );
 
-userRouter.post("/forgot-password/", checkAuth, userController.forgotPassword);
+userRouter.post("/forgot-password/", userController.forgotPassword);
 
 export default userRouter;

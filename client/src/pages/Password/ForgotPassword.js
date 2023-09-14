@@ -1,57 +1,24 @@
 import * as React from "react";
-import { Link as RouterLink } from "react-router-dom";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import background from "../../assets/loginbackground.jpg";
-import logo from "../../assets/logo.svg";
-import { Controller, useForm } from "react-hook-form";
+import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  fetchUserData,
-  selectorIsAuth,
-} from "../../components/redux/authSlice";
-import { Typography } from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
+import { forgotPasswordUser } from "../../components/redux/userSlice";
+import { createTheme, ThemeProvider } from "@mui/material";
 
-const LoginPage = () => {
+const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
-  const isAuth = useSelector(selectorIsAuth);
-  const userData = useSelector((state) => state.auth.data);
   const navigate = useNavigate();
-  const error = useSelector((state) => state.auth.status === "isError");
-  const errorMessage = useSelector((state) => state.auth.data);
-
-  const {
-    control,
-    handleSubmit,
-    formState: { isValid },
-  } = useForm({
-    defaultValues: {
-      email: "byfhyf23@gmail.com",
-      password: "QXu4qeMD",
-    },
-    mode: "onChange",
-  });
-
-  const onSubmit = async (values) => {
-    const data = await dispatch(fetchUserData(values));
-
-    if (!data.payload) {
-      //eslint-disable-next-line
-      console.log("Failed to login");
-    }
-
-    if ("token" in data.payload) {
-      window.localStorage.setItem("token", data.payload.token);
-    }
-  };
+  const success = useSelector((state) => state.user.status === "isSuccess");
+  const error = useSelector((state) => state.user.status === "isError");
+  const errorMessage = useSelector((state) => state.user.data);
 
   const theme = createTheme({
     palette: {
@@ -64,19 +31,30 @@ const LoginPage = () => {
       },
     },
   });
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { isValid },
+  } = useForm({
+    defaultValues: {
+      email: "",
+    },
+    mode: "onChange",
+  });
 
-  // Redirect authenticated users away from the login page
-  React.useEffect(() => {
-    if (isAuth) {
-      if (userData?.admin === true) {
-        navigate("/admin");
-      } else if (userData?.admin === false) {
-        navigate("/student");
-      } else {
-        return null;
-      }
-    }
-  }, [isAuth, userData]);
+  const onSubmit = (values) => {
+    dispatch(forgotPasswordUser(values));
+    reset({
+      email: "",
+    });
+  };
+
+  const handleBackButton = () => {
+    navigate("/login");
+  };
+
+  React.useEffect(() => {}, [success, error]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -122,13 +100,13 @@ const LoginPage = () => {
             }}
           >
             <Box sx={{ mb: 10 }}>
-              <Avatar src={logo} sx={{ width: 300, height: 100 }}>
-                <LockOutlinedIcon />
-              </Avatar>
+              <Typography sx={{ textAlign: "center" }} variant="h5">
+                If you forgot your password, please enter your email!
+              </Typography>
             </Box>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Box
-                noValidate
+                onSubmit={handleSubmit}
                 sx={{
                   mt: 1,
                   display: "flex",
@@ -161,43 +139,12 @@ const LoginPage = () => {
                     />
                   )}
                 />
-                <Controller
-                  name="password"
-                  control={control}
-                  defaultValue=""
-                  rules={{
-                    required: "Password is required",
-                  }}
-                  render={({ field, fieldState }) => (
-                    <TextField
-                      {...field}
-                      margin="normal"
-                      size="small"
-                      required
-                      name="password"
-                      label="Password"
-                      type="password"
-                      id="password"
-                      autoComplete="current-password"
-                      error={!!fieldState.error}
-                      helperText={
-                        fieldState.error ? fieldState.error.message : ""
-                      }
-                    />
-                  )}
-                />
-                {error && (
-                  <Typography color="error" variant="body2">
-                    {errorMessage?.message}
-                  </Typography>
-                )}
                 <Button
-                  disabled={!isValid}
                   type="submit"
                   variant="contained"
+                  disabled={!isValid}
                   sx={{
-                    mt: 7,
-                    mb: 2,
+                    m: 1,
                     backgroundColor: theme.palette.primary.main,
                     "&:hover": {
                       backgroundColor: theme.palette.secondary.main,
@@ -205,14 +152,27 @@ const LoginPage = () => {
                     size: "medium",
                   }}
                 >
-                  Login
+                  Send Email
                 </Button>
+                <Button
+                  variant="outlined"
+                  sx={{ m: 2 }}
+                  onClick={handleBackButton}
+                >
+                  Back
+                </Button>
+                {success && (
+                  <Typography variant="body2">
+                    Please check your email!
+                  </Typography>
+                )}
+                {error && (
+                  <Typography color="error" variant="body2">
+                    {errorMessage?.message}
+                  </Typography>
+                )}
                 <Grid container align="center">
-                  <Grid item xs>
-                    <RouterLink to="/change-password" variant="body2">
-                      Forgot password?
-                    </RouterLink>
-                  </Grid>
+                  <Grid item xs></Grid>
                 </Grid>
               </Box>
             </form>
@@ -222,4 +182,4 @@ const LoginPage = () => {
     </ThemeProvider>
   );
 };
-export default LoginPage;
+export default ForgotPasswordPage;

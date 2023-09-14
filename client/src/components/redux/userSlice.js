@@ -14,10 +14,18 @@ export const changePasswordUser = createAsyncThunk(
   }
 );
 
-// export const fetchAuthMe = createAsyncThunk("auth/fetchAuthMe", async () => {
-//   const { data } = await axios.get("/api/user/");
-//   return data;
-// });
+export const forgotPasswordUser = createAsyncThunk(
+  "/user/forgot-password",
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post("/api/user/forgot-password/", params);
+      return data;
+    } catch (error) {
+      // Handle the error and return it with rejectWithValue
+      return rejectWithValue(error.response.data); // Assuming the error response contains error details
+    }
+  }
+);
 
 const initialState = {
   data: null,
@@ -38,6 +46,18 @@ const userSlice = createSlice({
       state.data = action.payload;
     },
     [changePasswordUser.rejected]: (state, action) => {
+      state.status = "isError";
+      state.data = action.payload;
+    },
+    [forgotPasswordUser.pending]: (state) => {
+      state.status = "isLoading";
+      state.data = null;
+    },
+    [forgotPasswordUser.fulfilled]: (state, action) => {
+      state.status = "isSuccess";
+      state.data = action.payload;
+    },
+    [forgotPasswordUser.rejected]: (state, action) => {
       state.status = "isError";
       state.data = action.payload;
     },
