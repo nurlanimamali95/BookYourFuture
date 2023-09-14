@@ -42,27 +42,21 @@ export default function Calendar(props) {
       event.sessionSlot.forEach((slot) => {
         if (slot.student && slot.student._id === userId) {
           const startTime = dayjs(slot.startTime);
-          const eventMonth = startTime.month();
-          const eventYear = startTime.year();
-
-          if (eventMonth === selectedMonth && eventYear === selectedYear) {
-            allHighlightedDays.push(startTime.date());
-          }
+          allHighlightedDays.push({
+            date: startTime.date(),
+            month: startTime.month(),
+          });
         }
       });
     });
 
     setHighlightedDays(allHighlightedDays);
-  }, [eventsData, userId, selectedMonth, selectedYear]);
+  }, [eventsData, userId]);
 
   const handleMonthChange = (newDate) => {
     setSelectedMonth(newDate.month());
     setSelectedYear(newDate.year());
   };
-
-  const shouldResetHighlightedDays =
-    selectedMonth !== initialValue.month() ||
-    selectedYear !== initialValue.year();
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -72,16 +66,24 @@ export default function Calendar(props) {
         onMonthChange={handleMonthChange}
         renderLoading={() => <DayCalendarSkeleton />}
         slots={{
-          day: (dayProps) => (
-            <ServerDay
-              {...dayProps}
-              isSelected={
-                !dayProps.outsideCurrentMonth &&
-                highlightedDays.indexOf(dayProps.day.date()) >= 0 &&
-                !shouldResetHighlightedDays
-              }
-            />
-          ),
+          day: (dayProps) => {
+            const isCurrentMonth =
+              dayProps.day.month() === selectedMonth &&
+              dayProps.day.year() === selectedYear;
+
+            const isSelectedDay = highlightedDays.some(
+              (highlightedDay) =>
+                dayProps.day.date() === highlightedDay.date &&
+                dayProps.day.month() === highlightedDay.month
+            );
+
+            return (
+              <ServerDay
+                {...dayProps}
+                isSelected={isCurrentMonth && isSelectedDay}
+              />
+            );
+          },
         }}
       />
     </LocalizationProvider>
