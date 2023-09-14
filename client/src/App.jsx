@@ -39,29 +39,30 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <>
-        <Layout />
-        <Routes>
-          <Route path="/change-password" element={<PasswordPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/events/" element={<EventManagement />} />
-          <Route path="/events/edit/:id" element={<EditEventPage />} />
-          <Route path="/events/add" element={<AddEventPage />} />
-          <Route path="/student" element={<StudentDashboard />} />
-          <Route path="/student/event/timeslots" element={<TimeSlotPage />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/userProfile" element={<UserProfilePage />} />
-          <Route path="/addStudent" element={<AddEditStudentPage />} />
+      <Routes>
+        {/* Public routes without layout */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/change-password" element={<PasswordPage />} />
 
-          <Route path="/addGroup" element={<AddGroupPage />} />
-          <Route path="/groups" element={<GroupManagement />} />
-          <Route path="/students" element={<StudentManagementPage />} />
+        {/* Protected routes with layout */}
+        <Route path="*" element={<Layout />}>
+          <Route path="events" element={<EventManagement />} />
+          <Route path="events/edit/:id" element={<EditEventPage />} />
+          <Route path="events/add" element={<AddEventPage />} />
+          <Route path="student" element={<StudentDashboard />} />
+          <Route path="student/event/timeslots" element={<TimeSlotPage />} />
+          <Route path="admin" element={<AdminDashboard />} />
+          <Route path="userProfile" element={<UserProfilePage />} />
+          <Route path="addStudent" element={<AddEditStudentPage />} />
+          <Route path="addGroup" element={<AddGroupPage />} />
+          <Route path="groups" element={<GroupManagement />} />
+          <Route path="students" element={<StudentManagementPage />} />
           <Route
-            path="/students/editStudent/:id"
+            path="students/editStudent/:id"
             element={<AddEditStudentPage />}
           />
-        </Routes>
-      </>
+        </Route>
+      </Routes>
     </ThemeProvider>
   );
 };

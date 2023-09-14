@@ -196,7 +196,6 @@ export const changePassword = async (req, res) => {
 
 export const forgotPassword = async (req, res) => {
   try {
-    const currentUser = await UserModel.findById(req.userId);
     // Generate a new random password
     const password = generateRandomPassword();
 
@@ -211,10 +210,8 @@ export const forgotPassword = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    if (currentUser.email === user.email) {
-      user.passwordHash = hash;
-      await currentUser.save();
-    }
+    user.passwordHash = hash;
+    await user.save();
 
     // Generate a new JWT token
     const token = jwt.sign(
