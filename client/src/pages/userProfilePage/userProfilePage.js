@@ -11,11 +11,11 @@ import {
 import { PhotoCamera } from "@mui/icons-material";
 // import { selectorIsAuth } from "../../components/redux/authSlice";
 // import { useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const UserProfilePage = () => {
   // const isAuth = useSelector(selectorIsAuth);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const buttonStyle = {
     backgroundColor: "#56ae5a",
@@ -41,6 +41,10 @@ const UserProfilePage = () => {
   // if (!isAuth) {
   //   return navigate("/login");
   // }
+
+  const handleChangePassword = () => {
+    navigate("/change-password");
+  };
 
   return (
     <Container maxWidth="md">
@@ -72,20 +76,9 @@ const UserProfilePage = () => {
                 fullWidth
               />
             </Stack>
-            <Stack direction="row" spacing={2}>
-              <TextField
-                label="New Password"
-                type="password"
-                variant="outlined"
-                fullWidth
-              />
-              <TextField
-                label="Confirm Password"
-                type="password"
-                variant="outlined"
-                fullWidth
-              />
-            </Stack>
+            <Button variant="outlined" onClick={handleChangePassword}>
+              Change Password
+            </Button>
           </Stack>
         </Grid>
 

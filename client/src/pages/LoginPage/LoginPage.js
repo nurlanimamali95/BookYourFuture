@@ -4,8 +4,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -64,9 +62,12 @@ const LoginPage = () => {
     },
   });
 
-  if (isAuth) {
-    userData?.admin === true ? navigate("/admin") : navigate("/student");
-  }
+  // Redirect user if already authenticated
+  React.useEffect(() => {
+    if (isAuth) {
+      userData?.admin === true ? navigate("/admin") : navigate("/student");
+    }
+  }, [isAuth, navigate]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -155,20 +156,6 @@ const LoginPage = () => {
                     required: "Password is required",
                   })}
                 />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      sx={{
-                        color: theme.palette.primary.main,
-                        "&.Mui-checked": {
-                          color: theme.palette.secondary.main,
-                        },
-                      }}
-                      value="remember"
-                    />
-                  }
-                  label="Remember me"
-                />
                 <Button
                   disabled={!isValid}
                   type="submit"
@@ -187,7 +174,7 @@ const LoginPage = () => {
                 </Button>
                 <Grid container align="center">
                   <Grid item xs>
-                    <RouterLink to="/dashboard" variant="body2">
+                    <RouterLink to="/change-password" variant="body2">
                       Forgot password?
                     </RouterLink>
                   </Grid>

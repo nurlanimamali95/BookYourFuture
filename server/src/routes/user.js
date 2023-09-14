@@ -30,7 +30,7 @@ userRouter.put(
 );
 
 userRouter.post(
-  "/change_password",
+  "/change-password",
   checkAuth,
   changePasswordValidationUser,
   verifyOldPassword,
