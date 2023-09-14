@@ -13,11 +13,7 @@ import PropTypes from "prop-types";
 const initialValue = dayjs(todayDate);
 
 function ServerDay(props) {
-  const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
-
-  const isSelected =
-    !props.outsideCurrentMonth &&
-    highlightedDays.indexOf(props.day.date()) >= 0;
+  const { isSelected, ...other } = props;
 
   return (
     <Badge
@@ -25,11 +21,7 @@ function ServerDay(props) {
       overlap="circular"
       badgeContent={isSelected ? "😸" : undefined}
     >
-      <PickersDay
-        {...other}
-        outsideCurrentMonth={outsideCurrentMonth}
-        day={day}
-      />
+      <PickersDay {...other} />
     </Badge>
   );
 }
@@ -37,6 +29,7 @@ function ServerDay(props) {
 export default function Calendar(props) {
   const { eventsData, onDateSelected } = props;
   const [highlightedDays, setHighlightedDays] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState(initialValue.month());
 
   useEffect(() => {
     const allHighlightedDays = [];
@@ -51,19 +44,30 @@ export default function Calendar(props) {
     setHighlightedDays(allHighlightedDays);
   }, [eventsData]);
 
+  const handleMonthChange = (newDate) => {
+    setSelectedMonth(newDate.month());
+  };
+
+  const shouldResetHighlightedDays = selectedMonth !== initialValue.month();
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
         defaultValue={initialValue}
         onChange={onDateSelected}
+        onMonthChange={handleMonthChange}
         renderLoading={() => <DayCalendarSkeleton />}
         slots={{
-          day: ServerDay,
-        }}
-        slotProps={{
-          day: {
-            highlightedDays,
-          },
+          day: (dayProps) => (
+            <ServerDay
+              {...dayProps}
+              isSelected={
+                !dayProps.outsideCurrentMonth &&
+                highlightedDays.indexOf(dayProps.day.date()) >= 0 &&
+                !shouldResetHighlightedDays
+              }
+            />
+          ),
         }}
       />
     </LocalizationProvider>
@@ -71,9 +75,8 @@ export default function Calendar(props) {
 }
 
 ServerDay.propTypes = {
-  highlightedDays: PropTypes.arrayOf(PropTypes.number),
   day: PropTypes.object.isRequired,
-  outsideCurrentMonth: PropTypes.bool.isRequired,
+  isSelected: PropTypes.bool.isRequired,
 };
 
 Calendar.propTypes = {

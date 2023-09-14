@@ -82,7 +82,7 @@ export default function EventTable(props) {
                   </TableCell>
                   <TableCell>{event.description}</TableCell>
                   <TableCell>{event.location}</TableCell>
-                  <TableCell>{event.time}</TableCell>
+                  <TableCell>N/A</TableCell>
                 </TableRow>
               ))}
             </TableBody>
