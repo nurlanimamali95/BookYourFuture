@@ -13,17 +13,26 @@ import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import EventBusyIcon from "@mui/icons-material/EventBusy";
 import Pagination from "@mui/material/Pagination";
+import { useSelector } from "react-redux";
 
 export default function EventTable(props) {
   const { events, selectedDate } = props;
+  const userData = useSelector((state) => state.auth.data);
+  const userId = userData ? userData._id : null;
 
   const formattedDate = dayjs(selectedDate).format("YYYY-MM-DD");
 
   const filteredEvents = events.filter((event) =>
     event.sessionSlot.some(
-      (slot) => dayjs(slot.startTime).format("YYYY-MM-DD") === formattedDate
+      (slot) =>
+        dayjs(slot.startTime).format("YYYY-MM-DD") === formattedDate &&
+        slot.student &&
+        slot.student._id === userId
     )
   );
+
+  //eslint-disable-next-line
+  console.log(filteredEvents);
 
   const itemsPerPage = 3;
 
@@ -82,7 +91,9 @@ export default function EventTable(props) {
                   </TableCell>
                   <TableCell>{event.description}</TableCell>
                   <TableCell>{event.location}</TableCell>
-                  <TableCell>{event.time}</TableCell>
+                  <TableCell>
+                    {dayjs(event.sessionSlot[0].startTime).format("HH:mm")}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
