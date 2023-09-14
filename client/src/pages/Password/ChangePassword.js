@@ -12,7 +12,9 @@ import { selectorIsAuth } from "../../components/redux/authSlice";
 import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { changePasswordUser } from "../../components/redux/userSlice";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, IconButton, ThemeProvider } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const ChangePasswordPage = () => {
   const dispatch = useDispatch();
@@ -22,6 +24,14 @@ const ChangePasswordPage = () => {
   const success = useSelector((state) => state.user.status === "isSuccess");
   const error = useSelector((state) => state.user.status === "isError");
   const errorMessage = useSelector((state) => state.user.data);
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const theme = createTheme({
     palette: {
@@ -138,18 +148,36 @@ const ChangePasswordPage = () => {
                       size="small"
                       id="old-password"
                       label="Enter your password"
-                      type="password"
+                      type={showPassword ? "text" : "password"} // Use the showPassword state to toggle the input type
                       autoComplete="current-password"
                       autoFocus
                       error={!!fieldState.error}
                       helperText={
                         fieldState.error ? fieldState.error.message : ""
                       }
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   )}
                 />
                 <Controller
-                  name="newPassword"
+                  name="NewPassword"
                   control={control}
                   defaultValue=""
                   rules={{
@@ -160,19 +188,38 @@ const ChangePasswordPage = () => {
                       {...field}
                       margin="normal"
                       size="small"
-                      required
+                      id="new-password"
                       label="New password"
-                      type="password"
-                      autoComplete="current-password"
+                      type={showPassword ? "text" : "password"} // Use the showPassword state to toggle the input type
+                      autoComplete="new-password"
+                      autoFocus
                       error={!!fieldState.error}
                       helperText={
                         fieldState.error ? fieldState.error.message : ""
                       }
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   )}
                 />
                 <Controller
-                  name="confirmPassword"
+                  name="ConfirmPassword"
                   control={control}
                   defaultValue=""
                   rules={{
@@ -183,14 +230,33 @@ const ChangePasswordPage = () => {
                       {...field}
                       margin="normal"
                       size="small"
-                      required
-                      label="Confirm new password"
-                      type="password"
-                      autoComplete="current-password"
+                      id="confirm-password"
+                      label="Confirm password"
+                      type={showPassword ? "text" : "password"} // Use the showPassword state to toggle the input type
+                      autoComplete="confirm-password"
+                      autoFocus
                       error={!!fieldState.error}
                       helperText={
                         fieldState.error ? fieldState.error.message : ""
                       }
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   )}
                 />

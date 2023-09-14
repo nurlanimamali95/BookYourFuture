@@ -18,7 +18,10 @@ import {
   fetchUserData,
   selectorIsAuth,
 } from "../../components/redux/authSlice";
-import { Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -27,6 +30,14 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const error = useSelector((state) => state.auth.status === "isError");
   const errorMessage = useSelector((state) => state.auth.data);
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const theme = createTheme({
     palette: {
@@ -140,6 +151,7 @@ const LoginPage = () => {
                   name="email"
                   control={control}
                   defaultValue=""
+                  fullWidth
                   rules={{
                     required: "Email is required",
                   }}
@@ -162,9 +174,10 @@ const LoginPage = () => {
                   )}
                 />
                 <Controller
-                  name="password"
+                  name="Password"
                   control={control}
                   defaultValue=""
+                  fullWidth
                   rules={{
                     required: "Password is required",
                   }}
@@ -173,16 +186,32 @@ const LoginPage = () => {
                       {...field}
                       margin="normal"
                       size="small"
-                      required
-                      name="password"
-                      label="Password"
-                      type="password"
                       id="password"
-                      autoComplete="current-password"
+                      label="Password"
+                      type={showPassword ? "text" : "password"} // Use the showPassword state to toggle the input type
+                      autoComplete="Password"
                       error={!!fieldState.error}
                       helperText={
                         fieldState.error ? fieldState.error.message : ""
                       }
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   )}
                 />
