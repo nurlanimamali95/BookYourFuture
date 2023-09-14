@@ -3,9 +3,14 @@ import axios from "../../util/axios";
 
 export const fetchUserData = createAsyncThunk(
   "auth/fetchAuth",
-  async (params) => {
-    const { data } = await axios.post("/api/auth/login", params);
-    return data;
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post("/api/auth/login", params);
+      return data;
+    } catch (error) {
+      // Handle the error and return it with rejectWithValue
+      return rejectWithValue(error.response.data); // Assuming the error response contains error details
+    }
   }
 );
 
@@ -36,9 +41,9 @@ const authSlice = createSlice({
       state.status = "isSuccess";
       state.data = action.payload;
     },
-    [fetchUserData.rejected]: (state) => {
+    [fetchUserData.rejected]: (state, action) => {
       state.status = "isError";
-      state.data = null;
+      state.data = action.payload;
     },
     [fetchAuthMe.pending]: (state) => {
       state.status = "isLoading";

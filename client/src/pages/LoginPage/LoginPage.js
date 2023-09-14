@@ -11,24 +11,27 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import background from "../../assets/loginbackground.jpg";
 import logo from "../../assets/logo.svg";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   fetchUserData,
   selectorIsAuth,
 } from "../../components/redux/authSlice";
+import { Typography } from "@mui/material";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectorIsAuth);
   const userData = useSelector((state) => state.auth.data);
   const navigate = useNavigate();
+  const error = useSelector((state) => state.auth.status === "isError");
+  const errorMessage = useSelector((state) => state.auth.data);
 
   const {
-    register,
+    control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm({
     defaultValues: {
       email: "byfhyf23@gmail.com",
@@ -62,12 +65,18 @@ const LoginPage = () => {
     },
   });
 
-  // Redirect user if already authenticated
+  // Redirect authenticated users away from the login page
   React.useEffect(() => {
     if (isAuth) {
-      userData?.admin === true ? navigate("/admin") : navigate("/student");
+      if (userData?.admin === true) {
+        navigate("/admin");
+      } else if (userData?.admin === false) {
+        navigate("/student");
+      } else {
+        return null;
+      }
     }
-  }, [isAuth, navigate]);
+  }, [isAuth, userData]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -127,35 +136,61 @@ const LoginPage = () => {
                   alignItems: "center",
                 }}
               >
-                <TextField
-                  margin="normal"
-                  size="small"
-                  required
-                  id="email"
-                  label="Email Address"
+                <Controller
                   name="email"
-                  autoComplete="email"
-                  type="email"
-                  autoFocus
-                  error={Boolean(errors.email)}
-                  helperText={errors.email?.message}
-                  {...register("email", { required: "Email is required" })}
+                  control={control}
+                  defaultValue=""
+                  rules={{
+                    required: "Email is required",
+                  }}
+                  render={({ field, fieldState }) => (
+                    <TextField
+                      {...field}
+                      margin="normal"
+                      size="small"
+                      id="email"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
+                      type="email"
+                      autoFocus
+                      error={!!fieldState.error}
+                      helperText={
+                        fieldState.error ? fieldState.error.message : ""
+                      }
+                    />
+                  )}
                 />
-                <TextField
-                  margin="normal"
-                  size="small"
-                  required
+                <Controller
                   name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  error={Boolean(errors.password)}
-                  helperText={errors.password?.message}
-                  {...register("password", {
+                  control={control}
+                  defaultValue=""
+                  rules={{
                     required: "Password is required",
-                  })}
+                  }}
+                  render={({ field, fieldState }) => (
+                    <TextField
+                      {...field}
+                      margin="normal"
+                      size="small"
+                      required
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                      error={!!fieldState.error}
+                      helperText={
+                        fieldState.error ? fieldState.error.message : ""
+                      }
+                    />
+                  )}
                 />
+                {error && (
+                  <Typography color="error" variant="body2">
+                    {errorMessage?.message}
+                  </Typography>
+                )}
                 <Button
                   disabled={!isValid}
                   type="submit"

@@ -3,9 +3,14 @@ import axios from "../../util/axios";
 
 export const changePasswordUser = createAsyncThunk(
   "/user/changePassword",
-  async (params) => {
-    const { data } = await axios.post("/api/user/change-password", params);
-    return data;
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post("/api/user/change-password", params);
+      return data;
+    } catch (error) {
+      // Handle the error and return it with rejectWithValue
+      return rejectWithValue(error.response.data); // Assuming the error response contains error details
+    }
   }
 );
 
@@ -32,9 +37,9 @@ const userSlice = createSlice({
       state.status = "isSuccess";
       state.data = action.payload;
     },
-    [changePasswordUser.rejected]: (state) => {
+    [changePasswordUser.rejected]: (state, action) => {
       state.status = "isError";
-      state.data = null;
+      state.data = action.payload;
     },
   },
 });
