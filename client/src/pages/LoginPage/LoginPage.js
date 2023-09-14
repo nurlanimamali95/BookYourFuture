@@ -31,8 +31,8 @@ const LoginPage = () => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      email: "admin@test.com",
-      password: "123456",
+      email: "byfhyf23@gmail.com",
+      password: "QXu4qeMD",
     },
     mode: "onChange",
   });
