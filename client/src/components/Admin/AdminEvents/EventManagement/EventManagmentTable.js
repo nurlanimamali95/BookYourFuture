@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import {
-  Container,
   Table,
   TableBody,
   TableContainer,
@@ -38,9 +37,9 @@ export default function BasicTable({ filterGroup, search }) {
   const pageCount = Math.ceil(events.length / rowsPerPage);
 
   return (
-    <Container>
+    <>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table aria-label="simple table">
           <TableHeader />
           <TableBody>
             <EventTableRow
@@ -56,7 +55,7 @@ export default function BasicTable({ filterGroup, search }) {
         size="small"
         sx={{ marginTop: 2, display: "flex", justifyContent: "flex-end" }}
       />
-    </Container>
+    </>
   );
 }
 
