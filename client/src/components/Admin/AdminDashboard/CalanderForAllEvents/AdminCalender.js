@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from "react";
-import AdminCalender from "../Calender/AdminCalender";
+import Calendar from "./Calendar";
 import Box from "@mui/material/Box";
 import { CssBaseline, Container } from "@mui/material";
-import AdminEventTable from "./AdminEventTable";
+import EventTable from "./Table";
 import Grid from "@mui/material/Grid";
+import dayjs from "dayjs";
 import useFetch from "../../../../hooks/useFetch";
-import todayDate from "../../../Student/StudentEventManagement/FormatDate";
 
-export default function EventCalander() {
+export default function EventCalendar() {
   function processData(responseData) {
     if (responseData.success === true) {
       const eventsData = responseData.eventsData;
-
       return eventsData;
     } else {
-      // eslint-disable-next-line
-      console.error("API response indicates an error:", responseData);
       return [];
     }
   }
 
-  const [selectedDate, setSelectedDate] = useState(todayDate);
+  const [selectedDate, setSelectedDate] = useState(dayjs());
   const [events, setEvents] = useState([]);
 
   const { isLoading, error, performFetch } = useFetch(
@@ -34,7 +31,7 @@ export default function EventCalander() {
     } else if (error) {
       return <p>Error: {error.message}</p>;
     } else {
-      return <AdminEventTable events={events} selectedDate={selectedDate} />;
+      return <EventTable events={events} selectedDate={selectedDate} />;
     }
   };
 
@@ -45,6 +42,7 @@ export default function EventCalander() {
 
   function handleEventsUpdate(responseData) {
     const data = processData(responseData);
+
     setEvents(data);
   }
 
@@ -53,25 +51,26 @@ export default function EventCalander() {
   }, []);
 
   return (
-    <Container sx={{ minHeight: { md: "400px" } }}>
+    <Container>
       <Box sx={{ flexGrow: 1, display: "flex" }}>
         <CssBaseline />
         <Box
           sx={{
             width: "100%",
             display: "flex",
-            alignContent: "start",
-            justifyContent: "space-between",
+            alignContent: "center",
+            justifyContent: "center",
           }}
         >
-          <Grid container gap={6}>
-            <Grid item mt="2" xs={12} sm={12} md={4}>
-              <AdminCalender
-                value={selectedDate}
+          <Grid container spacing={{ xs: 0, md: 4 }}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
+              <Calendar
                 onDateSelected={handleDateChange}
+                selectedDate={selectedDate}
+                eventsData={events}
               />
             </Grid>
-            <Grid item xs={12} sm={12} md={7}>
+            <Grid item xs={12} sm={12} md={8} lg={8}>
               {renderContent()}
             </Grid>
           </Grid>
