@@ -55,7 +55,7 @@ export const login = async (req, res) => {
     const user = await UserModel.findOne({ email: req.body.email });
     if (!user) {
       return res.status(404).json({
-        message: "Error, user not found",
+        message: "User not found",
       });
     }
     const isValidPass = await bcrypt.compareSync(
@@ -65,7 +65,7 @@ export const login = async (req, res) => {
 
     if (!isValidPass) {
       return res.status(403).json({
-        message: "Error, wrong password or email", // check in errors, password or email
+        message: "Wrong password or email", // check in errors, password or email
       });
     }
     const token = jwt.sign(

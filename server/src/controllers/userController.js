@@ -2,6 +2,7 @@ import UserModel from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { generateRandomPassword, sendEmail } from "../util/password-logic.js";
+import { v2 as cloudinary } from "cloudinary";
 
 export const userMe = async (req, res) => {
   try {
@@ -9,7 +10,7 @@ export const userMe = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        message: "user not found",
+        message: "User not found",
       });
     }
     const { passwordHash, ...userData } = user._doc;
@@ -29,7 +30,7 @@ export const all = async (req, res) => {
 
     if (!users) {
       return res.status(404).json({
-        message: "user not found",
+        message: "User not found",
       });
     }
 
@@ -83,7 +84,7 @@ export const remove = async (req, res) => {
 
     if (!userId) {
       return res.status(404).json({
-        message: "user not found",
+        message: "User not found",
       });
     }
 
@@ -94,12 +95,12 @@ export const remove = async (req, res) => {
       (err, user) => {
         if (err) {
           return res.status(500).json({
-            message: "can`t delete user",
+            message: "Can`t delete user",
           });
         }
         if (!user) {
           return res.status(404).json({
-            message: "user not found",
+            message: "User not found",
           });
         }
       }
@@ -107,7 +108,7 @@ export const remove = async (req, res) => {
 
     if (!userId) {
       return res.status(404).json({
-        message: "user not found",
+        message: "User not found",
       });
     }
 
@@ -128,7 +129,7 @@ export const edit = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        message: "user not found",
+        message: "User not found",
       });
     }
 
@@ -178,7 +179,7 @@ export const changePassword = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        message: "user not found",
+        message: "User not found",
       });
     }
     const password = req.body.newPassword.toString();
@@ -252,5 +253,42 @@ export const forgotPassword = async (req, res) => {
     } else {
       res.status(500).json({ message: "Internal server error" });
     }
+  }
+};
+
+export const upload = async (req, res) => {
+  try {
+    cloudinary.config({
+      cloud_name: "dxmq1hceo",
+      api_key: "997517822879569",
+      api_secret: "3WtsprLg-HLP3V24G8RRN2okhh0",
+    });
+
+    const avatarUrl = req.body.avatarUrl;
+
+    // Upload the image to Cloudinary
+    const result = await cloudinary.uploader.upload(avatarUrl);
+
+    // Update the avatarUrl field in the userSchema
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      req.userId,
+      { avatarUrl: result.secure_url },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      url: result.secure_url,
+    });
+  } catch (err) {
+    // eslint-disable-next-line
+    console.error(err);
+    res.status(500).json({
+      message: "Internal server error",
+    });
   }
 };

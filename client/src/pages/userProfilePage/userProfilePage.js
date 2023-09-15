@@ -9,8 +9,6 @@ import {
   Typography,
 } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
-// import { selectorIsAuth } from "../../components/redux/authSlice";
-// import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -39,10 +37,6 @@ const UserProfilePage = () => {
       border: "1px solid red", // Border style on hover
     },
   };
-
-  // if (!isAuth) {
-  //   return navigate("/login");
-  // }
 
   const handleChangePassword = () => {
     navigate("/change-password");
@@ -112,23 +106,29 @@ const UserProfilePage = () => {
         {/* Third Column */}
         <Grid item xs={12} sm={4}>
           <Stack spacing={3} alignItems="center">
-            <Avatar sx={{ width: 150, height: 150 }} />
-            <Button
-              variant="contained"
-              component="label"
-              sx={{
-                ...buttonStyle,
-                "&:hover": {
-                  backgroundColor: "white",
-                  color: "#56ae5a",
-                  border: "1px solid #56ae5a",
-                },
-              }}
-            >
-              Upload Avatar
-              <input type="file" hidden />
-              <PhotoCamera />
-            </Button>
+            {userData?.avatarUrl ? (
+              <img width="250px" src={userData?.avatarUrl} />
+            ) : (
+              <>
+                <Avatar sx={{ width: 150, height: 150 }} />
+                <Button
+                  variant="contained"
+                  component="label"
+                  sx={{
+                    ...buttonStyle,
+                    "&:hover": {
+                      backgroundColor: "white",
+                      color: "#56ae5a",
+                      border: "1px solid #56ae5a",
+                    },
+                  }}
+                >
+                  Upload Avatar
+                  <input type="file" accept="image/*" hidden />
+                  <PhotoCamera />
+                </Button>
+              </>
+            )}
           </Stack>
         </Grid>
       </Grid>
