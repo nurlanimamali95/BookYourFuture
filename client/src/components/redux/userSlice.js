@@ -32,10 +32,10 @@ const initialState = {
   status: "isLoading",
 };
 
-const userSlice = createSlice({
+export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: { resetState: () => initialState },
   extraReducers: {
     [changePasswordUser.pending]: (state) => {
       state.status = "isLoading";
@@ -67,3 +67,4 @@ const userSlice = createSlice({
 // export const selectorIsAuth = (state) => Boolean(state.auth.data);
 
 export const userReducer = userSlice.reducer;
+export const { resetState } = userSlice.actions;
