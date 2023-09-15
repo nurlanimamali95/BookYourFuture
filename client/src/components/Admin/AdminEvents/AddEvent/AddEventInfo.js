@@ -67,6 +67,7 @@ export default function MainEventInfo() {
         justifyContent={{ xs: "flex-start", md: "space-between" }}
         sx={{
           mt: { xs: 2, sm: 4 },
+          mb: { md: 0, xs: 4 },
         }}
         gap={2}
       >

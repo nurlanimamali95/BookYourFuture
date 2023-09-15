@@ -8,7 +8,7 @@ export default function GroupData({ data }) {
     data.sessionSlot &&
     data.sessionSlot.length > 0 &&
     data.sessionSlot[0].startTime
-      ? dayjs(data.sessionSlot[0].startTime).format("D MMMM")
+      ? dayjs(data.sessionSlot[0].startTime).format("MMM D, YYYY")
       : "N/A";
 
   const sessionTime =
