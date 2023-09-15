@@ -177,7 +177,7 @@ const ChangePasswordPage = () => {
                   )}
                 />
                 <Controller
-                  name="NewPassword"
+                  name="newPassword"
                   control={control}
                   defaultValue=""
                   rules={{
@@ -219,7 +219,7 @@ const ChangePasswordPage = () => {
                   )}
                 />
                 <Controller
-                  name="ConfirmPassword"
+                  name="confirmPassword"
                   control={control}
                   defaultValue=""
                   rules={{

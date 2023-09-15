@@ -22,10 +22,8 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TelegramIcon from "@mui/icons-material/Telegram";
-
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -42,39 +40,31 @@ function CustomTabPanel(props) {
     </div>
   );
 }
-
 CustomTabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
 };
-
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-
 export default function UserProfilePage() {
   const userData = useSelector((state) => state.auth.data);
   // const isAuth = useSelector(selectorIsAuth);
   const navigate = useNavigate();
-
   const [value, setValue] = React.useState(0);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
   // if (!isAuth) {
   //   return navigate("/login");
   // }
-
   const handleChangePassword = () => {
     navigate("/change-password");
   };
-
   return (
     <Container>
       <Typography variant="h4" style={{ margin: "20px" }}>
@@ -182,7 +172,6 @@ export default function UserProfilePage() {
                       ),
                     }}
                   />
-
                   <TextField
                     value={userData?.linkedin || ""}
                     label="LinkedIn"
@@ -211,7 +200,6 @@ export default function UserProfilePage() {
                       ),
                     }}
                   />
-
                   <TextField
                     value={""}
                     label="Telegram"
@@ -259,7 +247,6 @@ export default function UserProfilePage() {
           </Grid>
         </CustomTabPanel>
       </Box>
-
       <Stack
         direction="row"
         justifyContent="center"
