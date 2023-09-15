@@ -12,8 +12,10 @@ import { PhotoCamera } from "@mui/icons-material";
 // import { selectorIsAuth } from "../../components/redux/authSlice";
 // import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const UserProfilePage = () => {
+  const userData = useSelector((state) => state.auth.data);
   // const isAuth = useSelector(selectorIsAuth);
   const navigate = useNavigate();
 
@@ -56,21 +58,41 @@ const UserProfilePage = () => {
         <Grid item xs={12} sm={8}>
           <Stack spacing={3}>
             <Stack direction="row" spacing={2}>
-              <TextField label="First Name" variant="outlined" fullWidth />
-              <TextField label="Last Name" variant="outlined" fullWidth />
-            </Stack>
-            <Stack direction="row" spacing={2}>
-              <TextField label="City" variant="outlined" fullWidth />
-              <TextField label="Zip Code" variant="outlined" fullWidth />
-            </Stack>
-            <Stack direction="row" spacing={2}>
-              <TextField label="GitHub" variant="outlined" fullWidth />
-              <TextField label="LinkedIn" variant="outlined" fullWidth />
-            </Stack>
-            <Stack direction="row" spacing={2}>
-              <TextField label="Phone" variant="outlined" fullWidth />
               <TextField
-                label="Email"
+                label={userData?.firstName}
+                variant="outlined"
+                fullWidth
+              />
+              <TextField
+                label={userData?.lastName}
+                variant="outlined"
+                fullWidth
+              />
+            </Stack>
+            <Stack direction="row" spacing={2}>
+              <TextField label={userData?.city} variant="outlined" fullWidth />
+              <TextField
+                label={userData?.zipCode}
+                variant="outlined"
+                fullWidth
+              />
+            </Stack>
+            <Stack direction="row" spacing={2}>
+              <TextField
+                label={userData?.gitHub}
+                variant="outlined"
+                fullWidth
+              />
+              <TextField
+                label={userData?.linkedin}
+                variant="outlined"
+                fullWidth
+              />
+            </Stack>
+            <Stack direction="row" spacing={2}>
+              <TextField label={userData?.phone} variant="outlined" fullWidth />
+              <TextField
+                label={userData?.email}
                 type="email"
                 variant="outlined"
                 fullWidth
