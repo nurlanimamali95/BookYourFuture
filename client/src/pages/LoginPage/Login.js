@@ -158,6 +158,7 @@ const LoginPage = () => {
                   render={({ field, fieldState }) => (
                     <TextField
                       {...field}
+                      sx={{ minWidth: 250 }}
                       margin="normal"
                       size="small"
                       id="email"
@@ -184,6 +185,7 @@ const LoginPage = () => {
                   render={({ field, fieldState }) => (
                     <TextField
                       {...field}
+                      sx={{ minWidth: 250 }}
                       margin="normal"
                       size="small"
                       id="password"

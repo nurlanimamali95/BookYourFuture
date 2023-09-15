@@ -10,8 +10,11 @@ import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
-import { forgotPasswordUser } from "../../components/redux/userSlice";
-import { createTheme, ThemeProvider } from "@mui/material";
+import {
+  forgotPasswordUser,
+  resetState,
+} from "../../components/redux/userSlice";
+import { createTheme, Stack, ThemeProvider } from "@mui/material";
 
 const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
@@ -51,6 +54,7 @@ const ForgotPasswordPage = () => {
   };
 
   const handleBackButton = () => {
+    dispatch(resetState());
     navigate("/login");
   };
 
@@ -99,87 +103,121 @@ const ForgotPasswordPage = () => {
               alignItems: "center",
             }}
           >
-            <Box sx={{ mb: 10 }}>
-              <Typography sx={{ textAlign: "center" }} variant="h5">
-                If you forgot your password, please enter your email!
-              </Typography>
-            </Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Box
-                onSubmit={handleSubmit}
-                sx={{
-                  mt: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Controller
-                  name="email"
-                  control={control}
-                  defaultValue=""
-                  rules={{
-                    required: "Email is required",
-                  }}
-                  render={({ field, fieldState }) => (
-                    <TextField
-                      {...field}
-                      margin="normal"
-                      size="small"
-                      id="email"
-                      label="Email Address"
-                      name="email"
-                      autoComplete="email"
-                      type="email"
-                      autoFocus
-                      error={!!fieldState.error}
-                      helperText={
-                        fieldState.error ? fieldState.error.message : ""
-                      }
-                    />
-                  )}
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  disabled={!isValid}
-                  sx={{
-                    m: 1,
-                    backgroundColor: theme.palette.primary.main,
-                    "&:hover": {
-                      backgroundColor: theme.palette.secondary.main,
-                    },
-                    size: "medium",
-                  }}
-                >
-                  Send Email
-                </Button>
+            {success ? (
+              <>
+                <Typography variant="h5" sx={{ mb: 2 }}>
+                  Check Your Mail
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 4 }}>
+                  We have sent a password recovery instruction to your email.
+                </Typography>
                 <Button
                   variant="outlined"
-                  sx={{ m: 2 }}
+                  sx={{ my: 2 }}
                   onClick={handleBackButton}
                 >
-                  Back
+                  Go Back
                 </Button>
-                {success && (
-                  <Typography variant="body2">
-                    Please check your email!
+              </>
+            ) : (
+              <>
+                <Box sx={{ mb: 4 }}>
+                  <Typography
+                    sx={{ textAlign: "center", mb: 3 }}
+                    variant="h4"
+                    color="primary"
+                  >
+                    Forgot password?
                   </Typography>
-                )}
-                {error && (
-                  <Typography color="error" variant="body2">
-                    {errorMessage?.message}
+                  <Typography
+                    sx={{ textAlign: "center", maxWidth: "300px" }}
+                    variant="body2"
+                  >
+                    Enter your email address below and we will send you reset
+                    password reset.
                   </Typography>
-                )}
-                <Grid container align="center">
-                  <Grid item xs></Grid>
-                </Grid>
-              </Box>
-            </form>
+                </Box>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <Box
+                    sx={{
+                      mt: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Controller
+                      name="email"
+                      control={control}
+                      defaultValue=""
+                      rules={{
+                        required: "Email is required",
+                      }}
+                      render={({ field, fieldState }) => (
+                        <TextField
+                          {...field}
+                          sx={{ minWidth: 270 }}
+                          margin="normal"
+                          id="email"
+                          label="Email Address"
+                          name="email"
+                          autoComplete="email"
+                          type="email"
+                          autoFocus
+                          error={!!fieldState.error}
+                          helperText={
+                            fieldState.error ? fieldState.error.message : ""
+                          }
+                        />
+                      )}
+                    />
+
+                    <Stack
+                      spacing={2}
+                      direction="column"
+                      justifyContent={"space-between"}
+                      minWidth={270}
+                      sx={{ mt: 4 }}
+                    >
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        disabled={!isValid}
+                        sx={{
+                          m: 1,
+                          backgroundColor: theme.palette.primary.main,
+                          "&:hover": {
+                            backgroundColor: theme.palette.secondary.main,
+                          },
+                          size: "medium",
+                        }}
+                      >
+                        Send Email
+                      </Button>
+
+                      <Button
+                        variant="outlined"
+                        sx={{ m: 2 }}
+                        onClick={handleBackButton}
+                      >
+                        Cancel
+                      </Button>
+                    </Stack>
+
+                    {error && (
+                      <Typography color="error" variant="body2" sx={{ mt: 6 }}>
+                        {errorMessage?.message}
+                      </Typography>
+                    )}
+                  </Box>
+                </form>
+              </>
+            )}
           </Box>
         </Grid>
       </Grid>
     </ThemeProvider>
   );
 };
+
 export default ForgotPasswordPage;
