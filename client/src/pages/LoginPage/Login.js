@@ -4,10 +4,11 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-
+import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import background from "../../assets/loginbackground.jpg";
 import logo from "../../assets/logo.svg";
 import { Controller, useForm } from "react-hook-form";
@@ -38,6 +39,18 @@ const LoginPage = () => {
     event.preventDefault();
   };
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#139A43",
+        contrastText: "#FFFFFF",
+      },
+      secondary: {
+        main: "#0B5D1E",
+      },
+    },
+  });
+
   const {
     control,
     handleSubmit,
@@ -45,7 +58,6 @@ const LoginPage = () => {
   } = useForm({
     defaultValues: {
       email: "byfhyf23@gmail.com",
-      //Question about this password
       password: "QXu4qeMD",
     },
     mode: "onChange",
@@ -78,47 +90,54 @@ const LoginPage = () => {
   }, [isAuth, userData]);
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
-      <CssBaseline />
-      <Grid
-        item
-        xs={false}
-        sm={6}
-        md={7}
-        sx={{
-          backgroundImage: `url(${background})`,
-          backgroundRepeat: "no-repeat",
-          backgroundColor: (t) =>
-            t.palette.mode === "light"
-              ? t.palette.grey[50]
-              : t.palette.grey[900],
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
-      <Grid
-        item
-        xs={12}
-        sm={6}
-        md={5}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
-      >
-        <Box
+    <ThemeProvider theme={theme}>
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={6}
+          md={7}
+          sx={{
+            backgroundImage: `url(${background})`,
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
           sx={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
-            mb: 10,
+            justifyContent: "center",
           }}
         >
-          <Box sx={{ mb: 6 }}>
-            <Avatar src={logo} sx={{ width: 300, height: 100 }}></Avatar>
-          </Box>
-           <form onSubmit={handleSubmit(onSubmit)}>
+          <Box
+            sx={{
+              my: 8,
+              mx: 10,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ mb: 10 }}>
+              <Avatar src={logo} sx={{ width: 300, height: 100 }}>
+                <LockOutlinedIcon />
+              </Avatar>
+            </Box>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Box
                 noValidate
                 sx={{
@@ -226,9 +245,10 @@ const LoginPage = () => {
                 </Grid>
               </Box>
             </form>
-        </Box>
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
+    </ThemeProvider>
   );
 };
 export default LoginPage;
