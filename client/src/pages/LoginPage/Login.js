@@ -118,16 +118,16 @@ const LoginPage = () => {
           <Box sx={{ mb: 6 }}>
             <Avatar src={logo} sx={{ width: 300, height: 100 }}></Avatar>
           </Box>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Box
-              noValidate
-              sx={{
-                mt: 1,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
+           <form onSubmit={handleSubmit(onSubmit)}>
+              <Box
+                noValidate
+                sx={{
+                  mt: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
                 <Controller
                   name="email"
                   control={control}
@@ -215,17 +215,17 @@ const LoginPage = () => {
                     size: "medium",
                   }}
                 >
-                Login
-              </Button>
-              <Grid container align="center">
-                <Grid item xs>
-                  <RouterLink to="/forgot-password" variant="body2">
-                    Forgot password?
-                  </RouterLink>
+                  Login
+                </Button>
+                <Grid container align="center">
+                  <Grid item xs>
+                    <RouterLink to="/forgot-password" variant="body2">
+                      Forgot password?
+                    </RouterLink>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Box>
-          </form>
+              </Box>
+            </form>
         </Box>
       </Grid>
     </Grid>
