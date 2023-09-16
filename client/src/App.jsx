@@ -10,7 +10,7 @@ import EditEventPage from "./pages/Admin/EditEventPage";
 import AddEventPage from "./pages/Admin/AddEventPage";
 import LoginPage from "./pages/LoginPage/Login";
 import AddEditStudentPage from "./pages/Admin/AddEditStudentPage";
-import AddGroupPage from "./pages/Admin/AddGroupPage";
+
 import GroupManagement from "./pages/Admin/GroupManagement";
 import PasswordPage from "./pages/Password/ChangePassword";
 
@@ -21,6 +21,7 @@ import StudentManagementPage from "./pages/Admin/StudentManagementPage";
 import { useDispatch } from "react-redux";
 import { fetchAuthMe } from "./components/redux/authSlice";
 import ForgotPasswordPage from "./pages/Password/ForgotPassword";
+import AddEditGroupPage from "./pages/Admin/AddEditGroupPage";
 
 const theme = createTheme({
   palette: {
@@ -56,13 +57,14 @@ const App = () => {
           <Route path="admin" element={<AdminDashboard />} />
           <Route path="userProfile" element={<UserProfilePage />} />
           <Route path="addStudent" element={<AddEditStudentPage />} />
-          <Route path="addGroup" element={<AddGroupPage />} />
+          <Route path="addGroup" element={<AddEditGroupPage />} />
           <Route path="groups" element={<GroupManagement />} />
           <Route path="students" element={<StudentManagementPage />} />
           <Route
             path="students/editStudent/:id"
             element={<AddEditStudentPage />}
           />
+          <Route path="groups/editGroup/:id" element={<AddEditGroupPage />} />
         </Route>
       </Routes>
     </ThemeProvider>
