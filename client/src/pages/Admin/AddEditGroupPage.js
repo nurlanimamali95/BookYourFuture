@@ -63,7 +63,7 @@ function AddEditGroupPage() {
     const groupData = {
       numberOfGroupName: Number(groupName),
       status,
-      students: ["64ef5d073b654eb236073a61"],
+      students: [],
     };
     // eslint-disable-next-line no-console
     console.log(groupData);
