@@ -50,10 +50,6 @@ function AddEditGroupPage() {
       navigate("/groups");
     }
   );
-  // useEffect(() => {
-  //   const newError = errorUpdateGroup || ErrorIcon || errorDetails;
-  //   newError && toast.error(newError);
-  // }, [error, errorUpdateGroup, errorDetails]);
   // eslint-disable-next-line no-console
   console.log(errorUpdateGroup);
   // eslint-disable-next-line no-console

@@ -20,10 +20,10 @@ const groupSchema = new mongoose.Schema(
       type: String,
     },
 
-    color: {
-      type: String,
-      required: true,
-    },
+    // color: {
+    //   type: String,
+    //   required: true,
+    // },
 
     user: {
       type: mongoose.Schema.Types.ObjectId,
