@@ -42,14 +42,10 @@ export default function GroupManagement() {
   );
 
   const handleEditClick = (id) => {
-    // Handle edit action here
+    navigate(`editGroup/${id}`);
     // eslint-disable-next-line no-console
     console.log(`Edit clicked for ID ${id}`);
   };
-
-  // if (!isAuth) {
-  //   return navigate("/login");
-  // }
 
   return (
     <>
@@ -89,7 +85,6 @@ export default function GroupManagement() {
               <TableHead>
                 <TableRow>
                   <TableCell>Group</TableCell>
-                  <TableCell>Color</TableCell>
                   <TableCell>Status</TableCell>
                   <TableCell>Creation Date</TableCell>
                   <TableCell>Edit</TableCell>
@@ -100,7 +95,6 @@ export default function GroupManagement() {
                 {data.map((item) => (
                   <TableRow key={item._id}>
                     <TableCell>{item.numberOfGroupName}</TableCell>
-                    <TableCell>{item.color}</TableCell>
                     <TableCell>{item.status}</TableCell>
                     <TableCell>
                       {new Date(item.createdAt).toLocaleDateString()}

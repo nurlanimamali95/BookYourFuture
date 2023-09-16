@@ -13,14 +13,14 @@ import { Button } from "../../components/Buttons/Button";
 import { toast } from "react-hot-toast";
 import useFetch from "../../hooks/useFetch";
 import FilterByGroup from "../../components/Filters/FilterByGroup";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 // import { selectorIsAuth } from "../../components/redux/authSlice";
 // import { useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 
 export default function AddEditStudentPage() {
   // const isAuth = useSelector(selectorIsAuth);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const isEdit = useMemo(() => pathname.includes("editStudent"), [pathname]);
   const [firstName, setFirstName] = useState("");
@@ -47,12 +47,14 @@ export default function AddEditStudentPage() {
   const { performFetch, error } = useFetch("/auth/register", () => {
     // eslint-disable-next-line no-console
     toast.success("Student added successfully");
+    navigate("/students");
   });
   const { performFetch: updateUser, error: errorUpdateUser } = useFetch(
     `/user/edit/${id}`,
     () => {
       // eslint-disable-next-line no-console
       toast.success("Student updated successfully");
+      navigate("/students");
     }
   );
   // eslint-disable-next-line no-console
