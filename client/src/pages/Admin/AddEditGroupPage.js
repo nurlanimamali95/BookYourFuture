@@ -108,7 +108,7 @@ function AddEditGroupPage() {
           {isEdit && (
             <Grid item xs={12}>
               <FormControl fullWidth>
-                <InputLabel>Group Color</InputLabel>
+                <InputLabel>Group Status</InputLabel>
                 <Select
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
