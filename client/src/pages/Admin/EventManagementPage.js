@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import { Button, Container, Stack, Hidden } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-// import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // import { selectorIsAuth } from "../../components/redux/authSlice";
 
 import BasicTable from "../../components/Admin/AdminEvents/EventManagement/EventManagmentTable";
@@ -13,12 +13,19 @@ import FilterGroup from "../../components/Admin/AdminEvents/EventManagement/Filt
 import SearchEvent from "../../components/Admin/AdminEvents/EventManagement/SearchEvent";
 
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { fetchAllEvents } from "../../components/redux/eventsSlice";
 
 export default function EventManagement() {
   // const isAuth = useSelector(selectorIsAuth);
   const [selectedGroup, setSelectedGroup] = useState("");
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const eventData = useSelector((state) => state.events.data);
+
+  useEffect(() => {
+    dispatch(fetchAllEvents());
+  }, []);
 
   const handleAddEvent = () => {
     navigate("/events/add");
