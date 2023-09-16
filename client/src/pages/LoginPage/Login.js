@@ -174,7 +174,7 @@ const LoginPage = () => {
                   )}
                 />
                 <Controller
-                  name="Password"
+                  name="password"
                   control={control}
                   defaultValue=""
                   fullWidth
@@ -189,7 +189,7 @@ const LoginPage = () => {
                       id="password"
                       label="Password"
                       type={showPassword ? "text" : "password"} // Use the showPassword state to toggle the input type
-                      autoComplete="Password"
+                      autoComplete="password"
                       error={!!fieldState.error}
                       helperText={
                         fieldState.error ? fieldState.error.message : ""

@@ -40,4 +40,6 @@ userRouter.post(
 
 userRouter.post("/forgot-password/", userController.forgotPassword);
 
+userRouter.patch("/upload-image/", checkAuth, userController.upload);
+
 export default userRouter;

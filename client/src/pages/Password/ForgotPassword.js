@@ -10,8 +10,11 @@ import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
-import { forgotPasswordUser } from "../../components/redux/userSlice";
-import { createTheme, ThemeProvider } from "@mui/material";
+import {
+  forgotPasswordUser,
+  resetState,
+} from "../../components/redux/userSlice";
+import { Stack } from "@mui/material";
 
 const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
@@ -20,17 +23,6 @@ const ForgotPasswordPage = () => {
   const error = useSelector((state) => state.user.status === "isError");
   const errorMessage = useSelector((state) => state.user.data);
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#139A43",
-        contrastText: "#FFFFFF",
-      },
-      secondary: {
-        main: "#0B5D1E",
-      },
-    },
-  });
   const {
     control,
     handleSubmit,
@@ -51,135 +43,165 @@ const ForgotPasswordPage = () => {
   };
 
   const handleBackButton = () => {
+    dispatch(resetState());
     navigate("/login");
   };
 
   React.useEffect(() => {}, [success, error]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
-        <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={6}
-          md={7}
+    <Grid container component="main" sx={{ height: "100vh" }}>
+      <CssBaseline />
+      <Grid
+        item
+        xs={false}
+        sm={6}
+        md={7}
+        sx={{
+          backgroundImage: `url(${background})`,
+          backgroundRepeat: "no-repeat",
+          backgroundColor: (t) =>
+            t.palette.mode === "light"
+              ? t.palette.grey[50]
+              : t.palette.grey[900],
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      <Grid
+        item
+        xs={12}
+        sm={6}
+        md={5}
+        component={Paper}
+        elevation={6}
+        square
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <Box
           sx={{
-            backgroundImage: `url(${background})`,
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <Grid
-          item
-          xs={12}
-          sm={6}
-          md={5}
-          component={Paper}
-          elevation={6}
-          square
-          sx={{
+            my: 8,
+            mx: 10,
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          <Box
-            sx={{
-              my: 8,
-              mx: 10,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Box sx={{ mb: 10 }}>
-              <Typography sx={{ textAlign: "center" }} variant="h5">
-                If you forgot your password, please enter your email!
+          {success ? (
+            <>
+              <Typography variant="h5" sx={{ mb: 2 }}>
+                Check Your Mail
               </Typography>
-            </Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Box
-                onSubmit={handleSubmit}
-                sx={{
-                  mt: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
+              <Typography variant="body2" sx={{ mb: 4 }}>
+                We have sent a password recovery instruction to your email.
+              </Typography>
+              <Button
+                variant="outlined"
+                sx={{ my: 2 }}
+                onClick={handleBackButton}
               >
-                <Controller
-                  name="email"
-                  control={control}
-                  defaultValue=""
-                  rules={{
-                    required: "Email is required",
-                  }}
-                  render={({ field, fieldState }) => (
-                    <TextField
-                      {...field}
-                      margin="normal"
-                      size="small"
-                      id="email"
-                      label="Email Address"
-                      name="email"
-                      autoComplete="email"
-                      type="email"
-                      autoFocus
-                      error={!!fieldState.error}
-                      helperText={
-                        fieldState.error ? fieldState.error.message : ""
-                      }
-                    />
-                  )}
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  disabled={!isValid}
-                  sx={{
-                    m: 1,
-                    backgroundColor: theme.palette.primary.main,
-                    "&:hover": {
-                      backgroundColor: theme.palette.secondary.main,
-                    },
-                    size: "medium",
-                  }}
+                Go Back
+              </Button>
+            </>
+          ) : (
+            <>
+              <Box sx={{ mb: 4 }}>
+                <Typography
+                  sx={{ textAlign: "center", mb: 3 }}
+                  variant="h4"
+                  color="primary"
                 >
-                  Send Email
-                </Button>
-                <Button
-                  variant="outlined"
-                  sx={{ m: 2 }}
-                  onClick={handleBackButton}
+                  Forgot password?
+                </Typography>
+                <Typography
+                  sx={{ textAlign: "center", maxWidth: "300px" }}
+                  variant="body2"
                 >
-                  Back
-                </Button>
-                {success && (
-                  <Typography variant="body2">
-                    Please check your email!
-                  </Typography>
-                )}
-                {error && (
-                  <Typography color="error" variant="body2">
-                    {errorMessage?.message}
-                  </Typography>
-                )}
-                <Grid container align="center">
-                  <Grid item xs></Grid>
-                </Grid>
+                  Enter your email address below and we will send you reset
+                  password reset.
+                </Typography>
               </Box>
-            </form>
-          </Box>
-        </Grid>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Box
+                  sx={{
+                    mt: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Controller
+                    name="email"
+                    control={control}
+                    defaultValue=""
+                    rules={{
+                      required: "Email is required",
+                    }}
+                    render={({ field, fieldState }) => (
+                      <TextField
+                        {...field}
+                        sx={{ minWidth: 270 }}
+                        margin="normal"
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        type="email"
+                        autoFocus
+                        error={!!fieldState.error}
+                        helperText={
+                          fieldState.error ? fieldState.error.message : ""
+                        }
+                      />
+                    )}
+                  />
+
+                  <Stack
+                    spacing={2}
+                    direction="column"
+                    justifyContent={"space-between"}
+                    minWidth={270}
+                    sx={{ mt: 4 }}
+                  >
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      disabled={!isValid}
+                      sx={{
+                        m: 1,
+
+                        size: "medium",
+                      }}
+                    >
+                      Send Email
+                    </Button>
+
+                    <Button
+                      variant="outlined"
+                      sx={{ m: 2 }}
+                      onClick={handleBackButton}
+                    >
+                      Cancel
+                    </Button>
+                  </Stack>
+
+                  {error && (
+                    <Typography color="error" variant="body2" sx={{ mt: 6 }}>
+                      {errorMessage?.message}
+                    </Typography>
+                  )}
+                </Box>
+              </form>
+            </>
+          )}
+        </Box>
       </Grid>
-    </ThemeProvider>
+    </Grid>
   );
 };
+
 export default ForgotPasswordPage;
