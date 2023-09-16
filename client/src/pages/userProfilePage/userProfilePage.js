@@ -1,27 +1,18 @@
 import React from "react";
 import {
   Container,
-  Grid,
-  TextField,
   Button,
   Stack,
-  Avatar,
   Typography,
   Box,
   Tabs,
   Tab,
-  InputAdornment,
 } from "@mui/material";
-import { PhotoCamera } from "@mui/icons-material";
-// import { selectorIsAuth } from "../../components/redux/authSlice";
-// import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+
 import PropTypes from "prop-types";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TelegramIcon from "@mui/icons-material/Telegram";
+import ProfileTab from "./userProfileElements.js/ProfileTab";
+import SocialTab from "./userProfileElements.js/SocialTab";
+import SecurityTab from "./userProfileElements.js/SecurityTab";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -52,19 +43,13 @@ function a11yProps(index) {
   };
 }
 export default function UserProfilePage() {
-  const userData = useSelector((state) => state.auth.data);
   // const isAuth = useSelector(selectorIsAuth);
-  const navigate = useNavigate();
+
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  // if (!isAuth) {
-  //   return navigate("/login");
-  // }
-  const handleChangePassword = () => {
-    navigate("/change-password");
-  };
+
   return (
     <Container>
       <Typography variant="h4" style={{ margin: "20px" }}>
@@ -83,168 +68,13 @@ export default function UserProfilePage() {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <Grid container spacing={2} sx={{ mt: 2 }}>
-            <Grid
-              item
-              xs={12}
-              sm={4}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              <Stack spacing={3} alignItems="center" justifyContent="center">
-                <Avatar sx={{ width: 120, height: 120 }} />
-                <Button
-                  variant="contained"
-                  component="label"
-                  endIcon={<PhotoCamera />}
-                >
-                  Upload Avatar
-                  <input type="file" hidden />
-                </Button>
-              </Stack>
-            </Grid>
-            <Grid item xs={12} sm={8}>
-              <Stack gap={2}>
-                <TextField
-                  label="First Name"
-                  value={userData?.firstName || ""}
-                  variant="outlined"
-                  fullWidth
-                />
-                <TextField
-                  label="Last Name"
-                  value={userData?.lastName || ""}
-                  variant="outlined"
-                  fullWidth
-                />
-                <Stack direction="row" spacing={2}>
-                  <TextField
-                    label="City"
-                    value={userData?.city}
-                    variant="outlined"
-                    fullWidth
-                  />
-                  <TextField
-                    label="Zip Code"
-                    value={userData?.zipCode || ""}
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Stack>
-                <Stack direction="row" spacing={2}>
-                  <TextField
-                    label="Phone number"
-                    value={userData?.phone}
-                    variant="outlined"
-                    fullWidth
-                  />
-                  <TextField
-                    value={userData?.email || ""}
-                    label="Email"
-                    type="email"
-                    variant="outlined"
-                    fullWidth
-                  />
-                </Stack>
-              </Stack>
-            </Grid>
-          </Grid>
+          <ProfileTab />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <Grid container spacing={2} sx={{ mt: 2 }}>
-            <Grid item xs={12} sm={6}>
-              <Stack gap={2}>
-                <Stack direction="row" spacing={2}>
-                  <TextField
-                    value={userData?.gitHub || ""}
-                    label="GitHub"
-                    variant="outlined"
-                    fullWidth
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <GitHubIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  <TextField
-                    value={userData?.linkedin || ""}
-                    label="LinkedIn"
-                    variant="outlined"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <LinkedInIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                    fullWidth
-                  />
-                </Stack>
-                <Stack direction="row" spacing={2}>
-                  <TextField
-                    value={""}
-                    label="Facebook"
-                    variant="outlined"
-                    fullWidth
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <FacebookIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  <TextField
-                    value={""}
-                    label="Telegram"
-                    variant="outlined"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <TelegramIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                    fullWidth
-                  />
-                </Stack>
-              </Stack>
-            </Grid>
-            <Grid item xs={12} sm={1}></Grid>
-            <Grid item xs={12} sm={4}>
-              <Typography variant="h6" sx={{ mb: 2 }}>
-                Start Building Your Network
-              </Typography>
-              <Typography variant="body1">
-                Add your social links and start connecting with people. Social
-                conections are very important bla bla bla{" "}
-              </Typography>
-            </Grid>
-          </Grid>
+          <SocialTab />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          <Grid container spacing={2} sx={{ mt: 2 }}>
-            <Grid item xs={12} sm={8}>
-              <Button variant="outlined" onClick={handleChangePassword}>
-                Change Password
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Typography variant="h6" sx={{ mb: 2 }}>
-                Delete Account
-              </Typography>
-              <Typography variant="body1">
-                WARNING! This action is irreversible. Once you delete your
-                account, you will not be able to recover it.
-              </Typography>
-            </Grid>
-          </Grid>
+          <SecurityTab />
         </CustomTabPanel>
       </Box>
       <Stack

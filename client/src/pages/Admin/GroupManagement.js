@@ -101,7 +101,7 @@ export default function GroupManagement() {
                     </TableCell>
                     <TableCell>
                       <IconButton onClick={() => handleEditClick(item._id)}>
-                        <EditIcon sx={{ color: "grey" }} />
+                        <EditIcon />
                       </IconButton>
                     </TableCell>
                     <TableCell>
