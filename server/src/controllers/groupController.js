@@ -8,7 +8,7 @@ export const add = async (req, res) => {
       numberOfGroupName: req.body.numberOfGroupName,
       status: req.body.status,
       students: req.body.students || [],
-      color: req.body.color,
+      // color: req.body.color,
       user: req.body.userId,
     };
 

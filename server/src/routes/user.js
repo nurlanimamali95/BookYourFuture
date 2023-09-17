@@ -21,7 +21,7 @@ userRouter.delete(
   userController.remove
 );
 
-userRouter.put(
+userRouter.patch(
   "/edit/:id",
   // checkAuth,
   editValidationUser,
