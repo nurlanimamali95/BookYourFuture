@@ -1,8 +1,21 @@
 import * as React from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { Box } from "@mui/material";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { fetchAllGroups } from "../../../redux/groupsSlice";
 
 export default function BasicPie() {
+  const data = useSelector((state) => state.groups.data);
+  const dispatch = useDispatch();
+  // eslint-disable-next-line no-console
+  console.log(data);
+
+  React.useEffect(() => {
+    // Fetch groups when the component mounts
+    dispatch(fetchAllGroups());
+  }, []);
+
   return (
     <Box
       display="flex"
@@ -14,12 +27,7 @@ export default function BasicPie() {
       <PieChart
         series={[
           {
-            data: [
-              { id: 0, value: 10, label: "Group 42" },
-              { id: 1, value: 15, label: "Group 43" },
-              { id: 2, value: 20, label: "Group 44" },
-              { id: 3, value: 25, label: "Group 45" },
-            ],
+            data: [],
             innerRadius: 30,
           },
         ]}

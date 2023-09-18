@@ -17,11 +17,12 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 
 // import { selectorIsAuth } from "../../components/redux/authSlice";
-// import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Buttons/Button";
 import DeleteButton from "../../components/Buttons/DeleteButton";
 import FilterByGroup from "../../components/Filters/FilterByGroup";
+import { useDispatch } from "react-redux";
+import { fetchAllStudents } from "../../components/redux/studentsSlice";
 
 function StudentManagementPage() {
   const [data, setData] = useState(null);
@@ -29,8 +30,10 @@ function StudentManagementPage() {
   const [selectedGroup, setSelectedGroup] = useState("All"); // State for selected group filter
   // const isAuth = useSelector(selectorIsAuth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(fetchAllStudents());
     performFetch();
   }, []);
 

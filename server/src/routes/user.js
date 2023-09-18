@@ -15,15 +15,11 @@ userRouter.get("/:id", userController.getOne);
 
 userRouter.get("/", checkAuth, userController.userMe);
 
-userRouter.delete(
-  "/:id",
-  // checkAuth,
-  userController.remove
-);
+userRouter.delete("/:id", checkAuth, userController.remove);
 
 userRouter.patch(
   "/edit/:id",
-  // checkAuth,
+  checkAuth,
   editValidationUser,
   validationErrorMessage,
   userController.edit

@@ -125,7 +125,6 @@ export const remove = async (req, res) => {
 export const edit = async (req, res) => {
   try {
     const userId = req.params.id;
-
     const user = await UserModel.findById(userId);
 
     if (!user) {
@@ -148,8 +147,6 @@ export const edit = async (req, res) => {
       group,
       gitHub,
       linkedIn,
-      avatarUrl,
-      status,
     } = req.body;
 
     user.firstName = firstName;
@@ -162,8 +159,6 @@ export const edit = async (req, res) => {
     user.group = group;
     user.gitHub = gitHub;
     user.linkedIn = linkedIn;
-    user.avatarUrl = avatarUrl;
-    user.status = status;
 
     if (group) {
       const newGroup = await GroupModel.findById(group);
@@ -206,8 +201,10 @@ export const edit = async (req, res) => {
     }
 
     await user.save();
+    
+    const { passwordHash, ...userData } = user._doc;
 
-    res.status(200).json({ user, success: true });
+    res.status(200).json({ userData, success: true })
   } catch (err) {
     // eslint-disable-next-line
     console.error(err);
