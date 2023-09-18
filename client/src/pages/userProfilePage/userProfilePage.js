@@ -13,6 +13,9 @@ import PropTypes from "prop-types";
 import ProfileTab from "./userProfileElements.js/ProfileTab";
 import SocialTab from "./userProfileElements.js/SocialTab";
 import SecurityTab from "./userProfileElements.js/SecurityTab";
+import { useDispatch } from "react-redux";
+import { editUserInfo, getOneUser } from "../../components/redux/userSlice";
+import { useParams } from "react-router-dom";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -43,12 +46,33 @@ function a11yProps(index) {
   };
 }
 export default function UserProfilePage() {
+  const { id } = useParams();
+  // const dataCurrentUser = useSelector((state) => state.auth.data);
+  const dispatch = useDispatch();
   // const isAuth = useSelector(selectorIsAuth);
-
   const [value, setValue] = React.useState(0);
+  // const [userData, setUserData] = useState({
+  //   firstName: "",
+  //   lastName: "",
+  //   phone: "",
+  //   city: "",
+  //   street: "",
+  //   houseNumber: "",
+  //   zipCode: "",
+  //   gitHub: "",
+  //   linkedIn: "",
+  // });
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const handleSaveInfo = (id) => {
+    dispatch(editUserInfo(id));
+  };
+
+  React.useEffect(() => {
+    dispatch(getOneUser(id));
+  }, []);
 
   return (
     <Container>
@@ -84,7 +108,7 @@ export default function UserProfilePage() {
         mt={3}
         sx={{ display: "flex", justifyContent: "center" }}
       >
-        <Button variant="contained" color="primary">
+        <Button variant="contained" onClick={handleSaveInfo} color="primary">
           Save
         </Button>
         <Button variant="outlined">Cancel</Button>

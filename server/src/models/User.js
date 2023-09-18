@@ -37,7 +37,6 @@ const userSchema = new mongoose.Schema(
     group: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "group",
-      required: true,
     },
 
     gitHub: String,
@@ -66,7 +65,7 @@ export const registerValidationUser = [
     min: 3,
   }),
   body("email", "Email must be valid").isEmail().isString(),
-  body("group", "Group field is required").exists(),
+  body("group", "Group field is required").optional().isNumeric(),
   body("admin").optional().isBoolean(),
 ];
 
@@ -77,7 +76,7 @@ export const editValidationUser = [
   body("lastName", "Last name must be at least 3 characters").isLength({
     min: 3,
   }),
-  body("group", "Group field is required").exists(),
+  body("group", "Group field is required").optional().isNumeric(),
   body("admin").optional().isBoolean(),
 ];
 

@@ -27,6 +27,24 @@ export const forgotPasswordUser = createAsyncThunk(
   }
 );
 
+export const getOneUser = createAsyncThunk("user/getOne", async (id) => {
+  const { data } = await axios.get(`/api/user/${id}/`);
+  return data;
+});
+
+export const editUserInfo = createAsyncThunk(
+  "/user/edit-user-info",
+  async ({ id, params }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.patch(`/api/user/edit/${id}`, params);
+      return data;
+    } catch (error) {
+      // Handle the error and return it with rejectWithValue
+      return rejectWithValue(error.response.data); // Assuming the error response contains error details
+    }
+  }
+);
+
 const initialState = {
   data: null,
   status: "isLoading",
@@ -37,6 +55,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: { resetState: () => initialState },
   extraReducers: {
+    // Change password
     [changePasswordUser.pending]: (state) => {
       state.status = "isLoading";
       state.data = null;
@@ -49,6 +68,7 @@ export const userSlice = createSlice({
       state.status = "isError";
       state.data = action.payload;
     },
+    // Forgot password
     [forgotPasswordUser.pending]: (state) => {
       state.status = "isLoading";
       state.data = null;
@@ -58,6 +78,32 @@ export const userSlice = createSlice({
       state.data = action.payload;
     },
     [forgotPasswordUser.rejected]: (state, action) => {
+      state.status = "isError";
+      state.data = action.payload;
+    },
+    // Get one
+    [getOneUser.pending]: (state) => {
+      state.status = "isLoading";
+      state.data = null;
+    },
+    [getOneUser.fulfilled]: (state, action) => {
+      state.status = "isSuccess";
+      state.data = action.payload;
+    },
+    [getOneUser.rejected]: (state) => {
+      state.status = "isError";
+      state.data = null;
+    },
+    // Edit
+    [editUserInfo.pending]: (state) => {
+      state.status = "isLoading";
+      state.data = null;
+    },
+    [editUserInfo.fulfilled]: (state, action) => {
+      state.status = "isSuccess";
+      state.data = action.payload;
+    },
+    [editUserInfo.rejected]: (state, action) => {
       state.status = "isError";
       state.data = action.payload;
     },
