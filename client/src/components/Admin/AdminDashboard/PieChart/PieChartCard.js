@@ -5,8 +5,20 @@ import Typography from "@mui/material/Typography";
 import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
 import BasicPie from "./PieChart";
 import EventTwoToneIcon from "@mui/icons-material/EventTwoTone";
+import { fetchAllStudents } from "../../../redux/studentsSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function PieChartCard() {
+  const data = useSelector((state) => state.students.data);
+  const dispatch = useDispatch();
+  // eslint-disable-next-line no-console
+  console.log(data);
+
+  React.useEffect(() => {
+    // Fetch groups when the component mounts
+    dispatch(fetchAllStudents());
+  }, []);
+
   return (
     <>
       <Card
