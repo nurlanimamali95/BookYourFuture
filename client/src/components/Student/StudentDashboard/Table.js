@@ -14,6 +14,7 @@ import dayjs from "dayjs";
 import EventBusyIcon from "@mui/icons-material/EventBusy";
 import Pagination from "@mui/material/Pagination";
 import { useSelector } from "react-redux";
+import formatDuration from "./FormatDuration";
 
 export default function EventTable(props) {
   const { events, selectedDate } = props;
@@ -30,9 +31,6 @@ export default function EventTable(props) {
         slot.student._id === userId
     )
   );
-
-  //eslint-disable-next-line
-  console.log(filteredEvents);
 
   const itemsPerPage = 3;
 
@@ -63,9 +61,9 @@ export default function EventTable(props) {
                 <TableCell></TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Date</TableCell>
-                <TableCell>Description</TableCell>
                 <TableCell>Location</TableCell>
                 <TableCell>Time</TableCell>
+                <TableCell>Duration</TableCell>
               </TableRow>
             </TableHead>
             <TableBody
@@ -89,10 +87,12 @@ export default function EventTable(props) {
                   <TableCell>
                     {dayjs(selectedDate).format("DD-MM-YYYY")}
                   </TableCell>
-                  <TableCell>{event.description}</TableCell>
                   <TableCell>{event.location}</TableCell>
                   <TableCell>
                     {dayjs(event.sessionSlot[0].startTime).format("HH:mm")}
+                  </TableCell>
+                  <TableCell>
+                    {formatDuration(event.sessionSlot[0].durationInSeconds)}
                   </TableCell>
                 </TableRow>
               ))}
@@ -130,6 +130,12 @@ EventTable.propTypes = {
       location: PropTypes.string,
       time: PropTypes.string,
       colorCode: PropTypes.string,
+      sessionSlot: PropTypes.arrayOf(
+        PropTypes.shape({
+          startTime: PropTypes.string,
+          durationInSeconds: PropTypes.number,
+        })
+      ),
     })
   ).isRequired,
   selectedDate: PropTypes.object,
