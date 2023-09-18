@@ -201,10 +201,10 @@ export const edit = async (req, res) => {
     }
 
     await user.save();
-    
+
     const { passwordHash, ...userData } = user._doc;
 
-    res.status(200).json({ userData, success: true })
+    res.status(200).json({ userData, success: true });
   } catch (err) {
     // eslint-disable-next-line
     console.error(err);
