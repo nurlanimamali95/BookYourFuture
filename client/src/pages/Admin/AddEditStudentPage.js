@@ -77,7 +77,7 @@ export default function AddEditStudentPage() {
     };
     // eslint-disable-next-line no-console
     console.log(usersData);
-    isEdit ? updateUser(usersData, "PUT") : performFetch(usersData, "POST");
+    isEdit ? updateUser(usersData, "PATCH") : performFetch(usersData, "POST");
   };
 
   // if (!isAuth) {

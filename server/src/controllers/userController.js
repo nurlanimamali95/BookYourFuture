@@ -1,4 +1,5 @@
 import UserModel from "../models/User.js";
+import GroupModel from "../models/Group.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { generateRandomPassword, sendEmail } from "../util/password-logic.js";
@@ -132,6 +133,8 @@ export const edit = async (req, res) => {
       });
     }
 
+    const previousGroupId = user.group;
+
     // Update user properties
     const {
       firstName,
@@ -157,11 +160,51 @@ export const edit = async (req, res) => {
     user.gitHub = gitHub;
     user.linkedIn = linkedIn;
 
-    await user.save();
+    if (group) {
+      const newGroup = await GroupModel.findById(group);
+      if (newGroup) {
+        // Check if the student is already in the group
+        const existingStudent = newGroup.students.includes(userId);
+        if (existingStudent) {
+          return res.status(400).json({
+            message: "This student is already added to the group.",
+          });
+        } else {
+          // Remove the student from their previous group if they had one
+          if (previousGroupId) {
+            const previousGroup = await GroupModel.findById(previousGroupId);
+            if (previousGroup) {
+              previousGroup.students = previousGroup.students.filter(
+                (studentId) => studentId.toString() !== userId
+              );
+              await previousGroup.save();
+            }
+          }
 
+          newGroup.students.push(userId);
+          user.group = group;
+          await newGroup.save();
+        }
+      }
+    } else {
+      // If group is not provided, remove the student from their previous group
+      if (previousGroupId) {
+        const previousGroup = await GroupModel.findById(previousGroupId);
+        if (previousGroup) {
+          previousGroup.students = previousGroup.students.filter(
+            (studentId) => studentId.toString() !== userId
+          );
+          await previousGroup.save();
+        }
+        user.group = null;
+      }
+    }
+
+    await user.save();
+    
     const { passwordHash, ...userData } = user._doc;
 
-    res.status(200).json({ userData, success: true });
+    res.status(200).json({ userData, success: true })
   } catch (err) {
     // eslint-disable-next-line
     console.error(err);
