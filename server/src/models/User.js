@@ -77,13 +77,12 @@ export const editValidationUser = [
     min: 3,
   }),
   body("group", "Group field is required").optional().isNumeric(),
-  body("admin").optional().isBoolean(),
 ];
 
 export const loginValidationUser = [
   body("email", "Email must be valid").isEmail(),
-  body("password", "Password must be at least 6 characters").isLength({
-    min: 6,
+  body("password", "Password must be at least 8 characters").isLength({
+    min: 8,
   }),
 ];
 
