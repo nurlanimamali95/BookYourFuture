@@ -34,7 +34,7 @@ export default function TabPanels({ value, groupLabels, demoData }) {
           <CustomTabPanel key={group._id} value={value} index={index}>
             {paginatedData.length > 0 ? (
               paginatedData.map((data) => (
-                <GroupData key={data.name} data={data} />
+                <GroupData key={data._id} data={data} />
               ))
             ) : (
               <EmptyGroupData />
