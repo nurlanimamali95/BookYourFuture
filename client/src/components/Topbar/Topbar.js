@@ -124,7 +124,7 @@ export default function MainNavigation() {
                 <ListItemButton>
                   <ListItemText
                     primary={
-                      <Link to="/userProfile" className="link">
+                      <Link to={`/user/${userData?._id}`} className="link">
                         {userData?.firstName}
                       </Link>
                     }
