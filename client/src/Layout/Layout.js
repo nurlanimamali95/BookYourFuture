@@ -1,5 +1,6 @@
 import React from "react";
-import Topbar from "../components/Topbar/Topbar";
+// import Topbar from "../components/Topbar/Topbar";
+import MenuTop from "../components/Topbar/MenuTop";
 import { Outlet, useLocation } from "react-router-dom";
 import { Box } from "@mui/material";
 
@@ -11,7 +12,7 @@ function Layout() {
     </Box>
   ) : (
     <>
-      <Topbar />
+      <MenuTop />
       <Box component="main" sx={{ flexGrow: 2 }}>
         <Outlet />
       </Box>
