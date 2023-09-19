@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Typography from "@mui/material/Typography";
+
 import Box from "@mui/material/Box";
 
 export default function CustomTabPanel({ children, value, index, ...other }) {
   return (
-    <div
+    <Box
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -13,11 +13,9 @@ export default function CustomTabPanel({ children, value, index, ...other }) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ px: 1, minHeight: "362px" }}>
-          <Typography>{children}</Typography>
-        </Box>
+        <Box sx={{ px: 1, minHeight: "362px" }}>{children}</Box>
       )}
-    </div>
+    </Box>
   );
 }
 

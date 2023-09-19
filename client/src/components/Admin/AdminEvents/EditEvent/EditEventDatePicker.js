@@ -13,7 +13,7 @@ export default function EditEventDatePicker() {
   const { eventData, setEventData } = React.useContext(EventContext);
 
   const handleAdd = () => {
-    const newSlot = { startTime: null }; // Temporarily using Date.now() for unique _id
+    const newSlot = { startTime: null };
     setEventData((prev) => ({
       ...prev,
       sessionSlot: [...prev.sessionSlot, newSlot],

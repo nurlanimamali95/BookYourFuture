@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Hidden, Box, Typography } from "@mui/material";
 import dayjs from "dayjs";
+import Chip from "@mui/material/Chip";
 
 export default function GroupData({ data }) {
   const sessionDate =
@@ -44,9 +45,20 @@ export default function GroupData({ data }) {
       </Box>
       <Hidden smDown>
         <Box sx={{ flex: 1 }} align="right">
-          <Typography variant="subtitle2" align="right">
-            {data.location}
-          </Typography>
+          {data.location === "online" ? (
+            <Chip variant="outlined" label="Online" color="info" size="small" />
+          ) : data.location === "offline" ? (
+            <Chip
+              variant="outlined"
+              label="Offline"
+              color="warning"
+              size="small"
+            />
+          ) : (
+            <Typography variant="subtitle2" align="right">
+              {data.location}
+            </Typography>
+          )}
         </Box>
       </Hidden>
     </Box>
@@ -55,11 +67,9 @@ export default function GroupData({ data }) {
 
 GroupData.propTypes = {
   data: PropTypes.shape({
-    name: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
-    student: PropTypes.array.isRequired,
     group: PropTypes.array.isRequired,
     sessionSlot: PropTypes.arrayOf(
       PropTypes.shape({
