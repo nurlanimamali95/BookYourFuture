@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import UserProfilePage from "./pages/userProfilePage/userProfilePage";
 import Layout from "./Layout/Layout";
 import StudentDashboard from "../src/pages/Students/StudentsDashboard";
@@ -18,8 +18,8 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import StudentManagementPage from "./pages/Admin/StudentManagementPage";
-import { useDispatch } from "react-redux";
-import { fetchAuthMe } from "./components/redux/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAuthMe, selectorIsAuth } from "./components/redux/authSlice";
 import ForgotPasswordPage from "./pages/Password/ForgotPassword";
 import AddEditGroupPage from "./pages/Admin/AddEditGroupPage";
 
@@ -33,10 +33,19 @@ const theme = createTheme({
 
 const App = () => {
   const dispatch = useDispatch();
+  const isAuth = useSelector(selectorIsAuth);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     dispatch(fetchAuthMe());
   }, []);
+
+  // If user is not authenticated, you can redirect them to the login page
+  React.useEffect(() => {
+    if (!window.localStorage.getItem("token") && !isAuth) {
+      return <Navigate to="/login" />;
+    }
+  }, [isAuth, navigate]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -48,24 +57,26 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         {/* Protected routes with layout */}
-        <Route path="*" element={<Layout />}>
-          <Route path="events" element={<EventManagement />} />
-          <Route path="events/edit/:id" element={<EditEventPage />} />
-          <Route path="events/add" element={<AddEventPage />} />
-          <Route path="student" element={<StudentDashboard />} />
-          <Route path="student/event/timeslots" element={<TimeSlotPage />} />
-          <Route path="admin" element={<AdminDashboard />} />
-          <Route path="user/:id" element={<UserProfilePage />} />
-          <Route path="addStudent" element={<AddEditStudentPage />} />
-          <Route path="addGroup" element={<AddEditGroupPage />} />
-          <Route path="groups" element={<GroupManagement />} />
-          <Route path="students" element={<StudentManagementPage />} />
-          <Route
-            path="students/editStudent/:id"
-            element={<AddEditStudentPage />}
-          />
-          <Route path="groups/editGroup/:id" element={<AddEditGroupPage />} />
-        </Route>
+        {isAuth && (
+          <Route path="*" element={<Layout />}>
+            <Route path="events" element={<EventManagement />} />
+            <Route path="events/edit/:id" element={<EditEventPage />} />
+            <Route path="events/add" element={<AddEventPage />} />
+            <Route path="student" element={<StudentDashboard />} />
+            <Route path="student/event/timeslots" element={<TimeSlotPage />} />
+            <Route path="admin" element={<AdminDashboard />} />
+            <Route path="user/:id" element={<UserProfilePage />} />
+            <Route path="addStudent" element={<AddEditStudentPage />} />
+            <Route path="addGroup" element={<AddEditGroupPage />} />
+            <Route path="groups" element={<GroupManagement />} />
+            <Route path="students" element={<StudentManagementPage />} />
+            <Route
+              path="students/editStudent/:id"
+              element={<AddEditStudentPage />}
+            />
+            <Route path="groups/editGroup/:id" element={<AddEditGroupPage />} />
+          </Route>
+        )}
       </Routes>
     </ThemeProvider>
   );

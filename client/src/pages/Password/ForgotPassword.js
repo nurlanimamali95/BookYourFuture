@@ -13,15 +13,15 @@ import { Controller, useForm } from "react-hook-form";
 import {
   forgotPasswordUser,
   resetState,
-} from "../../components/redux/userSlice";
+} from "../../components/redux/passwordSlice";
 import { Stack } from "@mui/material";
 
 const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const success = useSelector((state) => state.user.status === "isSuccess");
-  const error = useSelector((state) => state.user.status === "isError");
-  const errorMessage = useSelector((state) => state.user.data);
+  const success = useSelector((state) => state.password.status === "isSuccess");
+  const error = useSelector((state) => state.password.status === "isError");
+  const errorMessage = useSelector((state) => state.password.data);
 
   const {
     control,

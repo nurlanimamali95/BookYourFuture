@@ -11,7 +11,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectorIsAuth } from "../../components/redux/authSlice";
 import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
-import { changePasswordUser } from "../../components/redux/userSlice";
+import {
+  changePasswordUser,
+  resetState,
+} from "../../components/redux/passwordSlice";
 import { createTheme, IconButton, ThemeProvider } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -21,9 +24,9 @@ const ChangePasswordPage = () => {
   const isAuth = useSelector(selectorIsAuth);
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.data);
-  const success = useSelector((state) => state.user.status === "isSuccess");
-  const error = useSelector((state) => state.user.status === "isError");
-  const errorMessage = useSelector((state) => state.user.data);
+  const success = useSelector((state) => state.password.status === "isSuccess");
+  const error = useSelector((state) => state.password.status === "isError");
+  const errorMessage = useSelector((state) => state.password.data);
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -68,13 +71,14 @@ const ChangePasswordPage = () => {
   };
 
   const handleBackButton = () => {
+    dispatch(resetState());
     if (isAuth) {
       const route = userData?.admin === true ? "/admin" : "/student";
       navigate(route);
     }
   };
 
-  React.useEffect(() => {}, [success, error]);
+  React.useEffect(() => {}, [error]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -137,7 +141,6 @@ const ChangePasswordPage = () => {
                 <Controller
                   name="oldPassword"
                   control={control}
-                  defaultValue=""
                   rules={{
                     required: "Password is required",
                   }}
@@ -179,7 +182,6 @@ const ChangePasswordPage = () => {
                 <Controller
                   name="newPassword"
                   control={control}
-                  defaultValue=""
                   rules={{
                     required: "New password is required",
                   }}
@@ -192,7 +194,6 @@ const ChangePasswordPage = () => {
                       label="New password"
                       type={showPassword ? "text" : "password"} // Use the showPassword state to toggle the input type
                       autoComplete="new-password"
-                      autoFocus
                       error={!!fieldState.error}
                       helperText={
                         fieldState.error ? fieldState.error.message : ""
@@ -221,7 +222,6 @@ const ChangePasswordPage = () => {
                 <Controller
                   name="confirmPassword"
                   control={control}
-                  defaultValue=""
                   rules={{
                     required: "Confirm password is required",
                   }}
@@ -234,7 +234,6 @@ const ChangePasswordPage = () => {
                       label="Confirm password"
                       type={showPassword ? "text" : "password"} // Use the showPassword state to toggle the input type
                       autoComplete="confirm-password"
-                      autoFocus
                       error={!!fieldState.error}
                       helperText={
                         fieldState.error ? fieldState.error.message : ""
