@@ -147,6 +147,8 @@ export const edit = async (req, res) => {
       group,
       gitHub,
       linkedIn,
+      facebook,
+      telegram,
     } = req.body;
 
     user.firstName = firstName;
@@ -159,6 +161,8 @@ export const edit = async (req, res) => {
     user.group = group;
     user.gitHub = gitHub;
     user.linkedIn = linkedIn;
+    user.facebook = facebook;
+    user.telegram = telegram;
 
     if (group) {
       const newGroup = await GroupModel.findById(group);

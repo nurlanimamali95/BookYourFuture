@@ -16,7 +16,7 @@ import {
 } from "../../components/redux/passwordSlice";
 import { Stack } from "@mui/material";
 
-const ForgotPasswordPage = () => {
+export default function ForgotPasswordPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const success = useSelector((state) => state.password.status === "isSuccess");
@@ -202,6 +202,4 @@ const ForgotPasswordPage = () => {
       </Grid>
     </Grid>
   );
-};
-
-export default ForgotPasswordPage;
+}
