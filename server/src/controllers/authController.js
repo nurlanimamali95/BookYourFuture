@@ -31,10 +31,19 @@ export const register = async (req, res) => {
 
     await sendEmail(
       newUser.email,
-      "Welcome to Book You Future",
-      `If you want to login in BookYouFuture, please use:
-      email: ${newUser.email}, 
-      password: ${password}\nBYF Team`
+      "Welcome to BookYouFuture",
+      `Dear Valued Member,
+
+      Welcome to BookYourFuture, your platform for student-mentor connections! We are thrilled to have you join our community. To get started on your journey with us, please find below your login credentials:
+      
+      Email: ${newUser.email}
+      Password: ${password}
+      
+      Please make sure to keep this information secure and do not share your password with anyone. If you ever forget your password, you can easily reset it through our platform. If you have any questions or encounter any issues during your registration or while using our platform, our dedicated BYF Team is here to assist you. Feel free to reach out to us at byfhyf23@gmail.com.
+      Thank you for choosing BookYourFuture. We look forward to facilitating meaningful connections on our platform. Happy mentoring and learning!
+      
+      Warm regards,
+      BYF Team`
     );
 
     res.status(200).json({ ...userData, token, success: true });
