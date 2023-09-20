@@ -85,7 +85,6 @@ export default function BookTime(props) {
 
 BookTime.propTypes = {
   date: PropTypes.string,
-  selectedValue: PropTypes.string,
   handleChange: PropTypes.func,
   expanded: PropTypes.bool,
   onChange: PropTypes.func,
