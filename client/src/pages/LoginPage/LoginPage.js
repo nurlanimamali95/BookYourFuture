@@ -32,7 +32,7 @@ const LoginPage = () => {
   } = useForm({
     defaultValues: {
       email: "byfhyf23@gmail.com",
-      password: "QXu4qeMD",
+      password: "AE31jesb",
     },
     mode: "onChange",
   });

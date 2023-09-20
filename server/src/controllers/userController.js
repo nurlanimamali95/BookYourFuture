@@ -196,7 +196,7 @@ export const edit = async (req, res) => {
           );
           await previousGroup.save();
         }
-        user.group = null;
+        user.group = [];
       }
     }
 

@@ -57,7 +57,7 @@ function ResponsiveAppBar() {
     : [];
 
   const settings = [
-    { label: "Profile", path: "/userProfile" },
+    { label: "Profile", path: `/user/${userData?._id}` },
     { label: "Logout", path: null },
   ];
 

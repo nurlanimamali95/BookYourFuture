@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema(
 
     admin: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   {
@@ -65,7 +65,7 @@ export const registerValidationUser = [
     min: 3,
   }),
   body("email", "Email must be valid").isEmail().isString(),
-  body("group", "Group field is required").optional().isNumeric(),
+  body("group", "Group field is required").optional(),
   body("admin").optional().isBoolean(),
 ];
 
@@ -76,7 +76,7 @@ export const editValidationUser = [
   body("lastName", "Last name must be at least 3 characters").isLength({
     min: 3,
   }),
-  body("group", "Group field is required").optional().isNumeric(),
+  body("group", "Group field is required").optional(),
 ];
 
 export const loginValidationUser = [
