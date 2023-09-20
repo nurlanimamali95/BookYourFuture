@@ -162,15 +162,16 @@ export const bookSession = async (req, res) => {
     // Find the event by sessionId and update the sessionSlot with the new studentId
 
     // Check if the session slot is already booked by the student
+    // Check if the session slot is already booked
     const isAlreadyBooked = await EventModel.exists({
       "sessionSlot._id": sessionId,
-      "sessionSlot.student": studentId,
+      "sessionSlot.student": { $exists: true }, // Check if any student is already booked
     });
 
     if (isAlreadyBooked) {
       return res
         .status(400)
-        .json({ message: "Student is already booked for this session" });
+        .json({ message: "Session slot is already booked" });
     }
 
     const bookSlot = await EventModel.findOneAndUpdate(

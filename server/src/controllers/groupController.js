@@ -8,7 +8,6 @@ export const add = async (req, res) => {
       numberOfGroupName: req.body.numberOfGroupName,
       status: req.body.status,
       students: req.body.students || [],
-      // color: req.body.color,
       user: req.body.userId,
     };
 
@@ -29,14 +28,7 @@ export const add = async (req, res) => {
 
 export const all = async (req, res) => {
   try {
-    const groups = await GroupModel.find()
-      .populate({
-        path: "students",
-        select: "_id lastName firstName email",
-      })
-      .populate("user")
-      .exec();
-
+    const groups = await GroupModel.find().populate("user").exec();
     res.status(200).json({ success: true, groupsData: groups });
   } catch (err) {
     //eslint-disable-next-line
@@ -57,13 +49,7 @@ export const getOne = async (req, res) => {
       });
     }
 
-    const group = await GroupModel.findById(groupId)
-      .populate("user")
-      .populate({
-        path: "students",
-        select: "_id lastName firstName email",
-      })
-      .exec();
+    const group = await GroupModel.findById(groupId).populate("user").exec();
 
     if (!group) {
       return res.status(404).json({
