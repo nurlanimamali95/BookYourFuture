@@ -7,16 +7,19 @@ import BasicPie from "./PieChart";
 import EventTwoToneIcon from "@mui/icons-material/EventTwoTone";
 import { fetchAllStudents } from "../../../redux/studentsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchAllEvents } from "../../../redux/eventsSlice";
 
 export default function PieChartCard() {
   const data = useSelector((state) => state.students.data);
+  const events = useSelector((state) => state.events.data);
   const dispatch = useDispatch();
   // eslint-disable-next-line no-console
-  console.log(data);
-
+  const studentLength = data?.usersData.length;
+  const eventsData = events?.eventsData.length;
   React.useEffect(() => {
     // Fetch groups when the component mounts
     dispatch(fetchAllStudents());
+    dispatch(fetchAllEvents());
   }, []);
 
   return (
@@ -42,7 +45,7 @@ export default function PieChartCard() {
           }}
         >
           <Typography variant="h6">Active Students</Typography>
-          <Typography variant="h4">{40}</Typography>
+          <Typography variant="h4">{studentLength}</Typography>
         </CardContent>
         <div
           style={{
@@ -80,7 +83,7 @@ export default function PieChartCard() {
           }}
         >
           <Typography variant="h6">Upcoming Events</Typography>
-          <Typography variant="h4">{17}</Typography>
+          <Typography variant="h4">{eventsData}</Typography>
         </CardContent>
         <div
           style={{

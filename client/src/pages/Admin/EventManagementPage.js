@@ -37,7 +37,7 @@ export default function EventManagement() {
 
   return (
     <Container>
-      <Typography variant="h3" sx={{ pt: 4, mb: 4 }}>
+      <Typography variant="h4" textAlign="center" sx={{ pt: 4, mb: 4 }}>
         Event Management
       </Typography>
       <Stack
