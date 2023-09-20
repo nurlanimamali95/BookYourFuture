@@ -87,25 +87,33 @@ export default function TimeSlotsPage() {
               </Typography>
             </Grid>
             {Object.entries(groupedTimeSlots).map(
-              ([date, timeSlots], index) => (
-                <Grid
-                  item
-                  xs={12}
-                  key={index}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    flexDirection: "column",
-                  }}
-                >
-                  <BookTime
-                    date={date}
-                    expanded={expanded === `panel${index}`}
-                    onChange={() => handleAccordionChange(`panel${index}`)}
-                    timeSlots={timeSlots}
-                  />
-                </Grid>
-              )
+              ([date, timeSlots], index) => {
+                const availableTimeSlots = timeSlots.filter(
+                  (slot) => !slot.student
+                );
+                if (availableTimeSlots.length > 0) {
+                  return (
+                    <Grid
+                      item
+                      xs={12}
+                      key={index}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <BookTime
+                        date={date}
+                        expanded={expanded === `panel${index}`}
+                        onChange={() => handleAccordionChange(`panel${index}`)}
+                        timeSlots={availableTimeSlots}
+                      />
+                    </Grid>
+                  );
+                }
+                return null;
+              }
             )}
             <Grid
               item

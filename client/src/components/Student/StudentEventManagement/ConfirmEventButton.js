@@ -4,16 +4,17 @@ import useFetch from "../../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import { useRadioContext } from "./TimeSlotContext";
 
 export default function ConfirmEventButton({
-  sessionSlotId,
   onEventAdded,
   buttonLabel = "Confirm",
 }) {
   const navigate = useNavigate();
+  const { selectedValue } = useRadioContext();
 
-  const { isLoading, error, performFetch } = useFetch(
-    `/event/bookTime/addStudent/${sessionSlotId}`,
+  const { error, performFetch } = useFetch(
+    `/event/bookTime/addStudent/${selectedValue}`,
     () => {
       onEventAdded("Time slot is confirmed...");
       setTimeout(() => {
@@ -40,7 +41,11 @@ export default function ConfirmEventButton({
   };
 
   return (
-    <Button variant="contained" onClick={handleOnSubmit} disabled={isLoading}>
+    <Button
+      variant="contained"
+      onClick={handleOnSubmit}
+      disabled={selectedValue ? false : true}
+    >
       {buttonLabel}
     </Button>
   );
