@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
-// import { selectorIsAuth } from "../../components/redux/authSlice";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Buttons/Button";
 import DeleteButton from "../../components/Buttons/DeleteButton";
@@ -65,10 +64,6 @@ function StudentManagementPage() {
         );
       })
     : [];
-
-  // if (!isAuth) {
-  //   return navigate("/login");
-  // }
 
   return (
     <>
