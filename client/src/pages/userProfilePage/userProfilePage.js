@@ -7,6 +7,8 @@ import {
   Box,
   Tabs,
   Tab,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 
 import PropTypes from "prop-types";
@@ -16,6 +18,7 @@ import SecurityTab from "./userProfileElements.js/SecurityTab";
 import { useDispatch, useSelector } from "react-redux";
 import { editUserInfo, getOneUser } from "../../components/redux/userSlice";
 import { useParams } from "react-router-dom";
+import CancelButton from "../../components/Admin/AdminEvents/EventElements/CancelButton";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -55,6 +58,17 @@ export default function UserProfilePage() {
   //Extract success and userData properties from the payload
   const { success, userData } = reduxPayload || {};
 
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "info",
+  });
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") return;
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
+
   const [currentData, setCurrentData] = useState();
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -62,7 +76,21 @@ export default function UserProfilePage() {
 
   const handleChangeInfo = () => {
     // Dispatch the action with the updated currentData
-    dispatch(editUserInfo({ id, params: currentData }));
+    dispatch(editUserInfo({ id, params: currentData }))
+      .then(() => {
+        setSnackbar({
+          open: true,
+          message: "Successfully updated user info!",
+          severity: "success",
+        });
+      })
+      .catch(() => {
+        setSnackbar({
+          open: true,
+          message: "Failed to update user info.",
+          severity: "error",
+        });
+      });
   };
 
   useEffect(() => {
@@ -133,8 +161,22 @@ export default function UserProfilePage() {
         <Button variant="contained" onClick={handleChangeInfo} color="primary">
           Save
         </Button>
-        <Button variant="outlined">Cancel</Button>
+        <CancelButton endpoint="/" />
       </Stack>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }
