@@ -19,7 +19,7 @@ import { createTheme, IconButton, ThemeProvider } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-const ChangePasswordPage = () => {
+export default function ChangePasswordPage() {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectorIsAuth);
   const navigate = useNavigate();
@@ -309,5 +309,4 @@ const ChangePasswordPage = () => {
       </Grid>
     </ThemeProvider>
   );
-};
-export default ChangePasswordPage;
+}

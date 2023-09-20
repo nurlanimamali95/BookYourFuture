@@ -43,6 +43,10 @@ const userSchema = new mongoose.Schema(
 
     linkedIn: String,
 
+    facebook: String,
+
+    telegram: String,
+
     avatarUrl: String,
 
     admin: {

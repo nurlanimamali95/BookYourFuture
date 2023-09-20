@@ -14,9 +14,6 @@ import { toast } from "react-hot-toast";
 import useFetch from "../../hooks/useFetch";
 import FilterByGroup from "../../components/Filters/FilterByGroup";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-// import { selectorIsAuth } from "../../components/redux/authSlice";
-// import { useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
 
 export default function AddEditStudentPage() {
   // const isAuth = useSelector(selectorIsAuth);

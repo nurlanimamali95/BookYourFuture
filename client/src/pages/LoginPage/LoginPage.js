@@ -19,7 +19,7 @@ import {
   selectorIsAuth,
 } from "../../components/redux/authSlice";
 
-const LoginPage = () => {
+export default function LoginPage() {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectorIsAuth);
   const userData = useSelector((state) => state.auth.data);
@@ -42,7 +42,7 @@ const LoginPage = () => {
 
     if (!data.payload) {
       //eslint-disable-next-line
-      console.log("Failed to login");
+      window.confirm("Failed to login");
     }
 
     if ("token" in data.payload) {
@@ -186,5 +186,4 @@ const LoginPage = () => {
       </Grid>
     </ThemeProvider>
   );
-};
-export default LoginPage;
+}
