@@ -62,7 +62,7 @@ export default function ChangePasswordPage() {
   const handleBackButton = () => {
     dispatch(resetState());
     if (isAuth) {
-      const route = userData?.admin === true ? "/admin" : "/student";
+      const route = userData?.admin === true ? "/" : "/";
       navigate(route);
     }
   };

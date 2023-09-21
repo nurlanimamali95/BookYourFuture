@@ -67,11 +67,9 @@ const LoginPage = () => {
   React.useEffect(() => {
     if (isAuth) {
       if (userData?.admin === true) {
-        navigate("/admin");
-      } else if (userData?.admin === false) {
-        navigate("/student");
+        navigate("/");
       } else {
-        return null;
+        navigate("/");
       }
     }
   }, [isAuth, userData]);

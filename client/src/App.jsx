@@ -32,6 +32,7 @@ const theme = createTheme({
 });
 
 const App = () => {
+  const userData = useSelector((state) => state.auth.data);
   const dispatch = useDispatch();
   const isAuth = useSelector(selectorIsAuth);
   const navigate = useNavigate();
@@ -58,23 +59,37 @@ const App = () => {
 
         {/* Protected routes with layout */}
         {isAuth && (
-          <Route path="*" element={<Layout />}>
-            <Route path="events" element={<EventManagement />} />
-            <Route path="events/edit/:id" element={<EditEventPage />} />
-            <Route path="events/add" element={<AddEventPage />} />
-            <Route path="student" element={<StudentDashboard />} />
-            <Route path="student/event/timeslots" element={<TimeSlotPage />} />
-            <Route path="admin" element={<AdminDashboard />} />
-            <Route path="user/:id" element={<UserProfilePage />} />
-            <Route path="addStudent" element={<AddEditStudentPage />} />
-            <Route path="addGroup" element={<AddEditGroupPage />} />
-            <Route path="groups" element={<GroupManagement />} />
-            <Route path="students" element={<StudentManagementPage />} />
-            <Route
-              path="students/editStudent/:id"
-              element={<AddEditStudentPage />}
-            />
-            <Route path="groups/editGroup/:id" element={<AddEditGroupPage />} />
+          <Route path="/" element={<Layout />}>
+            {userData?.admin ? (
+              <>
+                <Route path="events" element={<EventManagement />} />
+                <Route path="events/edit/:id" element={<EditEventPage />} />
+                <Route path="events/add" element={<AddEventPage />} />
+                <Route path="/" element={<AdminDashboard />} />
+                <Route path="addStudent" element={<AddEditStudentPage />} />
+                <Route path="addGroup" element={<AddEditGroupPage />} />
+                <Route path="groups" element={<GroupManagement />} />
+                <Route path="students" element={<StudentManagementPage />} />
+                <Route
+                  path="students/editStudent/:id"
+                  element={<AddEditStudentPage />}
+                />
+                <Route
+                  path="groups/editGroup/:id"
+                  element={<AddEditGroupPage />}
+                />
+                <Route path="user/:id" element={<UserProfilePage />} />
+              </>
+            ) : (
+              <>
+                <Route path="user/:id" element={<UserProfilePage />} />
+                <Route path="/" element={<StudentDashboard />} />
+                <Route
+                  path="student/event/timeslots"
+                  element={<TimeSlotPage />}
+                />
+              </>
+            )}
           </Route>
         )}
       </Routes>
