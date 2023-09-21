@@ -159,13 +159,29 @@ export const bookSession = async (req, res) => {
   try {
     const sessionId = req.params.sessionId;
     const studentId = req.body.studentId; // Assuming you send the studentId in the request body
-    // Find the event by sessionId and update the sessionSlot with the new studentId
 
-    // Check if the session slot is already booked by the student
-    // Check if the session slot is already booked
+    // Find the event by sessionId and update the sessionSlot with the new studentId
+    const event = await EventModel.findOne({ "sessionSlot._id": sessionId });
+
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    const sessionSlotToBook = event.sessionSlot.find(
+      (slot) => slot._id.toString() === sessionId && !slot.student
+    );
+
+    if (!sessionSlotToBook) {
+      return res
+        .status(400)
+        .json({ message: "Session slot is already booked or not found" });
+    }
+
+    console.log(sessionSlotToBook);
+
     const isAlreadyBooked = await EventModel.exists({
       "sessionSlot._id": sessionId,
-      "sessionSlot.student": { $exists: true }, // Check if any student is already booked
+      "sessionSlot.student": studentId, // Check if any student is already booked
     });
 
     if (isAlreadyBooked) {
@@ -182,7 +198,7 @@ export const bookSession = async (req, res) => {
       .populate({
         path: "sessionSlot.student",
         select: "_id lastName firstName email",
-      }) // Populate the student field within sessionSlot
+      })
       .exec();
 
     if (!bookSlot) {
