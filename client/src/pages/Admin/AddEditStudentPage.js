@@ -7,12 +7,12 @@ import {
   Stack,
   Box,
 } from "@mui/material";
-import { CancelButton } from "../../components/Buttons/CancelButton";
 import { Button } from "../../components/Buttons/Button";
 import { toast } from "react-hot-toast";
 import useFetch from "../../hooks/useFetch";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import GroupDropdown from "../../components/Admin/AdminEvents/EventElements/GroupDropdown";
+import CancelButton from "../../components/Admin/AdminEvents/EventElements/CancelButton";
 
 export default function AddEditStudentPage() {
   // const isAuth = useSelector(selectorIsAuth);
@@ -82,7 +82,7 @@ export default function AddEditStudentPage() {
 
   return (
     <form onSubmit={handleSave}>
-      <Container maxWidth="md" sx={{ marginTop: "25px" }}>
+      <Container maxWidth="sm" sx={{ marginTop: "25px" }}>
         <Grid container spacing={3}>
           <Box sx={{ flexGrow: 1 }}>
             <Typography
@@ -135,7 +135,7 @@ export default function AddEditStudentPage() {
               <Button type="submit" variant="contained">
                 Save
               </Button>
-              <CancelButton variant="outlined">Cancel</CancelButton>
+              <CancelButton endpoint="/students"></CancelButton>
             </Stack>
           </Grid>
         </Grid>

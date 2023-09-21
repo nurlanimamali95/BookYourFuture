@@ -110,6 +110,6 @@ SocialTab.propTypes = {
     linkedIn: PropTypes.string,
     facebook: PropTypes.string,
     telegram: PropTypes.string,
-  }).isRequired,
+  }),
   setCurrentData: PropTypes.func.isRequired,
 };

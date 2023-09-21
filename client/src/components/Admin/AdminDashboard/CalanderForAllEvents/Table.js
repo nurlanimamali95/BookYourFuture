@@ -131,7 +131,7 @@ EventTable.propTypes = {
       time: PropTypes.string,
       group: PropTypes.arrayOf(
         PropTypes.shape({
-          numberOfGroupName: PropTypes.string,
+          numberOfGroupName: PropTypes.number,
         })
       ),
     })
