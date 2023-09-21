@@ -177,8 +177,6 @@ export const bookSession = async (req, res) => {
         .json({ message: "Session slot is already booked or not found" });
     }
 
-    console.log(sessionSlotToBook);
-
     const isAlreadyBooked = await EventModel.exists({
       "sessionSlot._id": sessionId,
       "sessionSlot.student": studentId, // Check if any student is already booked
