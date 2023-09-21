@@ -79,7 +79,7 @@ export default function EventTable(props) {
                       sx={{
                         width: 4,
                         height: 25,
-                        bgcolor: "green",
+                        bgcolor: "black",
                       }}
                     />
                   </TableCell>
