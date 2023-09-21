@@ -127,12 +127,12 @@ function AddEditGroupPage() {
               mt={3}
               sx={{ display: "flex", justifyContent: "center" }}
             >
-              <Button type="submit" variant="outlined">
+              <Button type="submit" variant="contained">
                 Save
               </Button>
               <CancelButton
                 onClick={handleCancel}
-                variant="contained"
+                variant="outlined"
                 color="primary"
               >
                 Cancel

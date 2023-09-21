@@ -180,8 +180,3 @@ export default function UserProfilePage() {
     </Container>
   );
 }
-
-UserProfilePage.propTypes = {
-  currentData: PropTypes.object.isRequired,
-  setCurrentData: PropTypes.func.isRequired,
-};

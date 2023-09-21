@@ -105,6 +105,6 @@ ProfileTab.propTypes = {
     city: PropTypes.string,
     zipCode: PropTypes.string,
     phone: PropTypes.string,
-  }).isRequired,
-  setCurrentData: PropTypes.func.isRequired,
+  }),
+  setCurrentData: PropTypes.func,
 };
