@@ -6,14 +6,13 @@ import {
   Container,
   Stack,
   Box,
-  Select,
 } from "@mui/material";
 import { CancelButton } from "../../components/Buttons/CancelButton";
 import { Button } from "../../components/Buttons/Button";
 import { toast } from "react-hot-toast";
 import useFetch from "../../hooks/useFetch";
-import FilterByGroup from "../../components/Filters/FilterByGroup";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import GroupDropdown from "../../components/Admin/AdminEvents/EventElements/GroupDropdown";
 
 export default function AddEditStudentPage() {
   // const isAuth = useSelector(selectorIsAuth);
@@ -118,13 +117,10 @@ export default function AddEditStudentPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <FilterByGroup
-                onFilterChange={(event) => setGroupNumber(event)}
-                isSelect={true}
-                idGroup={isEdit && groupNumber}
-              >
-                <Select label="Filter" fullWidth />
-              </FilterByGroup>
+              <GroupDropdown
+                value={groupNumber}
+                onChange={(event) => setGroupNumber(event.target.value)}
+              />
             </Stack>
           </Grid>
 
@@ -132,14 +128,14 @@ export default function AddEditStudentPage() {
             <Stack
               direction="row"
               justifyContent="center"
-              spacing={2}
-              mt={3}
+              spacing={3}
+              mt={6}
               sx={{ display: "flex", justifyContent: "center" }}
             >
-              <Button type="submit" variant="outlined">
+              <Button type="submit" variant="contained">
                 Save
               </Button>
-              <CancelButton variant="contained">Cancel</CancelButton>
+              <CancelButton variant="outlined">Cancel</CancelButton>
             </Stack>
           </Grid>
         </Grid>
