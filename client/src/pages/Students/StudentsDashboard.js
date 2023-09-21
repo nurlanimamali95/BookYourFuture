@@ -54,10 +54,11 @@ export default function StudentDashboard() {
 
     const eventNotifications = filteredEvents
       .filter((event) =>
-        event.sessionSlot.every(
+        event.sessionSlot.some(
           (slot) => !slot.student || slot.student._id !== userId
         )
       )
+      .filter((event) => event.sessionSlot.some((slot) => !slot.student))
       .map((event) => ({
         message: event.title,
         type: "warning",
