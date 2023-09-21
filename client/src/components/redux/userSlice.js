@@ -19,6 +19,11 @@ export const editUserInfo = createAsyncThunk(
   }
 );
 
+export const getDeleteUser = createAsyncThunk("user/getDelete", async (id) => {
+  const { data } = await axios.delete(`/api/user/${id}/`);
+  return data;
+});
+
 const initialState = {
   data: null,
   status: "isLoading",
@@ -54,6 +59,17 @@ export const userSlice = createSlice({
     [editUserInfo.rejected]: (state, action) => {
       state.status = "isError";
       state.data = action.payload;
+    },
+    // Delete
+    [getDeleteUser.pending]: (state) => {
+      state.status = "isLoading";
+      state.data = null;
+    },
+    [getDeleteUser.fulfilled]: (state, action) => {
+      state.data = action.payload;
+    },
+    [getDeleteUser.rejected]: (state) => {
+      state.status = "isError";
     },
   },
 });

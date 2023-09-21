@@ -40,7 +40,7 @@ export default function SocialTab({ currentData, setCurrentData }) {
                 }}
               />
               <TextField
-                name="linkedin"
+                name="linkedIn"
                 value={currentData?.linkedIn || ""}
                 label="LinkedIn"
                 variant="outlined"

@@ -1,4 +1,5 @@
 import UserModel from "../models/User.js";
+import GroupModel from "../models/Group.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { generateRandomPassword, sendEmail } from "../util/password-logic.js";
@@ -18,6 +19,18 @@ export const register = async (req, res) => {
     };
 
     const user = await UserModel.create(newUser);
+
+    if (user.group && user.group.length > 0) {
+      const groupId = user.group[0].toString();
+      // Find all groups with the specified IDs
+      const group = await GroupModel.findById(groupId);
+      // Assuming there can be multiple groups with the provided IDs
+      group.students.push(user._id);
+      await group.save();
+    } else {
+      // Handle the case where user.group is empty or undefined
+      user.group = [];
+    }
 
     const token = jwt.sign(
       {
