@@ -6,8 +6,9 @@ import { CssBaseline, Typography, Container } from "@mui/material";
 import EventTable from "../../components/Student/StudentDashboard/Table";
 import Grid from "@mui/material/Grid";
 import useFetch from "../../hooks/useFetch";
-import todayDate from "../../components/Student/StudentEventManagement/FormatDate";
+
 import { useSelector } from "react-redux";
+import dayjs from "dayjs";
 
 export default function StudentDashboard() {
   function processData(responseData) {
@@ -21,7 +22,7 @@ export default function StudentDashboard() {
 
   const userData = useSelector((state) => state.auth.data);
   const userId = userData ? userData._id : null;
-  const [selectedDate, setSelectedDate] = useState(todayDate);
+  const [selectedDate, setSelectedDate] = useState(dayjs());
   const [events, setEvents] = useState([]);
   const [notifications, setNotifications] = useState([]);
 
@@ -32,7 +33,7 @@ export default function StudentDashboard() {
 
   const renderContent = () => {
     if (isLoading) {
-      return <p>Loading...</p>;
+      return;
     } else if (error) {
       return <p>Error: {error.message}</p>;
     } else {
@@ -54,7 +55,7 @@ export default function StudentDashboard() {
 
     const eventNotifications = filteredEvents
       .filter((event) =>
-        event.sessionSlot.some(
+        event.sessionSlot.every(
           (slot) => !slot.student || slot.student._id !== userId
         )
       )
