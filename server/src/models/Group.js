@@ -9,21 +9,14 @@ const groupSchema = new mongoose.Schema(
       unique: true,
     },
 
-    students: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
-      },
-    ],
+    students: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "user",
+    },
 
     status: {
       type: String,
     },
-
-    // color: {
-    //   type: String,
-    //   required: true,
-    // },
 
     user: {
       type: mongoose.Schema.Types.ObjectId,

@@ -5,7 +5,6 @@ const timeSlotSchema = new mongoose.Schema({
   startTime: {
     type: Date,
     required: true,
-    unique: true,
   },
   durationInSeconds: {
     type: Number,

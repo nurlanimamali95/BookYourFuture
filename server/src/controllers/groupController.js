@@ -28,7 +28,9 @@ export const add = async (req, res) => {
 
 export const all = async (req, res) => {
   try {
-    const groups = await GroupModel.find().populate("user").exec();
+    const groups = await GroupModel.find()
+      .populate({ path: "students", select: "_id lastName firstName email" })
+      .exec();
     res.status(200).json({ success: true, groupsData: groups });
   } catch (err) {
     //eslint-disable-next-line
