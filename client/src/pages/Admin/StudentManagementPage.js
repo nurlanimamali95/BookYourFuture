@@ -61,9 +61,12 @@ function StudentManagementPage() {
         const isGroupMatch =
           selectedGroup === "All" ||
           student.group[0]?.numberOfGroupName.toString() === selectedGroup;
+        const isAdmin = student.admin;
 
         return (
-          (fullName.includes(query) || email.includes(query)) && isGroupMatch
+          (fullName.includes(query) || email.includes(query)) &&
+          isGroupMatch &&
+          !isAdmin
         );
       })
     : [];
