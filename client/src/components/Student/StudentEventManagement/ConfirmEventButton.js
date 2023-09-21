@@ -18,7 +18,7 @@ export default function ConfirmEventButton({
     () => {
       onEventAdded("Time slot is confirmed...");
       setTimeout(() => {
-        navigate("/student");
+        navigate("/");
       }, 2000);
     }
   );
