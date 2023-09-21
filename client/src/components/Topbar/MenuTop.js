@@ -129,9 +129,6 @@ function ResponsiveAppBar() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: "block", md: "none" } }}
             >
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Home</Typography>
-              </MenuItem>
               {navLinks.map((link) => (
                 <MenuItem
                   key={link.label}

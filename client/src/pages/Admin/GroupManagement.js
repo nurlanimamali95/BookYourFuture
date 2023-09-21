@@ -13,6 +13,7 @@ import {
   Box,
   Typography,
   Hidden,
+  CircularProgress,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -52,7 +53,11 @@ export default function GroupManagement() {
 
   return (
     <>
-      {isLoading && <h1>Loading</h1>}
+      {isLoading && (
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 16 }}>
+          <CircularProgress />
+        </Box>
+      )}
       {data && (
         <Container>
           <Box sx={{ flexGrow: 1 }}>
