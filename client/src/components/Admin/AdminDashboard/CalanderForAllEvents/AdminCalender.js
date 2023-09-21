@@ -6,6 +6,7 @@ import EventTable from "./Table";
 import Grid from "@mui/material/Grid";
 import dayjs from "dayjs";
 import useFetch from "../../../../hooks/useFetch";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function EventCalendar() {
   function processData(responseData) {
@@ -27,7 +28,11 @@ export default function EventCalendar() {
 
   const renderContent = () => {
     if (isLoading) {
-      return <p>Loading...</p>;
+      return (
+        <Box sx={{ display: "flex" }}>
+          <CircularProgress />
+        </Box>
+      );
     } else if (error) {
       return <p>Error: {error.message}</p>;
     } else {

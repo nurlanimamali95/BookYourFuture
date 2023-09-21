@@ -27,10 +27,14 @@ export default function EventTable(props) {
   );
 
   const flattenedEvents = filteredEvents.flatMap((event) =>
-    event.sessionSlot.map((slot) => ({
-      ...event,
-      slot,
-    }))
+    event.sessionSlot
+      .filter(
+        (slot) => dayjs(slot.startTime).format("YYYY-MM-DD") === formattedDate
+      )
+      .map((slot) => ({
+        ...event,
+        slot,
+      }))
   );
 
   const itemsPerPage = 5;
