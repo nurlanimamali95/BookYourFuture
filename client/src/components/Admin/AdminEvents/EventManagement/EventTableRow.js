@@ -6,7 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 
-function EventTableRow({ rows }) {
+export default function EventTableRow({ rows }) {
   const navigate = useNavigate();
 
   const handleEditClick = (_id) => {
@@ -32,7 +32,6 @@ function EventTableRow({ rows }) {
       <TableCell>
         <EditIcon
           onClick={() => handleEditClick(event._id)}
-          fontSize="small"
           color="action"
           sx={{ "&:hover": { color: "secondary.main" } }}
           cursor="pointer"
@@ -41,5 +40,3 @@ function EventTableRow({ rows }) {
     </TableRow>
   ));
 }
-
-export default EventTableRow;

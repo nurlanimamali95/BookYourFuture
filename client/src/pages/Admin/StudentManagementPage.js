@@ -11,13 +11,16 @@ import {
   IconButton,
   Container,
   Box,
+  Button,
+  Hidden,
   Typography,
-  TextField, // Import TextField for search
+  TextField,
+  Stack, // Import TextField for search
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
 import { useNavigate } from "react-router-dom";
-import { Button } from "../../components/Buttons/Button";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteButton from "../../components/Buttons/DeleteButton";
 import FilterByGroup from "../../components/Filters/FilterByGroup";
 import { useDispatch } from "react-redux";
@@ -69,7 +72,7 @@ function StudentManagementPage() {
     <>
       {isLoading && <h1>Loading</h1>}
       {data && (
-        <Container maxWidth="md">
+        <Container>
           <Box sx={{ flexGrow: 1 }}>
             <Typography
               variant="h4"
@@ -79,49 +82,59 @@ function StudentManagementPage() {
               Students Management
             </Typography>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between", // Change to space-between
-              alignItems: "center", // Center vertically
-              marginBottom: "20px",
-            }}
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            spacing={2}
+            sx={{ mb: 4 }}
           >
-            <Box>
-              <TextField
-                label="Search"
-                variant="outlined"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </Box>
-            <Box>
+            <Stack
+              direction="row"
+              justifyContent="flex-start"
+              alignItems="center"
+              spacing={3}
+            >
               <FilterByGroup
                 onFilterChange={(group) => setSelectedGroup(group)}
               />
-            </Box>
+              <TextField
+                label="Search"
+                variant="outlined"
+                size="small"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </Stack>
             <Button
+              startIcon={<AddCircleOutlineIcon />}
               variant="contained"
               onClick={() => {
                 navigate("/addStudent");
-                // eslint-disable-next-line no-console
-                console.log("Add Student clicked");
               }}
+              sx={{ mt: 1, mb: 1 }}
             >
-              Add Student
+              Add
+              <Hidden mdDown> Student</Hidden>
             </Button>
-          </Box>
+          </Stack>
 
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Full Name</TableCell>
-                  <TableCell>Group</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Github</TableCell>
-                  <TableCell>Edit</TableCell>
-                  <TableCell>Delete</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Full Name</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Group</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Email</TableCell>
+                  <Hidden mdDown>
+                    <TableCell sx={{ fontWeight: "bold" }}>Github</TableCell>
+                  </Hidden>
+                  <Hidden mdDown>
+                    <TableCell sx={{ fontWeight: "bold" }} align="right">
+                      Linkedin
+                    </TableCell>
+                  </Hidden>
+                  <TableCell sx={{ fontWeight: "bold" }}></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -137,20 +150,29 @@ function StudentManagementPage() {
                       {student.group[0]?.numberOfGroupName}
                     </TableCell>
                     <TableCell>{student.email}</TableCell>
-                    <TableCell>{student.github}</TableCell>
-                    <TableCell>
-                      <IconButton onClick={() => handleEditClick(student._id)}>
-                        <EditIcon sx={{ color: "grey" }} />
-                      </IconButton>
-                    </TableCell>
-                    <TableCell>
-                      <DeleteButton
-                        id={student._id}
-                        page="user"
-                        reFetch={performFetch}
-                        titleConfirm={"Delete student"}
-                        contentConfirm={`Are you sure you want to delete a student ${student.firstName} ${student.lastName}?`}
-                      />
+                    <Hidden mdDown>
+                      <TableCell>{student.gitHub}</TableCell>
+                    </Hidden>
+                    <Hidden mdDown>
+                      <TableCell align="right">{student.linkedIn}</TableCell>
+                    </Hidden>
+                    <TableCell align="right">
+                      <Box display="flex" justifyContent="flex-end">
+                        <IconButton
+                          onClick={() => handleEditClick(student._id)}
+                          sx={{ mr: { xs: 1, sm: 3 } }}
+                        >
+                          <EditIcon sx={{ color: "grey" }} />
+                        </IconButton>
+
+                        <DeleteButton
+                          id={student._id}
+                          page="user"
+                          reFetch={performFetch}
+                          titleConfirm={"Delete student"}
+                          contentConfirm={`Are you sure you want to delete a student ${student.firstName} ${student.lastName}?`}
+                        />
+                      </Box>
                     </TableCell>
                   </TableRow>
                 ))}

@@ -11,6 +11,12 @@ export default function BasicPie() {
   // eslint-disable-next-line no-console
   console.log(data);
 
+  const pieChartData = data?.groupsData.map((group) => ({
+    id: group._id,
+    value: group.students.length,
+    label: String(group.numberOfGroupName),
+  }));
+
   React.useEffect(() => {
     // Fetch groups when the component mounts
     dispatch(fetchAllGroups());
@@ -24,26 +30,28 @@ export default function BasicPie() {
       alignItems="center"
       height="100%"
     >
-      <PieChart
-        series={[
-          {
-            data: [],
-            innerRadius: 30,
-          },
-        ]}
-        height={150}
-        legend={{
-          direction: "column",
-          position: {
-            vertical: "bottom",
-            horizontal: "right",
-          },
-        }}
-        sx={{
-          "--ChartsLegend-itemMarkSize": "12px",
-          "--ChartsLegend-rootOffsetY": "-70px",
-        }}
-      />
+      {pieChartData && (
+        <PieChart
+          series={[
+            {
+              data: pieChartData,
+              innerRadius: 30,
+            },
+          ]}
+          height={150}
+          legend={{
+            direction: "column",
+            position: {
+              vertical: "bottom",
+              horizontal: "right",
+            },
+          }}
+          sx={{
+            "--ChartsLegend-itemMarkSize": "12px",
+            "--ChartsLegend-rootOffsetY": "-70px",
+          }}
+        />
+      )}
     </Box>
   );
 }

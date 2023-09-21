@@ -59,14 +59,11 @@ export default function EventTable(props) {
           <Table size="inherit">
             <TableHead>
               <TableRow>
-                <Hidden smDown>
-                  <TableCell></TableCell>
-                </Hidden>
-                <TableCell>Time</TableCell>
+                <TableCell align="left">Time</TableCell>
                 <TableCell>Title</TableCell>
                 <TableCell>Student</TableCell>
                 <Hidden mdDown>
-                  <TableCell>Location</TableCell>
+                  <TableCell align="right">Group</TableCell>
                 </Hidden>
               </TableRow>
             </TableHead>
@@ -78,18 +75,8 @@ export default function EventTable(props) {
             >
               {eventsForCurrentPage.map((event, index) => (
                 <TableRow key={index}>
-                  <Hidden smDown>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          width: 4,
-                          height: 25,
-                          bgcolor: event.group[0]?.color || "defaultColor",
-                        }}
-                      />
-                    </TableCell>
-                  </Hidden>
-                  <TableCell>
+                  <Hidden smDown></Hidden>
+                  <TableCell align="left">
                     {dayjs(event.slot.startTime).format("HH:mm")}
                   </TableCell>
                   <TableCell>
@@ -98,11 +85,14 @@ export default function EventTable(props) {
                       : event.title}
                   </TableCell>
                   <TableCell>
-                    {event.slot.student?.firstName || "N/A"}
-                    {event.slot.student?.lastName || ""}
+                    {`${event.slot.student?.firstName || "N/A"} ${
+                      event.slot.student?.lastName || ""
+                    }`}
                   </TableCell>
                   <Hidden mdDown>
-                    <TableCell>{event.location}</TableCell>
+                    <TableCell align="right">
+                      {event.group[0].numberOfGroupName}
+                    </TableCell>
                   </Hidden>
                 </TableRow>
               ))}
@@ -139,8 +129,12 @@ EventTable.propTypes = {
       description: PropTypes.string,
       location: PropTypes.string,
       time: PropTypes.string,
-      colorCode: PropTypes.string,
+      group: PropTypes.arrayOf(
+        PropTypes.shape({
+          numberOfGroupName: PropTypes.string,
+        })
+      ),
     })
-  ).isRequired,
+  ),
   selectedDate: PropTypes.object,
 };

@@ -12,10 +12,12 @@ import {
   Container,
   Box,
   Typography,
+  Hidden,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
-import { Button } from "../../components/Buttons/Button";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import Button from "@mui/material/Button";
 import DeleteButton from "../../components/Buttons/DeleteButton";
 import { useNavigate } from "react-router-dom";
 import { fetchAllGroups } from "../../components/redux/groupsSlice";
@@ -52,7 +54,7 @@ export default function GroupManagement() {
     <>
       {isLoading && <h1>Loading</h1>}
       {data && (
-        <Container maxWidth="md">
+        <Container>
           <Box sx={{ flexGrow: 1 }}>
             <Typography
               variant="h4"
@@ -70,14 +72,15 @@ export default function GroupManagement() {
             }}
           >
             <Button
+              startIcon={<AddCircleOutlineIcon />}
               variant="contained"
               onClick={() => {
                 navigate("/addGroup");
-                // eslint-disable-next-line no-console
-                console.log("Add Group clicked");
               }}
+              sx={{ mt: 2, mb: 1 }}
             >
-              Add Group
+              Add
+              <Hidden mdDown> Group</Hidden>
             </Button>
           </Box>
 
@@ -85,11 +88,12 @@ export default function GroupManagement() {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Group</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Creation Date</TableCell>
-                  <TableCell>Edit</TableCell>
-                  <TableCell>Delete</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Group</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>
+                    Creation Date
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -100,19 +104,23 @@ export default function GroupManagement() {
                     <TableCell>
                       {new Date(item.createdAt).toLocaleDateString()}
                     </TableCell>
-                    <TableCell>
-                      <IconButton onClick={() => handleEditClick(item._id)}>
-                        <EditIcon />
-                      </IconButton>
-                    </TableCell>
-                    <TableCell>
-                      <DeleteButton
-                        id={item._id}
-                        page="group"
-                        reFetch={performFetch}
-                        titleConfirm={"Delete group"}
-                        contentConfirm={`Are you sure you want to delete a group ${item.numberOfGroupName}?`}
-                      />
+                    <TableCell align="right">
+                      <Box display="flex" justifyContent="flex-end">
+                        <IconButton
+                          onClick={() => handleEditClick(item._id)}
+                          sx={{ mr: { xs: 1, sm: 3 } }}
+                        >
+                          <EditIcon sx={{ color: "grey" }} />
+                        </IconButton>
+
+                        <DeleteButton
+                          id={item._id}
+                          page="group"
+                          reFetch={performFetch}
+                          titleConfirm={"Delete group"}
+                          contentConfirm={`Are you sure you want to delete a group ${item.numberOfGroupName}?`}
+                        />
+                      </Box>
                     </TableCell>
                   </TableRow>
                 ))}
