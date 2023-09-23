@@ -149,6 +149,7 @@ export const edit = async (req, res) => {
       linkedIn,
       facebook,
       telegram,
+      avatarUrl,
     } = req.body;
 
     user.firstName = firstName;
@@ -163,6 +164,7 @@ export const edit = async (req, res) => {
     user.linkedIn = linkedIn;
     user.facebook = facebook;
     user.telegram = telegram;
+    user.avatarUrl = avatarUrl;
 
     if (group) {
       const newGroup = await GroupModel.findById(group);

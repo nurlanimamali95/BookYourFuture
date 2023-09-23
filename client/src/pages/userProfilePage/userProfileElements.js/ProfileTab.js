@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Avatar, Button, Grid, Stack, TextField } from "@mui/material";
-import { PhotoCamera } from "@mui/icons-material";
+import { Grid, Stack, TextField } from "@mui/material";
 import PropTypes from "prop-types";
+import UploadWidget from "../../../components/UploadWidget/UploadWidget";
 
 export default function ProfileTab({ currentData, setCurrentData }) {
   const userData = useSelector((state) => state.auth.data);
@@ -27,15 +27,10 @@ export default function ProfileTab({ currentData, setCurrentData }) {
           }}
         >
           <Stack spacing={3} alignItems="center" justifyContent="center">
-            <Avatar sx={{ width: 120, height: 120 }} />
-            <Button
-              variant="contained"
-              component="label"
-              endIcon={<PhotoCamera />}
-            >
-              Upload Avatar
-              <input type="file" hidden />
-            </Button>
+            <UploadWidget
+              currentData={currentData}
+              setCurrentData={setCurrentData}
+            />
           </Stack>
         </Grid>
         <Grid item xs={12} sm={8}>
