@@ -41,7 +41,7 @@ export const updateStudent = createAsyncThunk(
   "/students/update",
   async ({ body, id }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.patch(`/api/user/edit/${id}`, body);
+      const { data } = await axios.patch(`/api/user/edit-group/${id}`, body);
       return data;
     } catch (error) {
       // Handle the error and return it with rejectWithValue
