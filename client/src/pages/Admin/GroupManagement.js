@@ -21,7 +21,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Button from "@mui/material/Button";
 import DeleteButton from "../../components/Buttons/DeleteButton";
 import { useNavigate } from "react-router-dom";
-import { fetchAllGroups } from "../../components/redux/groupsSlice";
+import { fetchAllGroups } from "../../components/redux/Groups/groupsSlice";
 import { useDispatch } from "react-redux";
 
 export default function GroupManagement() {

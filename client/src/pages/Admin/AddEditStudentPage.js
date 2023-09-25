@@ -55,7 +55,7 @@ export default function AddEditStudentPage() {
       lastName: lastName,
       group: [groupNumber],
       email: email,
-      ...(!isEdit && { password: "" }),
+      ...(!isEdit && { password: "dsdf" }),
     };
 
     isEdit

@@ -3,7 +3,7 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { fetchAllGroups } from "../../../redux/groupsSlice";
+import { fetchAllGroups } from "../../../redux/Groups/groupsSlice";
 
 export default function BasicPie() {
   const data = useSelector((state) => state.groups.data);

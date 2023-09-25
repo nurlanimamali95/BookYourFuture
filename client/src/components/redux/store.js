@@ -4,7 +4,7 @@ import { userReducer } from "./userSlice";
 import { passwordReducer } from "./passwordSlice";
 import { eventsReducer } from "./eventsSlice";
 import { studentsReducer } from "./studentsSlice";
-import { groupsReducer } from "./groupsSlice";
+import { groupsReducer } from "./Groups/groupsSlice";
 
 const store = configureStore({
   reducer: {
