@@ -8,6 +8,7 @@ import {
   Typography,
   Container,
   Box,
+  Hidden,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
@@ -58,12 +59,15 @@ export default function EventTable(props) {
           <Table size="inherit">
             <TableHead>
               <TableRow>
-                <TableCell></TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Date</TableCell>
-                <TableCell>Location</TableCell>
+                <Hidden smDown>
+                  <TableCell>Location</TableCell>
+                </Hidden>
                 <TableCell>Time</TableCell>
-                <TableCell>Duration</TableCell>
+                <Hidden smDown>
+                  <TableCell>Duration</TableCell>
+                </Hidden>
               </TableRow>
             </TableHead>
             <TableBody
@@ -74,26 +78,21 @@ export default function EventTable(props) {
             >
               {eventsForCurrentPage.map((event, index) => (
                 <TableRow key={index}>
-                  <TableCell>
-                    <Box
-                      sx={{
-                        width: 4,
-                        height: 25,
-                        bgcolor: "black",
-                      }}
-                    />
-                  </TableCell>
                   <TableCell>{event.title}</TableCell>
                   <TableCell>
                     {dayjs(selectedDate).format("DD-MM-YYYY")}
                   </TableCell>
-                  <TableCell>{event.location}</TableCell>
+                  <Hidden smDown>
+                    <TableCell>{event.location}</TableCell>
+                  </Hidden>
                   <TableCell>
                     {dayjs(event.sessionSlot[0].startTime).format("HH:mm")}
                   </TableCell>
-                  <TableCell>
-                    {formatDuration(event.sessionSlot[0].durationInSeconds)}
-                  </TableCell>
+                  <Hidden smDown>
+                    <TableCell>
+                      {formatDuration(event.sessionSlot[0].durationInSeconds)}
+                    </TableCell>
+                  </Hidden>
                 </TableRow>
               ))}
             </TableBody>
