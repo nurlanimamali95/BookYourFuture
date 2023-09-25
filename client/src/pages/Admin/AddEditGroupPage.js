@@ -11,51 +11,44 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import useFetch from "../../hooks/useFetch";
 import { CancelButton } from "../../components/Buttons/CancelButton";
 import { Button } from "../../components/Buttons/Button";
 import { toast } from "react-hot-toast";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createGroup,
+  fetchGroupDetails,
+  groupSelector,
+  updateGroup,
+} from "../../components/redux/Groups/groupsSlice";
 
 function AddEditGroupPage() {
+  const {
+    status: fetchStatus,
+    error,
+    groupDetails,
+  } = useSelector(groupSelector);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { id } = useParams();
   const isEdit = useMemo(() => pathname.includes("editGroup"), [pathname]);
   const [groupName, setGroupName] = useState("");
   const [status, setStatus] = useState("active");
-  const { performFetch: getGroupDetails, error: errorDetails } = useFetch(
-    `/group/${id}`,
-    ({ groupData }) => {
-      setGroupName(groupData.numberOfGroupName);
-
-      setStatus(groupData.status);
+  useEffect(() => {
+    if (groupDetails) {
+      setStatus(groupDetails.status);
     }
-  );
+  }, [groupDetails]);
 
   useEffect(() => {
-    isEdit && id && getGroupDetails();
+    error && toast.error(error);
+  }, [error]);
+
+  useEffect(() => {
+    isEdit && id && dispatch(fetchGroupDetails(id));
   }, [isEdit]);
-  const { performFetch, error } = useFetch("/group/add", () => {
-    // eslint-disable-next-line no-console
-    toast.success("Group added successfully");
-    setGroupName("");
-    navigate("/groups");
-  });
-  const { performFetch: updateGroup, error: errorUpdateGroup } = useFetch(
-    `/group/edit/${id}`,
-    () => {
-      // eslint-disable-next-line no-console
-      toast.success("Group updated successfully");
-      navigate("/groups");
-    }
-  );
-  // eslint-disable-next-line no-console
-  console.log(errorUpdateGroup);
-  // eslint-disable-next-line no-console
-  console.log(error);
-  // eslint-disable-next-line no-console
-  console.log(errorDetails);
 
   const handleSave = (event) => {
     event.preventDefault();
@@ -65,23 +58,30 @@ function AddEditGroupPage() {
       status,
       students: [],
     };
-    // eslint-disable-next-line no-console
-    console.log(groupData);
-    isEdit ? updateGroup(groupData, "PATCH") : performFetch(groupData, "POST");
-  };
 
-  // performFetch(groupData, "POST");
-  // Handle saving the student data here
-  // eslint-disable-next-line no-console
-  // console.log("Student data:", { firstName, lastName, email, groupNumber });
-  // };
+    isEdit
+      ? dispatch(updateGroup({ body: groupData, id }))
+          .unwrap()
+          .then(() => {
+            toast.success("Updated successfully");
+            navigate("/groups");
+          })
+      : dispatch(createGroup(groupData))
+          .unwrap()
+          .then(() => {
+            toast.success("Created successfully");
+            navigate("/groups");
+          });
+  };
 
   const handleCancel = () => {
     // Handle cancel action (e.g., navigate back to the student list)
     navigate("/groups");
   };
 
-  return (
+  return fetchStatus === "isLoading" ? (
+    <h1>Loading</h1>
+  ) : (
     <form onSubmit={handleSave}>
       <Container maxWidth="sm" sx={{ marginTop: "25px" }}>
         <Grid container spacing={3}>

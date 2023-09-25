@@ -9,13 +9,20 @@ import {
 } from "@mui/material";
 import { Button } from "../../components/Buttons/Button";
 import { toast } from "react-hot-toast";
-import useFetch from "../../hooks/useFetch";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import GroupDropdown from "../../components/Admin/AdminEvents/EventElements/GroupDropdown";
 import CancelButton from "../../components/Admin/AdminEvents/EventElements/CancelButton";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createStudent,
+  fetchStudentDetails,
+  studentSelector,
+  updateStudent,
+} from "../../components/redux/studentsSlice";
 
 export default function AddEditStudentPage() {
-  // const isAuth = useSelector(selectorIsAuth);
+  const { status, error, userDetails } = useSelector(studentSelector);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const isEdit = useMemo(() => pathname.includes("editStudent"), [pathname]);
@@ -24,43 +31,22 @@ export default function AddEditStudentPage() {
   const [email, setEmail] = useState("");
   const [groupNumber, setGroupNumber] = useState("");
   const { id } = useParams();
-  const { performFetch: getUserDetails, error: errorDetails } = useFetch(
-    `/user/${id}`,
-    ({ userData }) => {
-      // eslint-disable-next-line no-console
-
-      setFirstName(userData.firstName);
-      setLastName(userData.lastName);
-      setEmail(userData.email);
-      setGroupNumber(userData.group[0]?._id);
+  useEffect(() => {
+    if (userDetails) {
+      setFirstName(userDetails.firstName);
+      setLastName(userDetails.lastName);
+      setEmail(userDetails.email);
+      setGroupNumber(userDetails.group[0]?._id);
     }
-  );
+  }, [userDetails]);
 
   useEffect(() => {
-    isEdit && id && getUserDetails();
-  }, [isEdit]);
+    error && toast.error(error);
+  }, [error]);
 
-  const { performFetch, error } = useFetch("/auth/register", () => {
-    // eslint-disable-next-line no-console
-    toast.success("Student added successfully");
-    navigate("/students");
-  });
-  const { performFetch: updateUser, error: errorUpdateUser } = useFetch(
-    `/user/edit/${id}`,
-    () => {
-      // eslint-disable-next-line no-console
-      toast.success("Student updated successfully");
-      navigate("/students");
-    }
-  );
-  // eslint-disable-next-line no-console
-  console.log(errorUpdateUser);
-  // eslint-disable-next-line no-console
-  console.log(error);
-  // eslint-disable-next-line no-console
-  console.log(errorDetails);
-  // eslint-disable-next-line no-console
-  console.log(groupNumber);
+  useEffect(() => {
+    isEdit && id && dispatch(fetchStudentDetails(id));
+  }, [isEdit]);
 
   const handleSave = (event) => {
     event.preventDefault();
@@ -69,18 +55,27 @@ export default function AddEditStudentPage() {
       lastName: lastName,
       group: [groupNumber],
       email: email,
-      ...(!isEdit && { password: "hsdkhdshdlash" }),
+      ...(!isEdit && { password: "dsdf" }),
     };
-    // eslint-disable-next-line no-console
-    console.log(usersData);
-    isEdit ? updateUser(usersData, "PATCH") : performFetch(usersData, "POST");
+
+    isEdit
+      ? dispatch(updateStudent({ body: usersData, id }))
+          .unwrap()
+          .then(() => {
+            toast.success("Updated successfully");
+            navigate("/students");
+          })
+      : dispatch(createStudent(usersData))
+          .unwrap()
+          .then(() => {
+            toast.success("Created successfully");
+            navigate("/students");
+          });
   };
 
-  // if (!isAuth) {
-  //   return navigate("/login");
-  // }
-
-  return (
+  return status === "isLoading" ? (
+    <h1>Loading</h1>
+  ) : (
     <form onSubmit={handleSave}>
       <Container maxWidth="sm" sx={{ marginTop: "25px" }}>
         <Grid container spacing={3}>
