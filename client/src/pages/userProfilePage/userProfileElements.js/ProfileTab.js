@@ -72,7 +72,7 @@ export default function ProfileTab({ currentData, setCurrentData }) {
               <TextField
                 name="city"
                 label="City"
-                value={currentData?.city || ""}
+                value={debouncedValues?.city || ""}
                 variant="outlined"
                 fullWidth
                 onChange={handleInputChange}
