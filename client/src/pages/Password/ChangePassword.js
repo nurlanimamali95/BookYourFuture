@@ -238,29 +238,43 @@ export default function ChangePasswordPage() {
                   />
                 )}
               />
-              <Button
-                type="submit"
-                variant="contained"
-                disabled={!isValid}
-                sx={{
-                  mt: 6,
-                  minWidth: "250px",
-                }}
-              >
-                Change Password
-              </Button>
-              <Button
-                variant="outlined"
-                sx={{ mt: 2, minWidth: "250px" }}
-                onClick={handleBackButton}
-              >
-                Cancel
-              </Button>
-              {success && (
+              {success ? (
                 <>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    onClick={handleBackButton}
+                    sx={{
+                      mt: 6,
+                      minWidth: "250px",
+                    }}
+                  >
+                    Back
+                  </Button>
                   <Typography sx={{ m: 2 }} variant="body2">
                     Password successfully changed!
                   </Typography>
+                </>
+              ) : (
+                <>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    disabled={!isValid}
+                    sx={{
+                      mt: 6,
+                      minWidth: "250px",
+                    }}
+                  >
+                    Change Password
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    sx={{ mt: 2, minWidth: "250px" }}
+                    onClick={handleBackButton}
+                  >
+                    Cancel
+                  </Button>
                 </>
               )}
               {error && (
