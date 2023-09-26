@@ -3,7 +3,7 @@ import axios from "../../../util/axios";
 import { handleFulfilled, handlePending, handleRejected } from "./helpers";
 
 export const fetchAllGroups = createAsyncThunk(
-  "/students/all",
+  "/groups/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axios.get("/api/group/all");
