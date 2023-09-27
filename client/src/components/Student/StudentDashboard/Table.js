@@ -34,6 +34,13 @@ export default function EventTable(props) {
     )
   );
 
+  const deletedTimeSlots = filteredEvents.reduce((sessionSlots, event) => {
+    const matchingSessionSlots = event.sessionSlot.filter(
+      (slot) => slot.student && slot.student._id === userId
+    );
+    return sessionSlots.concat(matchingSessionSlots.map((slot) => slot._id));
+  }, []);
+
   const itemsPerPage = 3;
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -97,7 +104,7 @@ export default function EventTable(props) {
                   </Hidden>
                   <TableCell>
                     <DeleteTSButton
-                      sessionSlotId={event.sessionSlot[0]._id}
+                      sessionSlotId={deletedTimeSlots}
                       events={events}
                       onTimeslotDelete={onTimeslotDelete}
                     />
