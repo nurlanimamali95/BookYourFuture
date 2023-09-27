@@ -155,12 +155,17 @@ export default function UserProfilePage() {
         justifyContent="center"
         spacing={2}
         mt={3}
-        sx={{ display: "flex", justifyContent: "center" }}
+        sx={{ display: "flex", justifyContent: "center", mt: 8 }}
       >
-        <Button variant="contained" onClick={handleChangeInfo} color="primary">
+        <Button
+          variant="contained"
+          onClick={handleChangeInfo}
+          color="primary"
+          sx={{ minWidth: "100px" }}
+        >
           Save
         </Button>
-        <CancelButton endpoint="/" />
+        <CancelButton endpoint="/" sx={{ minWidth: "100px" }} />
       </Stack>
       <Snackbar
         open={snackbar.open}
