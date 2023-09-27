@@ -20,7 +20,7 @@ export default function DeleteTSButton({
   const [errorMessage, setErrorMessage] = useState("");
 
   const { error, performFetch } = useFetch(
-    `/event/bookTime/DeleteStudent/${sessionSlotId[0]}`,
+    `/event/bookTime/DeleteStudent/${sessionSlotId}`,
     () => {
       if (onDeleteSuccess) {
         onDeleteSuccess();

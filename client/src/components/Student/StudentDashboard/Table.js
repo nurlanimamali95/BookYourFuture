@@ -34,12 +34,12 @@ export default function EventTable(props) {
     )
   );
 
-  const deletedTimeSlots = filteredEvents.reduce((sessionSlots, event) => {
-    const matchingSessionSlots = event.sessionSlot.filter(
-      (slot) => slot.student && slot.student._id === userId
-    );
-    return sessionSlots.concat(matchingSessionSlots.map((slot) => slot._id));
-  }, []);
+  // const deletedTimeSlots = filteredEvents.reduce((sessionSlots, event) => {
+  //   const matchingSessionSlots = event.sessionSlot.filter(
+  //     (slot) => slot.student && slot.student._id === userId
+  //   );
+  //   return sessionSlots.concat(matchingSessionSlots.map((slot) => slot._id));
+  // }, []);
 
   const itemsPerPage = 3;
 
@@ -104,7 +104,11 @@ export default function EventTable(props) {
                   </Hidden>
                   <TableCell>
                     <DeleteTSButton
-                      sessionSlotId={deletedTimeSlots}
+                      sessionSlotId={
+                        event.sessionSlot.find(
+                          (slot) => slot.student && slot.student._id === userId
+                        )?._id
+                      }
                       events={events}
                       onTimeslotDelete={onTimeslotDelete}
                     />
