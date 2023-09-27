@@ -16,9 +16,10 @@ import EventBusyIcon from "@mui/icons-material/EventBusy";
 import Pagination from "@mui/material/Pagination";
 import { useSelector } from "react-redux";
 import formatDuration from "./FormatDuration";
+import DeleteTSButton from "./DeleteTSButton";
 
 export default function EventTable(props) {
-  const { events, selectedDate } = props;
+  const { events, selectedDate, onTimeslotDelete } = props;
   const userData = useSelector((state) => state.auth.data);
   const userId = userData ? userData._id : null;
 
@@ -51,7 +52,7 @@ export default function EventTable(props) {
 
   return (
     <Container>
-      {filteredEvents.length > 0 && (
+      {filteredEvents.length > 0 ? (
         <>
           <Typography variant="h5" sx={{ mt: 2, mb: 4, textAlign: "left" }}>
             Events for {dayjs(selectedDate).format("MMMM D")}
@@ -68,6 +69,7 @@ export default function EventTable(props) {
                 <Hidden smDown>
                   <TableCell>Duration</TableCell>
                 </Hidden>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody
@@ -93,6 +95,13 @@ export default function EventTable(props) {
                       {formatDuration(event.sessionSlot[0].durationInSeconds)}
                     </TableCell>
                   </Hidden>
+                  <TableCell>
+                    <DeleteTSButton
+                      sessionSlotId={event.sessionSlot[0]._id}
+                      events={events}
+                      onTimeslotDelete={onTimeslotDelete}
+                    />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -106,9 +115,7 @@ export default function EventTable(props) {
             />
           </Box>
         </>
-      )}
-
-      {filteredEvents.length === 0 && (
+      ) : (
         <div style={{ textAlign: "center" }}>
           <Typography variant="h5" sx={{ mt: "5em" }}>
             No events for {dayjs(selectedDate).format("MMMM D")}
@@ -123,19 +130,9 @@ export default function EventTable(props) {
 EventTable.propTypes = {
   events: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
-      date: PropTypes.string,
-      description: PropTypes.string,
-      location: PropTypes.string,
-      time: PropTypes.string,
-      colorCode: PropTypes.string,
-      sessionSlot: PropTypes.arrayOf(
-        PropTypes.shape({
-          startTime: PropTypes.string,
-          durationInSeconds: PropTypes.number,
-        })
-      ),
+      title: PropTypes.string,
     })
   ).isRequired,
   selectedDate: PropTypes.object,
+  onTimeslotDelete: PropTypes.func,
 };
