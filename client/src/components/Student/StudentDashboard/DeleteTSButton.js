@@ -10,25 +10,24 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import Button from "@mui/material/Button";
+import { Snackbar } from "@mui/material";
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 
-export default function DeleteTSButton({
-  sessionSlotId,
-  onDeleteSuccess,
-  onTimeslotDelete,
-}) {
+export default function DeleteTSButton({ sessionSlotId, onTimeslotDelete }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [open, setOpen] = useState(false);
 
   const { error, performFetch } = useFetch(
     `/event/bookTime/DeleteStudent/${sessionSlotId}`,
     () => {
-      if (onDeleteSuccess) {
-        onDeleteSuccess();
-      }
       setOpenDialog(false);
-      if (onTimeslotDelete) {
-        onTimeslotDelete();
-      }
+
+      setTimeout(() => {
+        if (onTimeslotDelete) {
+          onTimeslotDelete();
+        }
+      }, 1000);
     }
   );
 
@@ -58,6 +57,25 @@ export default function DeleteTSButton({
     setOpenDialog(false);
   };
 
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="white"
+        onClick={handleClose}
+      ></IconButton>
+    </React.Fragment>
+  );
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
       <Tooltip title="Delete">
@@ -78,12 +96,38 @@ export default function DeleteTSButton({
             Cancel
           </Button>
           {errorMessage ? null : (
-            <Button onClick={handleOnSubmit} color="primary">
+            <Button
+              onClick={() => {
+                handleOnSubmit();
+                handleClick();
+              }}
+              onClickcolor="primary"
+            >
               Delete
             </Button>
           )}
         </DialogActions>
       </Dialog>
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        ContentProps={{
+          sx: {
+            backgroundColor: "white",
+          },
+        }}
+        message={
+          <span style={{ display: "flex", alignItems: "center" }}>
+            <CheckCircleOutlineOutlinedIcon
+              fontSize="medium"
+              style={{ marginRight: "8px", color: "#00897b" }}
+            />
+            <span style={{ color: "#00897b" }}>Deleted Successfully...</span>
+          </span>
+        }
+        action={action}
+      />
     </>
   );
 }
