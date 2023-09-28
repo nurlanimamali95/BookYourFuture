@@ -31,6 +31,7 @@ export default function AddEditStudentPage() {
   const [email, setEmail] = useState("");
   const [groupNumber, setGroupNumber] = useState("");
   const { id } = useParams();
+
   useEffect(() => {
     if (userDetails) {
       setFirstName(userDetails.firstName);
@@ -55,7 +56,6 @@ export default function AddEditStudentPage() {
       lastName: lastName,
       group: [groupNumber],
       email: email,
-      ...(!isEdit && { password: "" }),
     };
 
     isEdit

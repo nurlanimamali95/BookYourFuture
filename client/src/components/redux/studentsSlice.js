@@ -72,7 +72,11 @@ const initialState = {
 export const studentsSlice = createSlice({
   name: "students",
   initialState,
-
+  reducers: {
+    clearUserDetails: (state) => {
+      state.userDetails = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllStudents.fulfilled, (state, { payload }) => {
@@ -85,6 +89,7 @@ export const studentsSlice = createSlice({
       })
       .addCase(updateStudent.fulfilled, (state) => {
         state.status = "isSuccess";
+        state.userDetails = null;
         // state.data = state.data.map((student) =>
         //   student._id === payload.userData._id ? payload.userData : student
         // );
@@ -135,3 +140,4 @@ export const studentsSlice = createSlice({
 
 export const studentSelector = (state) => state.students;
 export const studentsReducer = studentsSlice.reducer;
+export const { clearUserDetails } = studentsSlice.actions;
