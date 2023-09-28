@@ -10,6 +10,7 @@ import useFetch from "../../hooks/useFetch";
 import formatDate from "../../components/Student/StudentEventManagement/FormatDate";
 import { Snackbar } from "@mui/material";
 import { useRadioContext } from "../../components/Student/StudentEventManagement/TimeSlotContext";
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 
 export default function TimeSlotsPage() {
   const { eventName } = useRadioContext();
@@ -143,7 +144,20 @@ export default function TimeSlotsPage() {
         open={Boolean(message)}
         autoHideDuration={3000}
         onClose={() => setMessage("")}
-        message={message}
+        ContentProps={{
+          sx: {
+            backgroundColor: "white",
+          },
+        }}
+        message={
+          <span style={{ display: "flex", alignItems: "center" }}>
+            <CheckCircleOutlineOutlinedIcon
+              fontSize="medium"
+              style={{ marginRight: "8px", color: "#00897b" }}
+            />
+            <span style={{ color: "#00897b" }}>Time slot is booked...</span>
+          </span>
+        }
       />
     </>
   );

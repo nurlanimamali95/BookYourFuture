@@ -42,4 +42,6 @@ userRouter.post("/forgot-password/", userController.forgotPassword);
 
 userRouter.patch("/upload-image/", checkAuth, userController.upload);
 
+userRouter.patch("/edit-group/:id", checkAuth, userController.editGroupUser);
+
 export default userRouter;

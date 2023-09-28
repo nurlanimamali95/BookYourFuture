@@ -8,6 +8,7 @@ import {
   Typography,
   Container,
   Box,
+  Hidden,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
@@ -15,9 +16,10 @@ import EventBusyIcon from "@mui/icons-material/EventBusy";
 import Pagination from "@mui/material/Pagination";
 import { useSelector } from "react-redux";
 import formatDuration from "./FormatDuration";
+import DeleteTSButton from "./DeleteTSButton";
 
 export default function EventTable(props) {
-  const { events, selectedDate } = props;
+  const { events, selectedDate, onTimeslotDelete } = props;
   const userData = useSelector((state) => state.auth.data);
   const userId = userData ? userData._id : null;
 
@@ -50,7 +52,7 @@ export default function EventTable(props) {
 
   return (
     <Container>
-      {filteredEvents.length > 0 && (
+      {filteredEvents.length > 0 ? (
         <>
           <Typography variant="h5" sx={{ mt: 2, mb: 4, textAlign: "left" }}>
             Events for {dayjs(selectedDate).format("MMMM D")}
@@ -58,12 +60,16 @@ export default function EventTable(props) {
           <Table size="inherit">
             <TableHead>
               <TableRow>
-                <TableCell></TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Date</TableCell>
-                <TableCell>Location</TableCell>
+                <Hidden smDown>
+                  <TableCell>Location</TableCell>
+                </Hidden>
                 <TableCell>Time</TableCell>
-                <TableCell>Duration</TableCell>
+                <Hidden smDown>
+                  <TableCell>Duration</TableCell>
+                </Hidden>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody
@@ -74,25 +80,31 @@ export default function EventTable(props) {
             >
               {eventsForCurrentPage.map((event, index) => (
                 <TableRow key={index}>
-                  <TableCell>
-                    <Box
-                      sx={{
-                        width: 4,
-                        height: 25,
-                        bgcolor: "black",
-                      }}
-                    />
-                  </TableCell>
                   <TableCell>{event.title}</TableCell>
                   <TableCell>
                     {dayjs(selectedDate).format("DD-MM-YYYY")}
                   </TableCell>
-                  <TableCell>{event.location}</TableCell>
+                  <Hidden smDown>
+                    <TableCell>{event.location}</TableCell>
+                  </Hidden>
                   <TableCell>
                     {dayjs(event.sessionSlot[0].startTime).format("HH:mm")}
                   </TableCell>
+                  <Hidden smDown>
+                    <TableCell>
+                      {formatDuration(event.sessionSlot[0].durationInSeconds)}
+                    </TableCell>
+                  </Hidden>
                   <TableCell>
-                    {formatDuration(event.sessionSlot[0].durationInSeconds)}
+                    <DeleteTSButton
+                      sessionSlotId={
+                        event.sessionSlot.find(
+                          (slot) => slot.student && slot.student._id === userId
+                        )?._id
+                      }
+                      events={events}
+                      onTimeslotDelete={onTimeslotDelete}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -107,9 +119,7 @@ export default function EventTable(props) {
             />
           </Box>
         </>
-      )}
-
-      {filteredEvents.length === 0 && (
+      ) : (
         <div style={{ textAlign: "center" }}>
           <Typography variant="h5" sx={{ mt: "5em" }}>
             No events for {dayjs(selectedDate).format("MMMM D")}
@@ -124,19 +134,9 @@ export default function EventTable(props) {
 EventTable.propTypes = {
   events: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
-      date: PropTypes.string,
-      description: PropTypes.string,
-      location: PropTypes.string,
-      time: PropTypes.string,
-      colorCode: PropTypes.string,
-      sessionSlot: PropTypes.arrayOf(
-        PropTypes.shape({
-          startTime: PropTypes.string,
-          durationInSeconds: PropTypes.number,
-        })
-      ),
+      title: PropTypes.string,
     })
   ).isRequired,
   selectedDate: PropTypes.object,
+  onTimeslotDelete: PropTypes.func,
 };

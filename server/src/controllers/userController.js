@@ -133,8 +133,6 @@ export const edit = async (req, res) => {
       });
     }
 
-    const previousGroupId = user.group;
-
     // Update user properties
     const {
       firstName,
@@ -144,11 +142,11 @@ export const edit = async (req, res) => {
       street,
       houseNumber,
       zipCode,
-      group,
       gitHub,
       linkedIn,
       facebook,
       telegram,
+      avatarUrl,
     } = req.body;
 
     user.firstName = firstName;
@@ -158,50 +156,80 @@ export const edit = async (req, res) => {
     user.street = street;
     user.houseNumber = houseNumber;
     user.zipCode = zipCode;
-    user.group = group;
     user.gitHub = gitHub;
     user.linkedIn = linkedIn;
     user.facebook = facebook;
     user.telegram = telegram;
+    user.avatarUrl = avatarUrl;
 
-    if (group) {
-      const newGroup = await GroupModel.findById(group);
-      if (newGroup) {
-        // Check if the student is already in the group
-        const existingStudent = newGroup.students.includes(userId);
-        if (existingStudent) {
-          return res.status(400).json({
-            message: "This student is already added to the group.",
-          });
-        } else {
-          // Remove the student from their previous group if they had one
-          if (previousGroupId) {
-            const previousGroup = await GroupModel.findById(previousGroupId);
-            if (previousGroup) {
-              previousGroup.students = previousGroup.students.filter(
-                (studentId) => studentId.toString() !== userId
-              );
-              await previousGroup.save();
-            }
-          }
+    await user.save();
 
-          newGroup.students.push(userId);
-          user.group = group;
-          await newGroup.save();
-        }
-      }
-    } else {
+    const { passwordHash, ...userData } = user._doc;
+
+    res.status(200).json({ userData, success: true });
+  } catch (err) {
+    // eslint-disable-next-line
+    console.error(err);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+export const editGroupUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    const { group } = req.body;
+
+    if (!group) {
       // If group is not provided, remove the student from their previous group
-      if (previousGroupId) {
-        const previousGroup = await GroupModel.findById(previousGroupId);
+      if (user.group) {
+        const previousGroup = await GroupModel.findById(user.group);
         if (previousGroup) {
           previousGroup.students = previousGroup.students.filter(
             (studentId) => studentId.toString() !== userId
           );
           await previousGroup.save();
         }
-        user.group = [];
+        user.group = []; // Set the user's group to null
       }
+    } else {
+      const newGroup = await GroupModel.findById(group);
+      if (!newGroup) {
+        return res.status(404).json({
+          message: "Group not found",
+        });
+      }
+
+      // Check if the student is already in the group
+      const existingStudent = newGroup.students.includes(userId);
+      if (existingStudent) {
+        return res.status(400).json({
+          message: "This student is already added to the group.",
+        });
+      }
+
+      // Remove the student from their previous group if they had one
+      if (user.group) {
+        const previousGroup = await GroupModel.findById(user.group);
+        if (previousGroup) {
+          previousGroup.students = previousGroup.students.filter(
+            (studentId) => studentId.toString() !== userId
+          );
+          await previousGroup.save();
+        }
+      }
+
+      newGroup.students.push(userId);
+      user.group = group;
+      await newGroup.save();
     }
 
     await user.save();
@@ -217,6 +245,7 @@ export const edit = async (req, res) => {
     });
   }
 };
+
 export const changePassword = async (req, res) => {
   try {
     const user = await UserModel.findById(req.userId);

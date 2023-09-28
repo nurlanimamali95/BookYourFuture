@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import UserProfilePage from "./pages/userProfilePage/userProfilePage";
 import Layout from "./Layout/Layout";
@@ -37,12 +37,12 @@ const App = () => {
   const isAuth = useSelector(selectorIsAuth);
   const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(fetchAuthMe());
   }, []);
 
   // If user is not authenticated, you can redirect them to the login page
-  React.useEffect(() => {
+  useEffect(() => {
     if (!window.localStorage.getItem("token") && !isAuth) {
       return <Navigate to="/login" />;
     }

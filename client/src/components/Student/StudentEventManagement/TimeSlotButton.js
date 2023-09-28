@@ -29,7 +29,7 @@ export default function TimeSlotButtons(props) {
 
   const buttonsData = timeSlots.map((slot) => {
     const durationInMinutes = slot.durationInSeconds
-      ? slot.durationInSeconds / 3600
+      ? slot.durationInSeconds / 60
       : 0;
 
     const startTime = dayjs(slot.startTime);

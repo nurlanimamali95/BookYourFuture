@@ -25,6 +25,7 @@ export default function StudentDashboard() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [events, setEvents] = useState([]);
   const [notifications, setNotifications] = useState([]);
+  const [timeslotDeleted, setTimeslotDeleted] = useState(false);
 
   const { isLoading, error, performFetch } = useFetch(
     "/event/all",
@@ -37,13 +38,23 @@ export default function StudentDashboard() {
     } else if (error) {
       return <p>Error: {error.message}</p>;
     } else {
-      return <EventTable events={events} selectedDate={selectedDate} />;
+      return (
+        <EventTable
+          events={events}
+          selectedDate={selectedDate}
+          onTimeslotDelete={handleTimeslotDelete}
+        />
+      );
     }
   };
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
     performFetch();
+  };
+
+  const handleTimeslotDelete = () => {
+    setTimeslotDeleted(true);
   };
 
   function handleEventsUpdate(responseData) {
@@ -76,7 +87,8 @@ export default function StudentDashboard() {
 
   useEffect(() => {
     performFetch();
-  }, []);
+    setTimeslotDeleted(false);
+  }, [timeslotDeleted]);
 
   return (
     <Container>

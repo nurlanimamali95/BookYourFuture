@@ -27,7 +27,6 @@ export default function ChangePasswordPage() {
   const success = useSelector((state) => state.password.status === "isSuccess");
   const error = useSelector((state) => state.password.status === "isError");
   const errorMessage = useSelector((state) => state.password.data);
-
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -64,6 +63,12 @@ export default function ChangePasswordPage() {
     if (isAuth) {
       const route = userData?.admin === true ? "/" : "/";
       navigate(route);
+    }
+  };
+
+  const showErrorValidation = (event, index) => {
+    for (let i = 0; i < event?.length; i++) {
+      return event[index].msg;
     }
   };
 
@@ -235,12 +240,20 @@ export default function ChangePasswordPage() {
               />
               {success ? (
                 <>
-                  <Typography variant="body2">
-                    Password successfully changed!
-                  </Typography>
-                  <Button variant="contained" onClick={handleBackButton}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    onClick={handleBackButton}
+                    sx={{
+                      mt: 6,
+                      minWidth: "250px",
+                    }}
+                  >
                     Back
                   </Button>
+                  <Typography sx={{ m: 2 }} variant="body2">
+                    Password successfully changed!
+                  </Typography>
                 </>
               ) : (
                 <>
@@ -265,9 +278,12 @@ export default function ChangePasswordPage() {
                 </>
               )}
               {error && (
-                <Typography color="error" variant="body2">
-                  {errorMessage?.error}
-                </Typography>
+                <>
+                  <Typography color="error" sx={{ m: 2 }} variant="body2">
+                    {errorMessage?.error ||
+                      showErrorValidation(errorMessage, 0)}
+                  </Typography>
+                </>
               )}
               <Grid container align="center">
                 <Grid item xs></Grid>

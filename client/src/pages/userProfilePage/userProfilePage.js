@@ -54,8 +54,6 @@ export default function UserProfilePage() {
   const dispatch = useDispatch();
   const [value, setValue] = React.useState(0);
   const reduxPayload = useSelector((state) => state.user.data);
-
-  //Extract success and userData properties from the payload
   const { success, userData } = reduxPayload || {};
 
   const [snackbar, setSnackbar] = useState({
@@ -114,6 +112,7 @@ export default function UserProfilePage() {
         linkedIn: userData.linkedIn || "",
         facebook: userData.facebook || "",
         telegram: userData.telegram || "",
+        avatarUrl: userData.avatarUrl || "",
       });
     }
   }, [success, userData]);
@@ -156,12 +155,17 @@ export default function UserProfilePage() {
         justifyContent="center"
         spacing={2}
         mt={3}
-        sx={{ display: "flex", justifyContent: "center" }}
+        sx={{ display: "flex", justifyContent: "center", mt: 8 }}
       >
-        <Button variant="contained" onClick={handleChangeInfo} color="primary">
+        <Button
+          variant="contained"
+          onClick={handleChangeInfo}
+          color="primary"
+          sx={{ minWidth: "100px" }}
+        >
           Save
         </Button>
-        <CancelButton endpoint="/" />
+        <CancelButton endpoint="/" sx={{ minWidth: "100px" }} />
       </Stack>
       <Snackbar
         open={snackbar.open}

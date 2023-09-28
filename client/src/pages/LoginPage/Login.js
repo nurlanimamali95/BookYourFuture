@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -22,7 +22,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-const LoginPage = () => {
+export default function LoginPage() {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectorIsAuth);
   const userData = useSelector((state) => state.auth.data);
@@ -30,7 +30,7 @@ const LoginPage = () => {
   const error = useSelector((state) => state.auth.status === "isError");
   const errorMessage = useSelector((state) => state.auth.data);
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -64,7 +64,7 @@ const LoginPage = () => {
   };
 
   // Redirect authenticated users away from the login page
-  React.useEffect(() => {
+  useEffect(() => {
     if (isAuth) {
       if (userData?.admin === true) {
         navigate("/");
@@ -220,5 +220,4 @@ const LoginPage = () => {
       </Grid>
     </Grid>
   );
-};
-export default LoginPage;
+}
