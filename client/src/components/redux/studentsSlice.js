@@ -72,16 +72,13 @@ const initialState = {
 export const studentsSlice = createSlice({
   name: "students",
   initialState,
-  reducers: {
-    clearUserDetails: (state) => {
-      state.userDetails = null;
-    },
-  },
+
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllStudents.fulfilled, (state, { payload }) => {
         state.status = "isSuccess";
         state.data = payload;
+        state.userDetails = null;
       })
       .addCase(createStudent.fulfilled, (state, { payload }) => {
         state.status = "isSuccess";
@@ -140,4 +137,3 @@ export const studentsSlice = createSlice({
 
 export const studentSelector = (state) => state.students;
 export const studentsReducer = studentsSlice.reducer;
-export const { clearUserDetails } = studentsSlice.actions;
