@@ -37,9 +37,10 @@ export default function SecurityTab() {
         </Grid>
         <Grid item xs={12} sm={4}>
           <Button
-            variant="outlined"
+            variant="contained"
             onClick={handleDeleteAccount}
             color="error"
+            sx={{ mb: 3 }}
             disabled={userData.admin}
           >
             Delete Account

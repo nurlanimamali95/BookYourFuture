@@ -49,7 +49,11 @@ export default function UploadWidget({ currentData, setCurrentData }) {
           <img
             src={currentData?.avatarUrl}
             alt="avatarUrl"
-            style={{ width: "300px", height: "300px", borderRadius: "50%" }}
+            style={{
+              width: "150px",
+              height: "150px",
+              borderRadius: "50%",
+            }}
           />
           <Stack
             direction="row"
