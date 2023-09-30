@@ -38,6 +38,12 @@ export default function LoginPage() {
     event.preventDefault();
   };
 
+  const showErrorValidation = (event, index) => {
+    for (let i = 0; i < event?.length; i++) {
+      return event[index].msg;
+    }
+  };
+
   const {
     control,
     handleSubmit,
@@ -65,6 +71,10 @@ export default function LoginPage() {
 
   // Redirect authenticated users away from the login page
   useEffect(() => {
+    if (error) {
+      return navigate("/login");
+    }
+
     if (isAuth) {
       if (userData?.admin === true) {
         navigate("/");
@@ -162,7 +172,7 @@ export default function LoginPage() {
                 render={({ field, fieldState }) => (
                   <TextField
                     {...field}
-                    sx={{ minWidth: 250 }}
+                    sx={{ minWidth: 250, mb: 5 }}
                     margin="normal"
                     id="password"
                     label="Password"
@@ -191,7 +201,8 @@ export default function LoginPage() {
               />
               {error && (
                 <Typography color="error" variant="body2">
-                  {errorMessage?.message}
+                  {errorMessage?.message ||
+                    showErrorValidation(errorMessage, 0)}
                 </Typography>
               )}
               <Button
