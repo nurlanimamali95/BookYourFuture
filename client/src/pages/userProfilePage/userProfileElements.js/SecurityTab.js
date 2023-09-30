@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, Button, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDeleteUser } from "../../../components/redux/userSlice";
+import ModalConfirm from "../../../components/Modal/ModalConfirm";
 
 export default function SecurityTab() {
   const navigate = useNavigate();
@@ -10,21 +11,16 @@ export default function SecurityTab() {
   const { id } = useParams();
   const userData = useSelector((state) => state.auth.data);
 
+  const [openConfirmDialogue, setOpenConfirmDialogue] = useState(false);
   const handleChangePassword = () => {
     navigate("/change-password");
   };
 
   const handleDeleteAccount = () => {
-    const confirmation = window.confirm(
-      `Are you sure you want to delete a student ${userData?.firstName} ${userData?.lastName}?`
-    );
-
-    if (confirmation) {
-      // User confirmed, so proceed with deletion
-      dispatch(getDeleteUser(id));
-      window.localStorage.removeItem("token");
-      navigate("/");
-    }
+    // User confirmed, so proceed with deletion
+    dispatch(getDeleteUser(id));
+    window.localStorage.removeItem("token");
+    navigate("/");
   };
 
   return (
@@ -38,7 +34,9 @@ export default function SecurityTab() {
         <Grid item xs={12} sm={4}>
           <Button
             variant="contained"
-            onClick={handleDeleteAccount}
+            onClick={() => {
+              setOpenConfirmDialogue(true);
+            }}
             color="error"
             sx={{ mb: 3 }}
             disabled={userData.admin}
@@ -49,6 +47,13 @@ export default function SecurityTab() {
             WARNING! This action is irreversible. Once you delete your account,
             you will not be able to recover it.
           </Typography>
+          <ModalConfirm
+            open={openConfirmDialogue}
+            setOpen={setOpenConfirmDialogue}
+            handleConfirm={handleDeleteAccount}
+            content={`Are you sure you want to delete a student ${userData?.firstName} ${userData?.lastName}?`}
+            title={"Delete account"}
+          />
         </Grid>
       </Grid>
     </>

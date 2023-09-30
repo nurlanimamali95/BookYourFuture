@@ -78,6 +78,7 @@ export const studentsSlice = createSlice({
       .addCase(fetchAllStudents.fulfilled, (state, { payload }) => {
         state.status = "isSuccess";
         state.data = payload;
+        state.userDetails = null;
       })
       .addCase(createStudent.fulfilled, (state, { payload }) => {
         state.status = "isSuccess";
@@ -85,6 +86,7 @@ export const studentsSlice = createSlice({
       })
       .addCase(updateStudent.fulfilled, (state) => {
         state.status = "isSuccess";
+        state.userDetails = null;
         // state.data = state.data.map((student) =>
         //   student._id === payload.userData._id ? payload.userData : student
         // );

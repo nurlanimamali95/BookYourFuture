@@ -27,9 +27,17 @@ export default function AddEditStudentPage() {
   const { pathname } = useLocation();
   const isEdit = useMemo(() => pathname.includes("editStudent"), [pathname]);
   const [groupNumber, setGroupNumber] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
+  const [email, setEmail] = useState("");
   const { id } = useParams();
+
   useEffect(() => {
     if (userDetails) {
+      setFirstName(userDetails.firstName);
+      setLastName(userDetails.lastName);
+      setEmail(userDetails.email);
       setGroupNumber(userDetails.group[0]?._id);
     }
   }, [userDetails]);
@@ -45,8 +53,10 @@ export default function AddEditStudentPage() {
   const handleSave = (event) => {
     event.preventDefault();
     const usersData = {
+      firstName: firstName,
+      lastName: lastName,
       group: [groupNumber],
-      ...(!isEdit && { password: "dsdf" }),
+      email: email,
     };
 
     isEdit
@@ -83,19 +93,29 @@ export default function AddEditStudentPage() {
             <TextField
               label="First Name"
               fullWidth
-              value={userDetails?.firstName}
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              disabled={isEdit}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="Last Name"
               fullWidth
-              value={userDetails?.lastName}
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              disabled={isEdit}
             />
           </Grid>
           <Grid item xs={12}>
             <Stack direction="row" spacing={2}>
-              <TextField label="Email" fullWidth value={userDetails?.email} />
+              <TextField
+                label="Email"
+                fullWidth
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={isEdit}
+              />
               <GroupDropdown
                 value={groupNumber}
                 onChange={(event) => setGroupNumber(event.target.value)}
