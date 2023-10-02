@@ -17,6 +17,7 @@ import {
   TextField,
   Stack,
   CircularProgress,
+  Avatar,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -137,6 +138,7 @@ function StudentManagementPage() {
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell sx={{ fontWeight: "bold" }}></TableCell>
                   <TableCell sx={{ fontWeight: "bold" }}>Full Name</TableCell>
                   <TableCell sx={{ fontWeight: "bold" }}>Group</TableCell>
                   <TableCell sx={{ fontWeight: "bold" }}>Email</TableCell>
@@ -154,6 +156,13 @@ function StudentManagementPage() {
               <TableBody>
                 {filteredData.map((student) => (
                   <TableRow key={student._id}>
+                    <TableCell>
+                      <Avatar
+                        alt="Remy Sharp"
+                        src={student.avatarUrl}
+                        sx={{ ml: 1 }}
+                      />
+                    </TableCell>
                     <TableCell>
                       {student.firstName} {student.lastName}
                     </TableCell>
