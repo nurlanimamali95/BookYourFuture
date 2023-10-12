@@ -1,12 +1,31 @@
-`TODO: Add a nice screenshot of the app!`
+![BYF](/client/src/assets/byf%20screenshot.png)
 
-# Class XX final project
+# Class 43 final project
 
 This is the final project for the HackYourFuture curriculum we did as a class using the MERN stack by following the agile methodology with our team and a group of mentors. A quick guide to what we built:
 
-> TODO: Add short description of the app
+# BookYourFuture
 
-`[Click here for the Demo version](TODO: add link)`
+**Simplifying Mentorship and Student Management**
+
+BookYourFuture is an innovative platform designed to streamline the mentorship and student administration process, offering a range of user-friendly features for mentors and students.
+
+## Key Features
+
+1. **User-Friendly Login:** Access your account via our intuitive login page.
+2. **Admin Dashboard:** Administrators gain complete oversight and control.
+3. **Insightful Statistics:** Access valuable insights and data in an easy-to-understand format.
+4. **Interactive Calendar:** Identify event dates at a glance, complete with playful badges.
+5. **Information Table:** Access in-depth event data with ease.
+6. **Efficient Group and Student Management:** Create and manage groups and add students seamlessly.
+7. **Student Perspective:** Explore the platform from a student's viewpoint.
+8. **Event Notifications:** Get timely reminders of events that require your attention.
+9. **Time Slot Management:** Book time slots conveniently and manage your schedule.
+10. **Student Profiles:** Keep your personal information up-to-date for a secure experience.
+
+I hope you find our BookYourFuture app to be an exciting and valuable tool, enhancing mentorship and student engagement. Welcome to the future of simplified administration and interactive learning.
+
+[Click here for the Demo version](https://hyf-c43-group-1-c55b85dfa12d.herokuapp.com/login)
 
 ## 1. Setup
 
